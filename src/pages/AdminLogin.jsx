@@ -3,7 +3,7 @@
 const AdminLogin = () => {
   return (
     <div>
-      asdasdas
+      
     </div>
   )
 }

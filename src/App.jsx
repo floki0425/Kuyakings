@@ -1,27 +1,25 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import Home from "./assets/pages/Home"
-import Order from "./assets/pages/Order"
-import ThankYou from "./assets/pages/ThankYou"
-import AdminLogin from "./assets/pages/AdminLogin"
-import AdminDashboard from "./assets/pages/AdminDashboard"
-import OrderDetails from "./assets/pages/OrderDetails"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import ThankYou from "./pages/ThankYou";
+import Order from "./pages/Order";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+import OrderDetails from "./pages/OrderDetails";
 
 
-
-const App = () => {
+function App() {
   return (
-     <BrowserRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/order" element={<Order />} />
         <Route path="/thank-you" element={<ThankYou />} />
-
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/orders/:id" element={<OrderDetails />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
