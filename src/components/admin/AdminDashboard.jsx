@@ -1,10 +1,18 @@
 
-import OrderTable from "../order/OrderTable";
+import { useNavigate } from "react-router-dom";
 import { brand } from "../../lib/constants";
 import { mockOrders } from "../../lib/mockOrders";
+import OrderTable from "../order/OrderTable";
+import AdminSidebar from "./AdminSidebar";
+import { useEffect } from "react";
+
+
 
 
 function AdminDashboard() {
+
+  
+
   const totalOrders = mockOrders.length;
 
   const paidOrders = mockOrders.filter(
@@ -33,10 +41,20 @@ function AdminDashboard() {
     ["Total Commission", `₱${totalCommission}`],
   ];
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  const isLoggedIn = localStorage.getItem("isAdminLoggedIn");
+
+  if (!isLoggedIn) {
+    navigate("/admin/login");
+  }
+}, [navigate]);
+
   return (
     <main className="min-h-screen bg-[#F8F1E7] p-5 text-[#2B2B2B]">
       <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[280px_1fr]">
-        <AdminSidebar />
+        <AdminSidebar/>
 
         <section>
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">

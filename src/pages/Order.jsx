@@ -1,10 +1,11 @@
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
-import OrderForm from "../components/order/OrderForm";
-import { brand, product } from "../lib/constants";
-import heroImage from "../assets/hero.png";
+import Footer from "../components/layout/Footer"
+import Header from "../components/layout/Header"
+import OrderForm from "../components/order/OrderForm"
+import { brand, product } from "../lib/constants"
 
-function Order() {
+
+
+const Order = () => {
   return (
     <main className="min-h-screen bg-[#F8F1E7] text-[#2B2B2B]">
       <Header />
@@ -13,8 +14,8 @@ function Order() {
         <div className="rounded-[2rem] border border-[#D8D0C3] bg-white p-6 shadow-sm">
           <div className="flex aspect-square items-center justify-center rounded-[1.5rem] bg-[#DDE8D2] p-6">
             <img
-              src={heroImage}
-              alt="Pure Grind Protein Chips"
+              
+              alt="Pure Grind Protein Chipss"
               className="max-h-full object-contain drop-shadow-xl"
             />
           </div>
@@ -75,7 +76,7 @@ function Order() {
 
       <Footer />
     </main>
-  );
+  )
 }
 
-export default Order;
+export default Order
