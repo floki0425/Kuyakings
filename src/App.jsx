@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import ThankYou from "./pages/ThankYou";
 import Order from "./pages/Order";
+import ThankYou from "./pages/ThankYou";
 import AdminLogin from "./pages/AdminLogin";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./components/admin/AdminDashboard";
 import OrderDetails from "./pages/OrderDetails";
+
+
 
 
 function App() {

@@ -1,19 +1,20 @@
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
-import Hero from "../components/home/Hero";
-import Benefits from "../components/home/Benefits";
-import Nutrition from "../components/home/Nutrition";
-import Flavors from "../components/home/Flavors";
-import FAQ from "../components/home/FAQ";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import Header from "../components/layout/Header"
+import Hero from "../components/home/Hero"
+import Benefits from "../components/home/Benefits"
+import Nutrition from "../components/home/Nutrition"
+import Flavors from "../components/home/Flavors"
+import FAQ from "../components/home/FAQ"
+import Footer from "../components/layout/Footer"
 
-function Home() {
+
+const Home = () => {
   return (
-    <main className="min-h-screen bg-[#F8F1E7] text-[#2B2B2B]">
+     <main className="min-h-screen bg-[#F8F1E7] text-[#2B2B2B]">
       <Header />
       <Hero />
       <Benefits />
-      <Nutrition />
+      <Nutrition/>
       <Flavors />
 
       <section id="how-to-order" className="mx-auto max-w-7xl px-5 py-14">
@@ -65,7 +66,7 @@ function Home() {
       <FAQ />
       <Footer />
     </main>
-  );
+  )
 }
 
-export default Home;
+export default Home

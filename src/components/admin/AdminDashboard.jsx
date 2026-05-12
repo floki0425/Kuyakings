@@ -1,7 +1,8 @@
-import AdminSidebar from "../components/admin/AdminSidebar";
-import OrderTable from "../components/admin/OrderTable";
-import { mockOrders } from "../lib/mockOrders";
-import { brand } from "../lib/constants";
+
+import OrderTable from "../order/OrderTable";
+import { brand } from "../../lib/constants";
+import { mockOrders } from "../../lib/mockOrders";
+
 
 function AdminDashboard() {
   const totalOrders = mockOrders.length;

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AdminSidebar = () => {
+const OrderTable = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const AdminSidebar = () => {
   )
 }
 
-export default AdminSidebar
+export default OrderTable
