@@ -1,32 +1,67 @@
-
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { brand } from "../../lib/constants";
-import { mockOrders } from "../../lib/mockOrders";
-import OrderTable from "../order/OrderTable";
+import { supabase } from "../../lib/supabaseClient";
 import AdminSidebar from "./AdminSidebar";
-import { useEffect } from "react";
-
-
+import { brand } from "../../lib/constants";
+import OrderTable from "../order/OrderTable";
 
 
 function AdminDashboard() {
+  const navigate = useNavigate();
 
-  
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const totalOrders = mockOrders.length;
+  async function fetchOrders() {
+    setLoading(true);
 
-  const paidOrders = mockOrders.filter(
-    (order) => order.paymentStatus === "Paid"
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    console.log("Fetched orders:", data);
+    console.log("Fetch error:", error);
+
+    if (error) {
+      console.error("Fetch orders error:", error);
+      alert(`Failed to fetch orders: ${error.message}`);
+      setLoading(false);
+      return;
+    }
+
+    setOrders(data || []);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isAdminLoggedIn");
+
+    if (!isLoggedIn) {
+      navigate("/admin/login");
+      return;
+    }
+
+    fetchOrders();
+  }, [navigate]);
+
+  const totalOrders = orders.length;
+
+  const paidOrders = orders.filter(
+    (order) => order.payment_status === "Paid"
   );
 
-  const pendingOrders = mockOrders.filter(
-    (order) => order.paymentStatus === "Pending"
+  const pendingOrders = orders.filter(
+    (order) => order.payment_status === "Pending"
   );
 
-  const totalSales = paidOrders.reduce((sum, order) => sum + order.subtotal, 0);
+  const totalSales = paidOrders.reduce(
+    (sum, order) => sum + Number(order.subtotal || 0),
+    0
+  );
 
   const totalPacksSold = paidOrders.reduce(
-    (sum, order) => sum + order.quantity,
+    (sum, order) => sum + Number(order.quantity || 0),
     0
   );
 
@@ -41,20 +76,10 @@ function AdminDashboard() {
     ["Total Commission", `₱${totalCommission}`],
   ];
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-  const isLoggedIn = localStorage.getItem("isAdminLoggedIn");
-
-  if (!isLoggedIn) {
-    navigate("/admin/login");
-  }
-}, [navigate]);
-
   return (
     <main className="min-h-screen bg-[#F8F1E7] p-5 text-[#2B2B2B]">
       <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[280px_1fr]">
-        <AdminSidebar/>
+        <AdminSidebar />
 
         <section>
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
@@ -67,8 +92,11 @@ function AdminDashboard() {
               </p>
             </div>
 
-            <button className="rounded-full bg-[#D96C2C] px-5 py-3 text-sm font-black text-white">
-              Export CSV
+            <button
+              onClick={fetchOrders}
+              className="rounded-full bg-[#D96C2C] px-5 py-3 text-sm font-black text-white"
+            >
+              Refresh Orders
             </button>
           </div>
 
@@ -86,32 +114,14 @@ function AdminDashboard() {
             ))}
           </div>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-4">
-            <input
-              placeholder="Search order/customer..."
-              className="rounded-2xl border border-[#D8D0C3] bg-white px-4 py-3 outline-none md:col-span-2"
-            />
-
-            <select className="rounded-2xl border border-[#D8D0C3] bg-white px-4 py-3 outline-none">
-              <option>All Payment Status</option>
-              <option>Pending</option>
-              <option>Paid</option>
-              <option>COD</option>
-            </select>
-
-            <select className="rounded-2xl border border-[#D8D0C3] bg-white px-4 py-3 outline-none">
-              <option>All Order Status</option>
-              <option>New Order</option>
-              <option>Confirmed</option>
-              <option>Preparing</option>
-              <option>Shipped</option>
-              <option>Delivered</option>
-              <option>Cancelled</option>
-            </select>
-          </div>
-
           <div className="mt-6">
-            <OrderTable orders={mockOrders} />
+            {loading ? (
+              <div className="rounded-[2rem] border border-[#D8D0C3] bg-white p-8 text-center shadow-sm">
+                <p className="font-black text-[#25382B]">Loading orders...</p>
+              </div>
+            ) : (
+              <OrderTable orders={orders} />
+            )}
           </div>
         </section>
       </div>

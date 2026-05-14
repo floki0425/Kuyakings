@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { brand, product } from "../../lib/constants";
 import OrderSummary from "./OrderSummary";
+import { supabase } from "../../lib/supabaseClient";
 
 function OrderForm() {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ function OrderForm() {
     notes: "",
   });
 
+  
+
   const subtotal = quantity * brand.pricePerPack;
 
   function handleChange(event) {
@@ -41,7 +44,8 @@ function OrderForm() {
     setQuantity((prev) => Math.max(1, prev - 1));
   }
 
-  function handleSubmit(event) {
+
+   async function handleSubmit(event) {
     event.preventDefault();
 
     if (!formData.fullName || !formData.phone || !formData.address || !formData.city) {
@@ -54,25 +58,53 @@ function OrderForm() {
       return;
     }
 
-    const orderId = `PG-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
+    const orderNumber = `PG-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
 
-    const order = {
-      orderId,
-      product: brand.name,
-      flavor,
-      quantity,
-      pricePerPack: brand.pricePerPack,
-      subtotal,
-      paymentMethod,
-      deliveryOption,
-      proofOfPaymentName: proofOfPayment ? proofOfPayment.name : null,
-      paymentStatus: paymentMethod === "COD" ? "COD" : "Pending",
-      orderStatus: "New Order",
-      customer: formData,
-      createdAt: new Date().toISOString(),
-    };
+const newOrder = {
+  order_number: orderNumber,
+  product_name: brand.name,
+  flavor: flavor,
+  quantity: quantity,
+  price_per_pack: brand.pricePerPack,
+  subtotal: subtotal,
+  payment_method: paymentMethod,
+  payment_status: paymentMethod === "COD" ? "COD" : "Pending",
+  order_status: "New Order",
+  delivery_option: deliveryOption,
 
-    localStorage.setItem("latestOrder", JSON.stringify(order));
+  // temporary muna, file name lang muna
+  proof_of_payment_url: proofOfPayment ? proofOfPayment.name : null,
+
+  customer_name: formData.fullName,
+  phone: formData.phone,
+  email: formData.email || null,
+  address: formData.address,
+  city: formData.city,
+  landmark: formData.landmark || null,
+  notes: formData.notes || null,
+};
+
+const { data, error } = await supabase
+  .from("orders")
+  .insert([newOrder])
+  .select()
+  .single();
+
+console.log("New order payload:", newOrder);
+console.log("Insert data:", data);
+console.log("Insert error:", error);
+
+if (error) {
+  alert(`Order failed: ${error.message}`);
+  return;
+}
+
+localStorage.setItem("latestOrder", JSON.stringify(data));
+
+navigate("/thank-you");
+
+    
+
 
     navigate("/thank-you");
   }
