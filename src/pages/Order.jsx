@@ -15,7 +15,7 @@ const Order = () => {
           <div className="flex aspect-square items-center justify-center rounded-[1.5rem] bg-[#DDE8D2] p-6">
             <img
               
-              alt="Pure Grind Protein Chipss"
+              alt="Pure Grind Protein Chips"
               className="max-h-full object-contain drop-shadow-xl"
             />
           </div>

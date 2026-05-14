@@ -1,110 +1,62 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function AdminLogin() {
+function AdminSidebar() {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    if (!formData.email || !formData.password) {
-      alert("Please enter admin email and password.");
-      return;
-    }
-
-    // Temporary mock login only.
-    // Supabase Auth will replace this later.
-    localStorage.setItem("isAdminLoggedIn", "true");
-
-    navigate("/admin/dashboard");
+  function handleLogout() {
+    localStorage.removeItem("isAdminLoggedIn");
+    navigate("/admin/login");
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#F8F1E7] px-5 py-12 text-[#2B2B2B]">
-      <section className="w-full max-w-md rounded-[2rem] border border-[#D8D0C3] bg-white p-8 shadow-sm">
-        <div className="text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#25382B] text-xl font-black text-white">
-            PG
-          </div>
-
-          <h1 className="mt-6 text-3xl font-black text-[#25382B]">
-            Pure Grind Admin
-          </h1>
-
-          <p className="mt-2 text-sm leading-6 text-[#555]">
-            Login to manage orders, payment status, delivery status, and commission tracking.
-          </p>
+    <aside className="rounded-[2rem] border border-[#D8D0C3] bg-white p-6 shadow-sm">
+      <div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#25382B] text-lg font-black text-white">
+          PG
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-          <div>
-            <label className="text-sm font-black text-[#25382B]">
-              Admin Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="admin@puregrindph.com"
-              className="mt-2 w-full rounded-2xl border border-[#D8D0C3] bg-[#F8F1E7] px-4 py-3 outline-none"
-            />
-          </div>
+        <h2 className="mt-5 text-xl font-black text-[#25382B]">
+          Pure Grind Admin
+        </h2>
 
-          <div>
-            <label className="text-sm font-black text-[#25382B]">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter password"
-              className="mt-2 w-full rounded-2xl border border-[#D8D0C3] bg-[#F8F1E7] px-4 py-3 outline-none"
-            />
-          </div>
+        <p className="mt-1 text-sm leading-6 text-[#555]">
+          Manage orders, payment status, delivery status, and commission.
+        </p>
+      </div>
 
-         <button
-          onClick={() => {
-          localStorage.removeItem("isAdminLoggedIn");
-           window.location.href = "/admin/login";
+      <nav className="mt-8 space-y-3">
+        <Link
+          to="/admin/dashboard"
+          className="block rounded-2xl bg-[#25382B] px-4 py-3 text-sm font-black text-white"
+        >
+          Dashboard
+        </Link>
+
+        <Link
+          to="/"
+          className="block rounded-2xl border border-[#D8D0C3] px-4 py-3 text-sm font-black text-[#25382B]"
+        >
+          View Website
+        </Link>
+
+        <Link
+          to="/order"
+          className="block rounded-2xl border border-[#D8D0C3] px-4 py-3 text-sm font-black text-[#25382B]"
+        >
+          View Order Page
+        </Link>
+
+        <button
+        onClick={() => {
+        handleLogout()
         }}
-          className="block w-full rounded-2xl border border-[#D8D0C3] px-4 py-3 text-left text-sm font-black text-[#25382B]">
+       className="block w-full rounded-2xl border border-[#D8D0C3] px-4 py-3 text-left text-sm font-black text-[#25382B]"
+>
   Logout
 </button>
-        </form>
-
-        <div className="mt-6 rounded-2xl bg-[#F8F1E7] p-4 text-center text-xs leading-5 text-[#555]">
-          Temporary login muna ito. Any email and password will work for now.
-          Supabase authentication will be added later.
-        </div>
-
-        <div className="mt-6 text-center">
-          <Link
-            to="/"
-            className="text-sm font-black text-[#25382B] underline"
-          >
-            Back to Website
-          </Link>
-        </div>
-      </section>
-    </main>
+      </nav>
+    </aside>
   );
 }
 
-export default AdminLogin;
+export default AdminSidebar;

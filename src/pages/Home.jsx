@@ -8,6 +8,7 @@ import FAQ from "../components/home/FAQ"
 import Footer from "../components/layout/Footer"
 
 
+
 const Home = () => {
   return (
      <main className="min-h-screen bg-[#F8F1E7] text-[#2B2B2B]">
