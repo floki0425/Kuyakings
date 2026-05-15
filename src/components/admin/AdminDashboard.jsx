@@ -34,14 +34,18 @@ function AdminDashboard() {
   }
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isAdminLoggedIn");
+   async function checkSessionAndFetchOrders() {
+  const { data } = await supabase.auth.getSession();
 
-    if (!isLoggedIn) {
-      navigate("/admin/login");
-      return;
-    }
+  if (!data.session) {
+    navigate("/admin/login");
+    return;
+  }
 
-    fetchOrders();
+  fetchOrders();
+}
+
+checkSessionAndFetchOrders();
   }, [navigate]);
 
   const totalOrders = orders.length;

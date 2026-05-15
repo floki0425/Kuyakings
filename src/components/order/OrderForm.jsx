@@ -59,7 +59,7 @@ function OrderForm() {
       return;
     }
 
-    setIsSubmitting(true);
+    isSubmitting(true)
     
     const orderNumber = `PG-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
 

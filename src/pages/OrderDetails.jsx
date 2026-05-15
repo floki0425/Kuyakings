@@ -53,14 +53,18 @@ function OrderDetails() {
   }
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isAdminLoggedIn");
+    async function checkSessionAndFetchOrder() {
+  const { data } = await supabase.auth.getSession();
 
-    if (!isLoggedIn) {
-      navigate("/admin/login");
-      return;
-    }
+  if (!data.session) {
+    navigate("/admin/login");
+    return;
+  }
 
-    fetchOrder();
+  fetchOrder();
+}
+
+checkSessionAndFetchOrder();
   }, [id, navigate]);
 
   function getCommission() {
@@ -218,25 +222,25 @@ function OrderDetails() {
                 <Detail label="Payment Method" value={order.payment_method} />
                 <Detail label="Payment Status" value={order.payment_status} />
                 <p className="break-words leading-6">
-  <span className="font-black text-[#25382B]">Proof of Payment:</span>{" "}
-  {order.proof_of_payment_url &&
-  order.proof_of_payment_url.startsWith("http") ? (
-    <a
-      href={order.proof_of_payment_url}
-      target="_blank"
-      rel="noreferrer"
-      className="font-bold text-[#D96C2C] underline"
-    >
-      View uploaded proof
-    </a>
-  ) : order.proof_of_payment_url ? (
-    <span className="text-[#555]">
-      {order.proof_of_payment_url} — not uploaded to storage yet
-    </span>
-  ) : (
-    <span className="text-[#555]">N/A</span>
-  )}
-</p>
+                  <span className="font-black text-[#25382B]">Proof of Payment:</span>{" "}
+                  {order.proof_of_payment_url &&
+                  order.proof_of_payment_url.startsWith("http") ? (
+                    <a
+                      href={order.proof_of_payment_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-bold text-[#D96C2C] underline"
+                    >
+                      View uploaded proof
+                    </a>
+                  ) : order.proof_of_payment_url ? (
+                    <span className="text-[#555]">
+                      {order.proof_of_payment_url} — not uploaded to storage yet
+                    </span>
+                  ) : (
+                    <span className="text-[#555]">N/A</span>
+                  )}
+                </p>
               </InfoCard>
 
               <InfoCard title="Delivery Details">

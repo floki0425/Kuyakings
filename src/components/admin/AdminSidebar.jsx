@@ -1,10 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "../../lib/supabaseClient";
 
 function AdminSidebar() {
   const navigate = useNavigate();
 
-  function handleLogout() {
-    localStorage.removeItem("isAdminLoggedIn");
+  async function handleLogout() {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      alert(`Logout failed: ${error.message}`);
+      return;
+    }
+
     navigate("/admin/login");
   }
 
@@ -47,13 +54,12 @@ function AdminSidebar() {
         </Link>
 
         <button
-        onClick={() => {
-        handleLogout()
-        }}
-       className="block w-full rounded-2xl border border-[#D8D0C3] px-4 py-3 text-left text-sm font-black text-[#25382B]"
->
-  Logout
-</button>
+          type="button"
+          onClick={handleLogout}
+          className="block w-full rounded-2xl border border-[#D8D0C3] px-4 py-3 text-left text-sm font-black text-[#25382B] transition hover:bg-[#F8F1E7]"
+        >
+          Logout
+        </button>
       </nav>
     </aside>
   );

@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient";
 
 function AdminLogin() {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -17,7 +21,7 @@ function AdminLogin() {
     }));
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (!formData.email || !formData.password) {
@@ -25,10 +29,21 @@ function AdminLogin() {
       return;
     }
 
-    // Temporary mock login only.
-    // Supabase Auth will replace this later.
-    localStorage.setItem("isAdminLoggedIn", "true");
+    setLoading(true);
 
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      alert(`Login failed: ${error.message}`);
+      return;
+    }
+
+    console.log("Login data:", data);
     navigate("/admin/dashboard");
   }
 
@@ -80,22 +95,15 @@ function AdminLogin() {
 
           <button
             type="submit"
-            className="w-full rounded-full bg-[#D96C2C] px-6 py-4 font-black text-white shadow-sm transition hover:opacity-90"
+            disabled={loading}
+            className="w-full rounded-full bg-[#D96C2C] px-6 py-4 font-black text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <div className="mt-6 rounded-2xl bg-[#F8F1E7] p-4 text-center text-xs leading-5 text-[#555]">
-          Temporary login muna ito. Any email and password will work for now.
-          Supabase authentication will be added later.
-        </div>
-
         <div className="mt-6 text-center">
-          <Link
-            to="/"
-            className="text-sm font-black text-[#25382B] underline"
-          >
+          <Link to="/" className="text-sm font-black text-[#25382B] underline">
             Back to Website
           </Link>
         </div>
