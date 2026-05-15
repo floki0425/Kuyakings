@@ -98,10 +98,26 @@ checkSessionAndFetchOrders();
 });
 
 function exportCSV() {
+  function escapeCSV(value) {
+    return `"${String(value ?? "").replaceAll('"', '""')}"`;
+  }
+
+  function formatDate(dateValue) {
+    if (!dateValue) return "";
+
+    return new Date(dateValue).toLocaleString("en-PH", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
   const headers = [
     "Order Number",
-    "Customer",
-    "Phone",
+    "Customer Name",
+    "Phone Number",
     "Flavor",
     "Quantity",
     "Subtotal",
@@ -117,24 +133,36 @@ function exportCSV() {
     order.phone,
     order.flavor,
     order.quantity,
-    order.subtotal,
+    `PHP ${order.subtotal}`,
     order.payment_method,
     order.payment_status,
     order.order_status,
-    order.created_at,
+    formatDate(order.created_at),
   ]);
 
-  const csvContent = [headers, ...rows]
-    .map((row) => row.map((item) => `"${item ?? ""}"`).join(","))
-    .join("\n");
+  const csvRows = [
+    "sep=,",
+    headers.map(escapeCSV).join(","),
+    ...rows.map((row) => row.map(escapeCSV).join(",")),
+  ];
 
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const csvContent = csvRows.join("\r\n");
+
+  const blob = new Blob(["\uFEFF" + csvContent], {
+    type: "text/csv;charset=utf-8;",
+  });
+
   const url = URL.createObjectURL(blob);
-
   const link = document.createElement("a");
+
   link.href = url;
-  link.download = "pure-grind-orders.csv";
+  link.download = `pure-grind-orders-${new Date()
+    .toISOString()
+    .slice(0, 10)}.csv`;
+
+  document.body.appendChild(link);
   link.click();
+  document.body.removeChild(link);
 
   URL.revokeObjectURL(url);
 }
