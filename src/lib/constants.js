@@ -28,3 +28,19 @@ export const product = {
     "Salted Egg",
   ],
 };
+
+export const paymentDetails = {
+  gcash: {
+    name: "TBA",
+    number: "TBA",
+  },
+  maya: {
+    name: "TBA",
+    number: "TBA",
+  },
+  bank: {
+    bankName: "TBA",
+    accountName: "TBA",
+    accountNumber: "TBA",
+  },
+};

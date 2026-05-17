@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { brand, product } from "../../lib/constants";
+import { brand, paymentDetails, product } from "../../lib/constants";
 import { supabase } from "../../lib/supabaseClient";
 import OrderSummary from "./OrderSummary";
 
@@ -376,8 +376,37 @@ function OrderForm() {
             )}
 
             <div className="mt-6 rounded-2xl bg-[#F8F1E7] p-4 text-sm leading-6 text-[#555]">
-              Payment details are still TBA. For now, the owner will confirm
-              payment details after receiving the order.
+              {paymentMethod === "GCash" && (
+                <div>
+                  <p className="font-black text-[#25382B]">GCash Payment Details</p>
+                  <p>Name: {paymentDetails.gcash.name}</p>
+                  <p>Number: {paymentDetails.gcash.number}</p>
+                </div>
+              )}
+
+              {paymentMethod === "Maya" && (
+                <div>
+                  <p className="font-black text-[#25382B]">Maya Payment Details</p>
+                  <p>Name: {paymentDetails.maya.name}</p>
+                  <p>Number: {paymentDetails.maya.number}</p>
+                </div>
+              )}
+
+              {paymentMethod === "Bank Transfer" && (
+                <div>
+                  <p className="font-black text-[#25382B]">Bank Transfer Details</p>
+                  <p>Bank: {paymentDetails.bank.bankName}</p>
+                  <p>Account Name: {paymentDetails.bank.accountName}</p>
+                  <p>Account Number: {paymentDetails.bank.accountNumber}</p>
+                </div>
+              )}
+
+              {paymentMethod === "COD" && (
+                <div>
+                  <p className="font-black text-[#25382B]">Cash on Delivery</p>
+                  <p>The owner will confirm if COD is available for your area.</p>
+                </div>
+              )}
             </div>
 
             <button
