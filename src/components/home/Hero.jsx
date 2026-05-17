@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 import { brand, product } from "../../lib/constants"
-
-
+import productImage from "../../assets/product.jpg";
 const Hero = () => {
   return (
     <section className="mx-auto grid max-w-7xl gap-8 px-5 py-12 lg:grid-cols-[1.1fr_0.9fr_0.75fr] lg:items-center lg:py-16">
@@ -53,11 +52,11 @@ const Hero = () => {
 
       <div className="rounded-[2rem] border border-[#D8D0C3] bg-white p-6 shadow-sm">
         <div className="flex aspect-square items-center justify-center rounded-[1.5rem] bg-[#DDE8D2] p-6">
-          <img
-            
-            alt="Pure Grind Protein Chips"
-            className="max-h-full object-contain drop-shadow-xl"
-          />
+            <img
+              src={productImage}
+              alt="Pure Grind Protein Chips"
+              className="max-h-full object-contain drop-shadow-xl"
+            />
         </div>
       </div>
 
