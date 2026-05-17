@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { brand } from "../lib/constants";
+import StatusBadge from "../components/ui/StatusBadge";
 
 function OrderDetails() {
   const { id } = useParams();
@@ -134,12 +135,10 @@ checkSessionAndFetchOrder();
               Order Details
             </h1>
 
-            <p className="mt-1 break-words text-sm text-[#555]">
-              Order No:{" "}
-              <span className="font-black text-[#25382B]">
-                {order.order_number}
-              </span>
-            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <StatusBadge status={order.payment_status} />
+              <StatusBadge status={order.order_status} />
+          </div>
           </div>
 
           <div className="w-fit rounded-full bg-white px-5 py-3 text-sm font-black text-[#25382B] shadow-sm">
@@ -246,8 +245,15 @@ checkSessionAndFetchOrder();
 
               <div className="mt-5 space-y-4 text-sm">
                 <SummaryRow label="Subtotal" value={formatPeso(order.subtotal)} />
-                <SummaryRow label="Payment" value={order.payment_status} />
-                <SummaryRow label="Order" value={order.order_status} />
+                <div className="flex items-start justify-between gap-4">
+                  <span className="text-[#555]">Payment</span>
+                  <StatusBadge status={order.payment_status} />
+                </div>
+
+                <div className="flex items-start justify-between gap-4">
+                  <span className="text-[#555]">Order</span>
+                  <StatusBadge status={order.order_status} />
+                </div>
 
                 <div className="border-t border-[#D8D0C3] pt-4">
                   <div className="flex items-start justify-between gap-4">

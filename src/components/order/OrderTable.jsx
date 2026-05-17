@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { brand } from "../../lib/constants";
+import StatusBadge from "../ui/StatusBadge";
 
 function OrderTable({ orders }) {
   function getCommission(order) {
@@ -61,11 +62,11 @@ function OrderTable({ orders }) {
                   <td className="px-5 py-4">{order.quantity}</td>
                   <td className="px-5 py-4 font-bold">₱{order.subtotal}</td>
                   <td className="px-5 py-4">
-                    <span className="rounded-full bg-[#DDE8D2] px-3 py-1 text-xs font-black text-[#25382B]">
-                      {order.payment_status}
-                    </span>
+                      <StatusBadge status={order.payment_status} />
                   </td>
-                  <td className="px-5 py-4">{order.order_status}</td>
+                  <td className="px-5 py-4">
+                     <StatusBadge status={order.order_status} />
+                  </td>
                   <td className="px-5 py-4 font-black text-[#D96C2C]">
                     ₱{getCommission(order)}
                   </td>
