@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom"
 import { brand, product } from "../../lib/constants"
-import productImage from "../../assets/product.jpg";
+import productImage from "../../assets/product.png";
+import bgChips from "../../assets/bg.png";
 const Hero = () => {
   return (
-    <section className="mx-auto grid max-w-7xl gap-8 px-5 py-12 lg:grid-cols-[1.1fr_0.9fr_0.75fr] lg:items-center lg:py-16">
-      <div>
+     <section
+      className="relative overflow-hidden bg-cover bg-center px-5 py-22"
+      style={{ backgroundImage: `url(${bgChips})` }}
+    >
+      <div className="absolute inset-0 bg-[#F8F1E7]/20"></div>
+
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-10 lg:grid-cols-2">
+        <div>
         <p className="mb-4 inline-flex rounded-full bg-[#DDE8D2] px-4 py-2 text-sm font-black text-[#25382B]">
           {product.protein} Protein • {product.calories} Calories • {product.packSize} Pack
         </p>
@@ -50,50 +57,40 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="rounded-[2rem] border border-[#D8D0C3] bg-white p-6 shadow-sm">
-        <div className="flex aspect-square items-center justify-center rounded-[1.5rem] bg-[#DDE8D2] p-6">
-            <img
-              src={productImage}
-              alt="Pure Grind Protein Chips"
-              className="max-h-full object-contain drop-shadow-xl"
-            />
-        </div>
-      </div>
+        <div className="relative flex items-center justify-center lg:min-h-[620px]">
+          {/* soft glow behind product */}
+          <div className="absolute h-[360px] w-[360px] rounded-full bg-[#DDE8D2]/70 blur-3xl md:h-[480px] md:w-[480px]" />
 
-      <div className="rounded-[2rem] border border-[#D8D0C3] bg-white p-6 shadow-sm">
-        <p className="text-sm font-black uppercase tracking-widest text-[#D96C2C]">
-          Product Price
-        </p>
+          {/* floating background rings */}
+          <div className="absolute h-[420px] w-[420px] rounded-full border border-white/50 md:h-[560px] md:w-[560px]" />
+          <div className="absolute h-[300px] w-[300px] rounded-full border border-[#D96C2C]/20 md:h-[430px] md:w-[430px]" />
 
-        <h2 className="mt-3 text-3xl font-black text-[#25382B]">
-          ₱{brand.pricePerPack}
-        </h2>
-        <p className="text-sm text-[#555]">per pack</p>
+          {/* 3D product wrapper */}
+          <div className="product-float relative z-10">
+            <div className="relative">
+              <img
+                src={productImage}
+                alt="Pure Grind Protein Chips"
+                className="relative z-10 mx-auto max-h-130 w-full object-contain drop-shadow-[0_35px_45px_rgba(37,56,43,0.35)] md:max-h-155"
+              />
 
-        <div className="mt-6 space-y-4">
-          {[
-            `${product.protein} protein per pack`,
-            `${product.calories} calories only`,
-            `${product.packSize} per pack`,
-            `${product.flavors.length} flavors available`,
-          ].map((item) => (
-            <div key={item} className="flex items-center gap-3">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#DDE8D2] text-sm font-black text-[#25382B]">
-                ✓
-              </span>
-              <p className="text-sm font-semibold text-[#2B2B2B]">{item}</p>
+              {/* soft floor shadow */}
+              <div className="absolute -bottom-8 left-1/2 h-10 w-64 -translate-x-1/2 rounded-full bg-[#25382B]/25 blur-2xl md:w-80" />
             </div>
-          ))}
+          </div>
+
+          {/* floating chips/crumb accents */}
+          <div className="absolute right-8 top-20 hidden h-5 w-5 rounded-full bg-[#D96C2C] shadow-lg md:block" />
+          <div className="absolute bottom-28 left-10 hidden h-4 w-4 rotate-45 rounded-sm bg-[#D96C2C]/70 shadow-lg md:block" />
+          <div className="absolute right-20 bottom-20 hidden h-3 w-3 rounded-full bg-[#25382B]/70 md:block" />
         </div>
 
-        <Link
-          to="/order"
-          className="mt-7 block rounded-full bg-[#25382B] px-6 py-3 text-center font-black text-white transition hover:opacity-90"
-        >
-          Order Now
-        </Link>
+     
       </div>
     </section>
+
+
+
   )
 }
 
