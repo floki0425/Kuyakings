@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { brand } from "../../lib/constants";
 import StatusBadge from "../ui/StatusBadge";
 
-function OrderTable({ orders }) {
+function OrderTable({ orders,onDeleteOrder,deletingOrderId }) {
   function getCommission(order) {
     if (order.payment_status === "Paid" && order.order_status !== "Cancelled") {
       return Number(order.subtotal || 0) * brand.commissionRate;
@@ -77,6 +77,14 @@ function OrderTable({ orders }) {
                     >
                       View
                     </Link>
+                    <button
+                      type="button"
+                      onClick={() => onDeleteOrder(order)}
+                      disabled={deletingOrderId === order.id}
+                      className="rounded-full bg-red-600 px-4 py-2 text-xs font-black text-white hover:opacity-90 disabled:opacity-60 mt-5"
+                    >
+                      {deletingOrderId === order.id ? "Deleting..." : "Delete"}
+                    </button>
                   </td>
                 </tr>
               ))}

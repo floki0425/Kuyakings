@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { brand, paymentDetails, product } from "../../lib/constants";
+import { brand, paymentDetails } from "../../lib/constants";
 import { supabase } from "../../lib/supabaseClient";
 import OrderSummary from "./OrderSummary";
 
 function OrderForm() {
   const navigate = useNavigate();
 
-  const [flavor, setFlavor] = useState(product.flavors[0]);
+  const [flavors, setFlavors] = useState([]);
+  const [flavor, setFlavor] = useState("");
+  const [isLoadingFlavors, setIsLoadingFlavors] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState("GCash");
   const [deliveryOption, setDeliveryOption] = useState("Lalamove / Grab / Toktok");
@@ -26,6 +28,33 @@ function OrderForm() {
   });
 
   const subtotal = quantity * brand.pricePerPack;
+  useEffect(() => {
+  async function fetchFlavors() {
+    const { data, error } = await supabase
+      .from("product_flavors")
+      .select("name, is_available")
+      .order("sort_order", { ascending: true });
+
+    if (error) {
+      console.error("Fetch flavors error:", error);
+      setSubmitError("Failed to load flavors. Please refresh the page.");
+      setIsLoadingFlavors(false);
+      return;
+    }
+
+    setFlavors(data || []);
+
+    const firstAvailable = data?.find((item) => item.is_available);
+
+    if (firstAvailable) {
+      setFlavor(firstAvailable.name);
+    }
+
+    setIsLoadingFlavors(false);
+  }
+
+  fetchFlavors();
+}, []);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -46,6 +75,12 @@ function OrderForm() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    const selectedFlavor = flavors.find((item) => item.name === flavor);
+
+    if (!selectedFlavor || !selectedFlavor.is_available) {
+      setSubmitError("Sorry, this flavor is currently sold out.");
+      return;
+    }
 
     if (!formData.fullName || !formData.phone || !formData.address || !formData.city) {
       setSubmitError("Please complete your name, phone number, address, and city.");
@@ -160,13 +195,22 @@ function OrderForm() {
                 <select
                   value={flavor}
                   onChange={(e) => setFlavor(e.target.value)}
+                  disabled={isLoadingFlavors || flavors.length === 0}
                   className="mt-2 w-full rounded-2xl border border-[#D8D0C3] bg-[#F8F1E7] px-4 py-3 outline-none"
                 >
-                  {product.flavors.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {isLoadingFlavors ? (
+                      <option value="">Loading flavors...</option>
+                    ) : (
+                      flavors.map((item) => (
+                        <option
+                          key={item.name}
+                          value={item.name}
+                          disabled={!item.is_available}
+                        >
+                          {item.name} {!item.is_available ? "— Sold Out" : ""}
+                        </option>
+                      ))
+                    )}
                 </select>
               </div>
 
@@ -422,7 +466,7 @@ function OrderForm() {
 
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoadingFlavors || !flavor}
               className="mt-7 w-full rounded-full bg-[#D96C2C] px-7 py-4 font-black text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting ? "Submitting Order..." : "Place Order"}
