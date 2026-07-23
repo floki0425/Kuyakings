@@ -46,7 +46,7 @@ function Menu() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#FFFDFC] text-[#17191C]">
+    <main className="min-h-screen kk-bg-plain text-[#17191C]">
       <SEO
         title={seo.menuTitle}
         description={seo.menuDescription}
@@ -146,7 +146,7 @@ function Menu() {
         </div>
       </section>
 
-      <section className="border-t border-[#E8E1DE] bg-[#FFF7F2] px-5 py-14 min-[421px]:py-16 lg:py-20">
+      <section className="border-t border-[#E8E1DE] kk-bg-blush px-5 py-14 min-[421px]:py-16 lg:py-20">
         <div className="mx-auto max-w-3xl">
           <Reveal as="div" className="text-center">
             <p className="text-xs font-black uppercase tracking-widest text-[#C91F3A]">

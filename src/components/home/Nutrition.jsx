@@ -43,7 +43,7 @@ function Nutrition() {
   return (
     <section
       id="nutrition"
-      className="kk-process-section bg-[#FFFDFC] px-5 py-16 min-[421px]:py-20 lg:py-24"
+      className="kk-process-section kk-bg-plain px-5 py-16 min-[421px]:py-20 lg:py-24"
     >
       <div className="kk-process-layout mx-auto grid max-w-7xl items-center gap-8 border-y border-[#E8E1DE] py-10 min-[421px]:gap-10 min-[421px]:py-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-x-14 lg:gap-y-8 lg:py-14">
         <Reveal className="kk-process-content lg:col-start-2 lg:row-start-1">

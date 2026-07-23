@@ -73,7 +73,7 @@ function Benefits() {
   return (
     <section
       id="benefits"
-      className="kk-story bg-[#FFFDFC] px-5 py-14 min-[421px]:py-20 lg:py-24"
+      className="kk-story kk-bg-plain px-5 py-14 min-[421px]:py-20 lg:py-24"
     >
       <div className="kk-story-layout mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-14">
         <Reveal className="kk-story-content">

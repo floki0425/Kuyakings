@@ -75,7 +75,7 @@ function About() {
   const photos = useSitePhotoSlots();
 
   return (
-    <main className="min-h-screen bg-[#FFFDFC] text-[#17191C]">
+    <main className="min-h-screen kk-bg-plain text-[#17191C]">
       <SEO
         title={seo.aboutTitle}
         description={seo.aboutDescription}
@@ -135,7 +135,7 @@ function About() {
         </div>
       </section>
 
-      <section className="border-t border-[#E8E1DE] bg-[#FFF7F2] px-5 py-14 min-[421px]:py-20 lg:py-24">
+      <section className="border-t border-[#E8E1DE] kk-bg-blush px-5 py-14 min-[421px]:py-20 lg:py-24">
         <div className="mx-auto max-w-6xl">
           <Reveal as="div" className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-black uppercase tracking-widest text-[#C91F3A]">

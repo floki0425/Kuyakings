@@ -23,7 +23,7 @@ function HowToOrder() {
   return (
     <section
       id="how-to-order"
-      className="kk-how bg-[#FFF7F2] px-5 py-14 min-[421px]:py-20 lg:py-24"
+      className="kk-how kk-bg-blush px-5 py-14 min-[421px]:py-20 lg:py-24"
     >
       <Reveal as="div" className="kk-how-header mx-auto max-w-2xl text-center">
         <p className="kk-how-eyebrow text-xs font-black uppercase tracking-widest text-[#C91F3A]">

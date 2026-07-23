@@ -67,7 +67,7 @@ const Order = () => {
   const photos = useSitePhotoSlots()
 
   return (
-    <main className="min-h-screen bg-[#FFF7F2] text-[#171717]">
+    <main className="min-h-screen kk-bg-blush text-[#171717]">
       <SEO
         title={seo.orderTitle}
         description={seo.orderDescription}
@@ -83,7 +83,7 @@ const Order = () => {
       />
       <Header />
 
-      <section className="kk-order-intro bg-[#FFFDFC] px-5 py-14 min-[421px]:py-16 lg:py-20">
+      <section className="kk-order-intro kk-bg-plain px-5 py-14 min-[421px]:py-16 lg:py-20">
         <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
           <div className="kk-fade-in">
             <p className="text-xs font-black uppercase tracking-widest text-[#C91F3A]">

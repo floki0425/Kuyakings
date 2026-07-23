@@ -50,7 +50,7 @@ function ThankYou() {
   }
 
   return (
-    <main className="min-h-screen bg-[#FFF7F2] text-[#171717]">
+    <main className="min-h-screen kk-bg-blush text-[#171717]">
       <SEO
         title="Order Submitted"
         description="Your Kuya King's Beef Tapa order has been submitted."

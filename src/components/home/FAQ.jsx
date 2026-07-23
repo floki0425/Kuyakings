@@ -31,7 +31,7 @@ function FAQ() {
   return (
     <section
       id="faq"
-      className="kk-faq bg-[#FFFDFC] px-5 py-14 min-[421px]:py-20 lg:py-24"
+      className="kk-faq kk-bg-plain px-5 py-14 min-[421px]:py-20 lg:py-24"
     >
       <Reveal as="div" className="kk-faq-header mx-auto max-w-2xl text-center">
         <p className="kk-faq-eyebrow text-xs font-black uppercase tracking-widest text-[#C91F3A]">

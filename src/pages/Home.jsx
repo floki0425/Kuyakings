@@ -14,7 +14,7 @@ import { businessJsonLd, faqPageJsonLd, seo } from "../lib/seo"
 
 const Home = () => {
   return (
-    <main className="min-h-screen bg-[#FFF7F2] text-[#171717]">
+    <main className="min-h-screen kk-bg-blush text-[#171717]">
       <SEO
         title={seo.homeTitle}
         description={seo.homeDescription}

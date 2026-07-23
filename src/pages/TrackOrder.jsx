@@ -73,7 +73,7 @@ function TrackOrder() {
   }
 
   return (
-    <main className="min-h-screen bg-[#FFF7F2] text-[#17191C]">
+    <main className="min-h-screen kk-bg-blush text-[#17191C]">
       <SEO
         title={seo.trackTitle}
         description={seo.trackDescription}

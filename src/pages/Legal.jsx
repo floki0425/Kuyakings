@@ -32,7 +32,7 @@ function SubHeading({ children }) {
 
 function Legal() {
   return (
-    <main className="min-h-screen bg-[#FFF7F2] text-[#17191C]">
+    <main className="min-h-screen kk-bg-blush text-[#17191C]">
       <SEO
         title="Privacy Policy & Terms"
         description={`Kuya King's Beef Tapa privacy policy, terms & conditions, and refund policy.`}
@@ -46,7 +46,7 @@ function Legal() {
       />
       <Header />
 
-      <section className="border-b border-[#E8E1DE] bg-[#FFFDFC] px-5 py-14 min-[421px]:py-16 lg:py-20">
+      <section className="border-b border-[#E8E1DE] kk-bg-plain px-5 py-14 min-[421px]:py-16 lg:py-20">
         <div className="kk-fade-in mx-auto max-w-3xl text-center">
           <p className="text-xs font-black uppercase tracking-widest text-[#C91F3A]">
             Legal

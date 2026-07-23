@@ -36,7 +36,7 @@ function Flavors() {
   return (
     <section
       id="flavors"
-      className="kk-best bg-[#FFFDFC] px-5 py-14 min-[421px]:py-20 lg:py-24"
+      className="kk-best kk-bg-plain px-5 py-14 min-[421px]:py-20 lg:py-24"
     >
       <Reveal as="div" className="kk-best-header mx-auto max-w-2xl text-center">
         <p className="kk-best-eyebrow text-xs font-black uppercase tracking-widest text-[#C91F3A]">

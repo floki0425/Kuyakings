@@ -22,7 +22,7 @@ const helpfulLinks = [
 
 function NotFound() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#FFF7F2] text-[#17191C]">
+    <main className="flex min-h-screen flex-col kk-bg-blush text-[#17191C]">
       <SEO
         title="Page Not Found"
         description="The page you're looking for doesn't exist."

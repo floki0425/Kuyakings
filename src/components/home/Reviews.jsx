@@ -50,7 +50,7 @@ function Reviews() {
   return (
     <section
       id="reviews"
-      className="kk-reviews bg-[#FFFDFC] px-5 py-14 min-[421px]:py-20 lg:py-24"
+      className="kk-reviews kk-bg-plain px-5 py-14 min-[421px]:py-20 lg:py-24"
     >
       <Reveal as="div" className="kk-reviews-header mx-auto max-w-2xl text-center">
         <p className="kk-reviews-eyebrow text-xs font-black uppercase tracking-widest text-[#C91F3A]">

@@ -68,7 +68,7 @@ const contactPoints = [
 
 function Contact() {
   return (
-    <main className="min-h-screen bg-[#FFFDFC] text-[#17191C]">
+    <main className="min-h-screen kk-bg-plain text-[#17191C]">
       <SEO
         title={seo.contactTitle}
         description={seo.contactDescription}
