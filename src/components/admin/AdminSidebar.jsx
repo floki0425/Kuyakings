@@ -61,6 +61,15 @@ function CartIcon() {
   );
 }
 
+function MessageIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 6.5A1.5 1.5 0 0 1 5.5 5h13A1.5 1.5 0 0 1 20 6.5v9a1.5 1.5 0 0 1-1.5 1.5H9l-4 3v-3H5.5A1.5 1.5 0 0 1 4 15.5v-9Z" />
+      <path d="m6 8 6 4.5L18 8" />
+    </svg>
+  );
+}
+
 function LogoutIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -76,6 +85,7 @@ const adminLinks = [
   { to: "/admin/sales", label: "Sales", icon: <TrendIcon /> },
   { to: "/admin/brand-assets", label: "Brand Assets", icon: <ImageIcon /> },
   { to: "/admin/payment-settings", label: "Payment Settings", icon: <WalletIcon /> },
+  { to: "/admin/contact-messages", label: "Messages", icon: <MessageIcon /> },
 ];
 
 function AdminSidebar() {

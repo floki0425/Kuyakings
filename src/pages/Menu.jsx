@@ -19,6 +19,21 @@ function JarIcon() {
   );
 }
 
+function CheckDot() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="m8 12.3 2.6 2.6 5.4-5.4" />
+    </svg>
+  );
+}
+
+const menuHighlights = [
+  "No preservatives, just real ingredients",
+  "Small-batch cooked, never rushed",
+  "Sealed fresh, ready when you are",
+];
+
 const nutritionFacts = [
   { label: "Pack Size", value: product.packSize },
   { label: "Protein", value: product.protein },
@@ -76,6 +91,18 @@ function Menu() {
           </p>
         </div>
 
+        <div className="mx-auto mt-6 flex max-w-3xl flex-wrap items-center justify-center gap-3">
+          {menuHighlights.map((point) => (
+            <span
+              key={point}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#E8E1DE] bg-white px-4 py-2 text-xs font-bold text-[#5F5B58] [&_svg]:h-3.5 [&_svg]:w-3.5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-2 [&_svg]:text-[#c91f3a]"
+            >
+              <CheckDot />
+              {point}
+            </span>
+          ))}
+        </div>
+
         <div className="mx-auto mt-10 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {isLoading ? (
             <p className="col-span-full text-center text-sm font-bold text-[#6F6F70]">
@@ -117,6 +144,12 @@ function Menu() {
                       ? "3 jars - any flavor"
                       : product.packSize}
                   </p>
+
+                  {item.description && (
+                    <p className="mt-3 text-sm leading-6 text-[#5F5B58]">
+                      {item.description}
+                    </p>
+                  )}
 
                   <div className="mt-4 flex items-center justify-between gap-3">
                     <span className="text-xl font-black text-[#c91f3a]">

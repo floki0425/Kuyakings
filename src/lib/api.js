@@ -5,7 +5,7 @@ import { supabase } from "./supabaseClient";
 export async function getFlavors() {
 	const { data, error } = await supabase
 		.from("product_flavors")
-		.select("id, name, is_available, sort_order, price, image_url")
+		.select("id, name, is_available, sort_order, price, image_url, description")
 		.order("sort_order", { ascending: true });
 
 	return { data, error };
@@ -47,5 +47,27 @@ export async function getOrdersForAdmin() {
 	return { data, error };
 }
 
+export async function submitContactMessage(payload) {
+	const { data, error } = await supabase.from("contact_messages").insert([payload]).select();
+	return { data, error };
+}
 
+export async function getContactMessagesForAdmin() {
+	const { data, error } = await supabase
+		.from("contact_messages")
+		.select("*")
+		.order("created_at", { ascending: false });
+
+	return { data, error };
+}
+
+export async function markContactMessageRead(id, isRead) {
+	const { data, error } = await supabase
+		.from("contact_messages")
+		.update({ is_read: isRead })
+		.eq("id", id)
+		.select();
+
+	return { data, error };
+}
 

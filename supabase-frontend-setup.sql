@@ -24,6 +24,9 @@ alter table public.product_flavors
 alter table public.product_flavors
   add column if not exists image_url text;
 
+alter table public.product_flavors
+  add column if not exists description text not null default '';
+
 create table if not exists public.products (
   id uuid primary key default gen_random_uuid(),
   name text not null,
@@ -73,19 +76,30 @@ where lower(name) = 'plain';
 update public.product_flavors set name = 'Spicy', price = 310
 where lower(name) = 'chili';
 
-insert into public.product_flavors (name, is_available, sort_order, price)
-select seed.name, seed.is_available, seed.sort_order, seed.price
+insert into public.product_flavors (name, is_available, sort_order, price, description)
+select seed.name, seed.is_available, seed.sort_order, seed.price, seed.description
 from (
   values
-    ('Original'::text, true, 1, 300::numeric(10,2)),
-    ('Spicy'::text, true, 2, 310::numeric(10,2)),
-    ('Bundle (3 Jars - Any Flavor)'::text, true, 3, 900::numeric(10,2))
-) as seed(name, is_available, sort_order, price)
+    ('Original'::text, true, 1, 300::numeric(10,2), 'Our classic homemade recipe — tender beef marinated in our signature blend for that rich, savory flavor you already know and love.'::text),
+    ('Spicy'::text, true, 2, 310::numeric(10,2), 'All the same homemade flavor, with extra heat. Marinated using our signature recipe, then finished with a spicy kick for those who like it hot.'::text),
+    ('Bundle (3 Jars - Any Flavor)'::text, true, 3, 900::numeric(10,2), 'Can''t decide? Get three jars in any mix of Original and Spicy — perfect for sharing, gifting, or stocking up.'::text)
+) as seed(name, is_available, sort_order, price, description)
 where not exists (
   select 1
   from public.product_flavors existing
   where lower(existing.name) = lower(seed.name)
 );
+
+-- Backfill descriptions for the default flavors on databases that already
+-- had these rows before the description column existed.
+update public.product_flavors set description = 'Our classic homemade recipe — tender beef marinated in our signature blend for that rich, savory flavor you already know and love.'
+where lower(name) = 'original' and coalesce(description, '') = '';
+
+update public.product_flavors set description = 'All the same homemade flavor, with extra heat. Marinated using our signature recipe, then finished with a spicy kick for those who like it hot.'
+where lower(name) = 'spicy' and coalesce(description, '') = '';
+
+update public.product_flavors set description = 'Can''t decide? Get three jars in any mix of Original and Spicy — perfect for sharing, gifting, or stocking up.'
+where lower(name) like 'bundle%' and coalesce(description, '') = '';
 
 insert into public.products (name, slug, description, price, is_available)
 select
@@ -137,6 +151,17 @@ where not exists (
   select 1 from public.payment_settings existing where existing.method = seed.method
 );
 
+-- Messages submitted through the public Contact Us form.
+create table if not exists public.contact_messages (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text,
+  phone text,
+  message text not null,
+  is_read boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
 create or replace function public.is_admin()
 returns boolean
 language sql
@@ -154,6 +179,7 @@ alter table public.orders enable row level security;
 alter table public.profiles enable row level security;
 alter table public.site_photo_slots enable row level security;
 alter table public.payment_settings enable row level security;
+alter table public.contact_messages enable row level security;
 
 drop policy if exists "product_flavors_public_select" on public.product_flavors;
 drop policy if exists "product_flavors_admin_all" on public.product_flavors;
@@ -168,6 +194,8 @@ drop policy if exists "site_photo_slots_public_select" on public.site_photo_slot
 drop policy if exists "site_photo_slots_admin_all" on public.site_photo_slots;
 drop policy if exists "payment_settings_public_select" on public.payment_settings;
 drop policy if exists "payment_settings_admin_all" on public.payment_settings;
+drop policy if exists "contact_messages_public_insert" on public.contact_messages;
+drop policy if exists "contact_messages_admin_all" on public.contact_messages;
 
 create policy "product_flavors_public_select"
 on public.product_flavors
@@ -256,6 +284,25 @@ using (true);
 
 create policy "payment_settings_admin_all"
 on public.payment_settings
+for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
+create policy "contact_messages_public_insert"
+on public.contact_messages
+for insert
+to anon, authenticated
+with check (
+  length(trim(name)) between 2 and 120
+  and length(trim(message)) between 5 and 2000
+  and (email is not null or phone is not null)
+  and (email is null or length(trim(email)) between 3 and 200)
+  and (phone is null or length(trim(phone)) between 7 and 30)
+);
+
+create policy "contact_messages_admin_all"
+on public.contact_messages
 for all
 to authenticated
 using (public.is_admin())

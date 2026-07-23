@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
@@ -5,6 +6,7 @@ import SEO from "../components/seo/SEO";
 import Reveal from "../components/common/Reveal";
 import { brand } from "../lib/constants";
 import { breadcrumbJsonLd, seo } from "../lib/seo";
+import { submitContactMessage } from "../lib/api";
 
 function PhoneIcon() {
   return (
@@ -65,6 +67,178 @@ const contactPoints = [
     icon: <ClockIcon />,
   },
 ];
+
+function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState(null);
+
+  function updateField(field, value) {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setStatus(null);
+
+    const name = formData.name.trim();
+    const email = formData.email.trim();
+    const phone = formData.phone.trim();
+    const message = formData.message.trim();
+
+    if (!name || !message) {
+      setStatus({ type: "error", text: "Please enter your name and a message." });
+      return;
+    }
+
+    if (!email && !phone) {
+      setStatus({
+        type: "error",
+        text: "Please leave an email or phone number so we can reply.",
+      });
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const { error } = await submitContactMessage({
+        name,
+        email: email || null,
+        phone: phone || null,
+        message,
+      });
+
+      if (error) {
+        setStatus({ type: "error", text: `Something went wrong: ${error.message}` });
+        return;
+      }
+
+      setStatus({
+        type: "success",
+        text: "Message sent! We'll get back to you soon.",
+      });
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch (err) {
+      setStatus({ type: "error", text: `Something went wrong: ${err.message}` });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="mx-auto mt-10 grid max-w-2xl gap-4 rounded-lg border border-[#E8E1DE] bg-white p-6 sm:p-8"
+    >
+      <div className="text-center">
+        <h2 className="font-serif text-2xl font-bold text-[#17191C]">
+          Send Us a Message
+        </h2>
+        <p className="mt-1.5 text-sm leading-6 text-[#5F5B58]">
+          Prefer writing it out? Fill this in and we&apos;ll get back to you.
+        </p>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label
+            htmlFor="contact-name"
+            className="text-xs font-black uppercase tracking-wide text-[#8a8580]"
+          >
+            Name
+          </label>
+          <input
+            id="contact-name"
+            value={formData.name}
+            onChange={(e) => updateField("name", e.target.value)}
+            placeholder="Your full name"
+            className="kk-input mt-1.5"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="contact-phone"
+            className="text-xs font-black uppercase tracking-wide text-[#8a8580]"
+          >
+            Phone (optional)
+          </label>
+          <input
+            id="contact-phone"
+            value={formData.phone}
+            onChange={(e) => updateField("phone", e.target.value)}
+            placeholder="09XX XXX XXXX"
+            className="kk-input mt-1.5"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label
+          htmlFor="contact-email"
+          className="text-xs font-black uppercase tracking-wide text-[#8a8580]"
+        >
+          Email (optional)
+        </label>
+        <input
+          id="contact-email"
+          type="email"
+          value={formData.email}
+          onChange={(e) => updateField("email", e.target.value)}
+          placeholder="you@email.com"
+          className="kk-input mt-1.5"
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="contact-message"
+          className="text-xs font-black uppercase tracking-wide text-[#8a8580]"
+        >
+          Message
+        </label>
+        <textarea
+          id="contact-message"
+          value={formData.message}
+          onChange={(e) => updateField("message", e.target.value)}
+          placeholder="How can we help?"
+          rows={5}
+          className="kk-input mt-1.5 resize-none"
+        />
+      </div>
+
+      <p className="text-xs leading-5 text-[#8a8580]">
+        Leave at least an email or phone number so we know how to reply.
+      </p>
+
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="mt-1 inline-flex items-center justify-center rounded-full bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {isSubmitting ? "Sending..." : "Send Message"}
+      </button>
+
+      {status && (
+        <p
+          className={`rounded-[0.85rem] p-3 text-sm font-bold ${
+            status.type === "error"
+              ? "bg-red-50 text-red-700"
+              : "bg-green-50 text-green-800"
+          }`}
+        >
+          {status.text}
+        </p>
+      )}
+    </form>
+  );
+}
 
 function Contact() {
   return (
@@ -131,6 +305,8 @@ function Contact() {
             );
           })}
         </div>
+
+        <ContactForm />
 
         <Reveal
           delay={280}

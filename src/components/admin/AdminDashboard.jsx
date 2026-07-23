@@ -101,6 +101,8 @@ function AdminDashboard() {
   const [updatingFlavorId, setUpdatingFlavorId] = useState(null);
   const [priceDrafts, setPriceDrafts] = useState({});
   const [savingPriceId, setSavingPriceId] = useState(null);
+  const [descriptionDrafts, setDescriptionDrafts] = useState({});
+  const [savingDescriptionId, setSavingDescriptionId] = useState(null);
 
   async function handleDeleteOrder(order) {
     const confirmed = window.confirm(
@@ -183,7 +185,7 @@ function AdminDashboard() {
 
     const { data, error } = await supabase
       .from("product_flavors")
-      .select("id, name, is_available, sort_order, price")
+      .select("id, name, is_available, sort_order, price, description")
       .order("sort_order", { ascending: true });
 
     if (error) {
@@ -196,6 +198,11 @@ function AdminDashboard() {
     setFlavors(data || []);
     setPriceDrafts(
       Object.fromEntries((data || []).map((item) => [item.id, item.price]))
+    );
+    setDescriptionDrafts(
+      Object.fromEntries(
+        (data || []).map((item) => [item.id, item.description || ""])
+      )
     );
     setLoadingFlavors(false);
   }
@@ -230,6 +237,36 @@ function AdminDashboard() {
       alert(`Something went wrong: ${err.message}`);
     } finally {
       setSavingPriceId(null);
+    }
+  }
+
+  async function handleSaveDescription(flavorItem) {
+    const nextDescription = (descriptionDrafts[flavorItem.id] || "").trim();
+
+    try {
+      setSavingDescriptionId(flavorItem.id);
+
+      const { error } = await supabase
+        .from("product_flavors")
+        .update({ description: nextDescription })
+        .eq("id", flavorItem.id);
+
+      if (error) {
+        alert(`Update failed: ${error.message}`);
+        return;
+      }
+
+      setFlavors((prev) =>
+        prev.map((item) =>
+          item.id === flavorItem.id
+            ? { ...item, description: nextDescription }
+            : item
+        )
+      );
+    } catch (err) {
+      alert(`Something went wrong: ${err.message}`);
+    } finally {
+      setSavingDescriptionId(null);
     }
   }
 
@@ -501,7 +538,7 @@ function AdminDashboard() {
               </button>
             </div>
 
-            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {loadingFlavors ? (
                 <p className="text-sm font-bold text-[#5F5B58]">
                   Loading products...
@@ -566,6 +603,42 @@ function AdminDashboard() {
                         className="rounded-[0.6rem] bg-[#17191C] px-3 py-2 text-xs font-black text-white transition hover:opacity-90 disabled:opacity-40"
                       >
                         {savingPriceId === item.id ? "Saving..." : "Save"}
+                      </button>
+                    </div>
+
+                    <div className="mt-3">
+                      <label
+                        className="text-xs font-black uppercase tracking-wide text-[#8a8580]"
+                        htmlFor={`description-${item.id}`}
+                      >
+                        Description
+                      </label>
+                      <textarea
+                        id={`description-${item.id}`}
+                        rows={3}
+                        value={descriptionDrafts[item.id] ?? item.description ?? ""}
+                        onChange={(e) =>
+                          setDescriptionDrafts((prev) => ({
+                            ...prev,
+                            [item.id]: e.target.value,
+                          }))
+                        }
+                        placeholder="Short description shown on the Menu page"
+                        className="kk-input mt-1.5 resize-none text-sm"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleSaveDescription(item)}
+                        disabled={
+                          savingDescriptionId === item.id ||
+                          (descriptionDrafts[item.id] ?? "") ===
+                            (item.description ?? "")
+                        }
+                        className="mt-2 w-full rounded-[0.6rem] bg-[#17191C] px-3 py-2 text-xs font-black text-white transition hover:opacity-90 disabled:opacity-40"
+                      >
+                        {savingDescriptionId === item.id
+                          ? "Saving..."
+                          : "Save Description"}
                       </button>
                     </div>
 
