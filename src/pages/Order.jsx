@@ -1,72 +1,135 @@
 import Footer from "../components/layout/Footer"
 import Header from "../components/layout/Header"
 import OrderForm from "../components/order/OrderForm"
+import SEO from "../components/seo/SEO"
+import IllustratedPanel from "../components/common/IllustratedPanel"
 import { brand, product } from "../lib/constants"
-import productImage from "../assets/product-order.png"
+import { breadcrumbJsonLd, productJsonLd, seo } from "../lib/seo"
+import { useSitePhotoSlots } from "../lib/useSitePhotoSlots"
 
+function JarIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 8.5 6.5 5h11L20 8.5" />
+      <rect x="4" y="8.5" width="16" height="2.2" rx="0.6" />
+      <path d="m8.5 19.5-1-8h9l-1 8a2 2 0 0 1-2 1.8h-3a2 2 0 0 1-2-1.8Z" />
+    </svg>
+  )
+}
+
+function TruckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 6.5h11v9H3Z" />
+      <path d="M14 10.5h4l3 3v2h-7Z" />
+      <circle cx="7.5" cy="17" r="1.6" />
+      <circle cx="17" cy="17" r="1.6" />
+    </svg>
+  )
+}
+
+function BeefIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6 6.5h12" />
+      <path d="M8 4.5h8" />
+      <path d="M7 9.5c0-2.2 1.8-4 4-4h2c2.2 0 4 1.8 4 4v7c0 2.2-1.8 4-4 4h-2c-2.2 0-4-1.8-4-4v-7Z" />
+      <path d="M9.5 13.5h5" />
+    </svg>
+  )
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3.5 5 6v5.5c0 4.2 3 7.5 7 9 4-1.5 7-4.8 7-9V6Z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  )
+}
+
+function HeartIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 19.4s-6.4-3.9-8.4-7.6C2.3 9 3.6 6 6.5 6c1.8 0 3.2 1.1 3.9 2.4C11.1 7.1 12.5 6 14.3 6c2.9 0 4.2 3 3 5.8-2 3.7-8.4 7.6-8.4 7.6Z" />
+    </svg>
+  )
+}
+
+const trustPoints = [
+  { title: "Metro Manila Delivery", icon: <TruckIcon /> },
+  { title: "100% Pure Beef", icon: <BeefIcon /> },
+  { title: "Secure Checkout", icon: <ShieldIcon /> },
+  { title: "Made with Care", icon: <HeartIcon /> },
+]
 
 const Order = () => {
+  const photos = useSitePhotoSlots()
+
   return (
-    <main className="min-h-screen bg-[#F8F1E7] text-[#2B2B2B]">
+    <main className="min-h-screen bg-[#FFF7F2] text-[#171717]">
+      <SEO
+        title={seo.orderTitle}
+        description={seo.orderDescription}
+        path="/order"
+        type="product"
+        jsonLd={({ canonicalUrl, imageUrl }) => [
+          productJsonLd({ canonicalUrl, imageUrl }),
+          breadcrumbJsonLd([
+            { name: "Home", url: canonicalUrl.replace(/\/order$/, "/") },
+            { name: "Order", url: canonicalUrl },
+          ]),
+        ]}
+      />
       <Header />
 
-      <section className="mx-auto grid max-w-7xl gap-8 px-5 py-12 lg:grid-cols-[0.9fr_1fr_0.75fr] lg:items-start">
-        <div className="rounded-xl border border-[#D8D0C3] bg-white p-6 shadow-sm">
-           <img
-              src={productImage}
-              alt="Pure Grind Protein Chips"
-              className="max-h-full object-contain drop-shadow-xl"
-            />
-        </div>
+      <section className="kk-order-intro bg-[#FFFDFC] px-5 py-14 min-[421px]:py-16 lg:py-20">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+          <div className="kk-fade-in">
+            <p className="text-xs font-black uppercase tracking-widest text-[#C91F3A]">
+              Order Online
+            </p>
 
-        <div>
-          <p className="mb-3 inline-flex rounded-full bg-[#DDE8D2] px-4 py-2 text-sm font-black text-[#25382B]">
-            Product Details
-          </p>
+            <h1 className="mt-3 font-serif text-4xl font-bold leading-[1.05] text-[#17191C] min-[421px]:text-5xl">
+              {brand.name}
+            </h1>
 
-          <h1 className="text-4xl font-black leading-tight text-[#25382B] md:text-5xl">
-            {brand.name}
-          </h1>
+            <p className="mt-4 max-w-lg text-base leading-7 text-[#5F5B58]">
+              Kuya King&apos;s Beef Tapa is made with pure beef, a
+              homemade-style marinade, and slow-cooked flavor for easy
+              everyday meals. Pick your product below and we&apos;ll
+              confirm your order shortly after.
+            </p>
 
-          <p className="mt-4 max-w-xl text-base leading-7 text-[#555]">
-            Pure Grind Protein Chips is a high-protein snack made for people who
-            want a tasty and convenient alternative to regular chips.
-          </p>
+            <div className="mt-6 flex items-center gap-3 text-sm font-black text-[#17191C]">
+              <span>{product.packSize}</span>
+              <span className="text-[#c91f3a]">&bull;</span>
+              <span>Starting at &#8369;{brand.pricePerPack}</span>
+            </div>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            {[
-              [`${product.protein} Protein`, "per pack"],
-              [`${product.calories} Calories`, "per pack"],
-              [`${product.fat} Fat`, "per pack"],
-              [`${product.carbs} Carbs`, "per pack"],
-            ].map(([title, text]) => (
-              <div
-                key={title}
-                className="rounded-2xl border border-[#D8D0C3] bg-white p-5 shadow-sm"
-              >
-                <p className="text-xl font-black text-[#25382B]">{title}</p>
-                <p className="mt-1 text-sm text-[#555]">{text}</p>
-              </div>
-            ))}
+            <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-[#E8E1DE] pt-6 sm:grid-cols-4">
+              {trustPoints.map((item) => (
+                <div key={item.title} className="flex flex-col gap-2">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]">
+                    {item.icon}
+                  </div>
+                  <p className="text-xs font-bold leading-4 text-[#5F5B58]">
+                    {item.title}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="rounded-[2rem] border border-[#D8D0C3] bg-white p-6 shadow-sm">
-          <p className="text-sm font-black uppercase tracking-widest text-[#D96C2C]">
-            Price
-          </p>
-
-          <h2 className="mt-3 text-4xl font-black text-[#25382B]">
-            ₱{brand.pricePerPack}
-          </h2>
-          <p className="text-sm text-[#555]">per pack</p>
-
-          <div className="mt-6 space-y-3 text-sm">
-            <p>✓ {product.packSize} per pack</p>
-            <p>✓ {product.protein} protein</p>
-            <p>✓ {product.flavors.length} flavors available</p>
-            <p>✓ Metro Manila delivery</p>
-          </div>
+          <IllustratedPanel
+            icon={<JarIcon />}
+            caption="Beef Tapa"
+            label="Homemade & sealed fresh"
+            imageUrl={photos.product}
+            imageAlt="Kuya King's Beef Tapa"
+            className="kk-fade-in h-64 w-full rounded-lg min-[421px]:h-80 lg:h-[380px]"
+            style={{ animationDelay: "120ms" }}
+          />
         </div>
       </section>
 

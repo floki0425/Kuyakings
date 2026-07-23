@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { supabase } from "../lib/supabaseClient";
+import { useLocation, useNavigate, Link } from "react-router-dom";
+import SEO from "../components/seo/SEO";
+import { getAdminAccess, signInWithEmail, signOut } from "../lib/auth.js";
 
 function AdminLogin() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -11,6 +13,7 @@ function AdminLogin() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState(location.state?.message || "");
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -25,86 +28,127 @@ function AdminLogin() {
     event.preventDefault();
 
     if (!formData.email || !formData.password) {
-      alert("Please enter admin email and password.");
+      setLoginError("Please enter admin email and password.");
       return;
     }
 
     setLoading(true);
+    setLoginError("");
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: formData.email,
-      password: formData.password,
-    });
+    try {
+      const { data, error } = await signInWithEmail(
+        formData.email.trim(),
+        formData.password
+      );
 
-    setLoading(false);
+      if (error) {
+        setLoginError(`Login failed: ${error.message}`);
+        return;
+      }
 
-    if (error) {
-      alert(`Login failed: ${error.message}`);
-      return;
+      const { isAdmin, error: accessError } = await getAdminAccess(data.user);
+
+      if (accessError || !isAdmin) {
+        await signOut();
+        setLoginError(
+          accessError
+            ? `Admin access check failed: ${accessError.message}`
+            : "Your login is valid, but this account has not been assigned admin access."
+        );
+        return;
+      }
+
+      navigate("/admin/dashboard");
+    } catch (error) {
+      setLoginError(`Login failed: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
-
-    console.log("Login data:", data);
-    navigate("/admin/dashboard");
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#F8F1E7] px-5 py-12 text-[#2B2B2B]">
-      <section className="w-full max-w-md rounded-[2rem] border border-[#D8D0C3] bg-white p-8 shadow-sm">
+    <main className="flex min-h-screen items-center justify-center bg-[#FFF7F2] px-5 py-12 text-[#17191C]">
+      <SEO
+        title="Admin Login"
+        description="Kuya King's admin login."
+        path="/admin/login"
+        noIndex
+      />
+      <section className="kk-fade-in w-full max-w-md rounded-lg border border-[#E8E1DE] bg-white p-8">
         <div className="text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#25382B] text-xl font-black text-white">
-            PG
+          <div className="kk-pop-in mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#c91f3a] text-lg font-black text-white">
+            KK
           </div>
 
-          <h1 className="mt-6 text-3xl font-black text-[#25382B]">
-            Pure Grind Admin
+          <p className="mt-5 text-xs font-black uppercase tracking-widest text-[#C91F3A]">
+            Admin Panel
+          </p>
+
+          <h1 className="mt-2 font-serif text-3xl font-bold text-[#17191C]">
+            Kuya King&apos;s Admin
           </h1>
 
-          <p className="mt-2 text-sm leading-6 text-[#555]">
-            Login to manage orders, payment status, delivery status, and commission tracking.
+          <p className="mt-2 text-sm leading-6 text-[#5F5B58]">
+            Sign in to manage orders, payment status, delivery status, and
+            profit tracking.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+          {loginError && (
+            <p
+              role="alert"
+              className="rounded-[0.85rem] bg-red-50 p-4 text-sm font-bold leading-6 text-red-700"
+            >
+              {loginError}
+            </p>
+          )}
+
           <div>
-            <label className="text-sm font-black text-[#25382B]">
+            <label className="text-sm font-black text-[#17191C]">
               Admin Email
             </label>
             <input
               type="email"
               name="email"
+              autoComplete="username"
               value={formData.email}
               onChange={handleChange}
-              placeholder="admin@puregrindph.com"
-              className="mt-2 w-full rounded-2xl border border-[#D8D0C3] bg-[#F8F1E7] px-4 py-3 outline-none"
+              placeholder="Enter admin email"
+              className="kk-input mt-2"
             />
           </div>
 
           <div>
-            <label className="text-sm font-black text-[#25382B]">
+            <label className="text-sm font-black text-[#17191C]">
               Password
             </label>
             <input
               type="password"
               name="password"
+              autoComplete="current-password"
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter password"
-              className="mt-2 w-full rounded-2xl border border-[#D8D0C3] bg-[#F8F1E7] px-4 py-3 outline-none"
+              className="kk-input mt-2"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-full bg-[#D96C2C] px-6 py-4 font-black text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-full bg-[#c91f3a] px-6 py-4 font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <div className="mt-6 text-center">
-          <Link to="/" className="text-sm font-black text-[#25382B] underline">
-            Back to Website
+          <Link
+            to="/"
+            className="text-sm font-black text-[#5F5B58] transition hover:text-[#c91f3a]"
+          >
+            &larr; Back to Website
           </Link>
         </div>
       </section>

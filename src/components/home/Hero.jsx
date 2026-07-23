@@ -1,105 +1,137 @@
 import { Link } from "react-router-dom";
-import { brand, product } from "../../lib/constants";
-import productImage from "../../assets/product.png";
-import bgDesktop from "../../assets/bg.png";
-import bgMobile from "../../assets/bg-mobile.png";
+import { useSitePhotoSlots } from "../../lib/useSitePhotoSlots";
+
+const benefits = [
+  {
+    title: "100% Pure Beef",
+    description: "Made with carefully selected quality beef.",
+    icon: (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 6.5h12" />
+        <path d="M8 4.5h8" />
+        <path d="M7 9.5c0-2.2 1.8-4 4-4h2c2.2 0 4 1.8 4 4v7c0 2.2-1.8 4-4 4h-2c-2.2 0-4-1.8-4-4v-7Z" />
+        <path d="M9.5 13.5h5" />
+      </svg>
+    ),
+  },
+  {
+    title: "Signature Homemade Recipe",
+    description: "Marinated with our own special blend of flavors.",
+    icon: (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9.5 5.5c.5-1 1.4-1.5 2.5-1.5s2 .5 2.5 1.5" />
+        <path d="M4 10.5h16" />
+        <path d="M5 10.5c0 3.9 3.1 7 7 7s7-3.1 7-7" />
+      </svg>
+    ),
+  },
+  {
+    title: "Made with Care",
+    description: "Prepared in small batches for quality you can taste.",
+    icon: (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 19.4s-6.4-3.9-8.4-7.6C2.3 9 3.6 6 6.5 6c1.8 0 3.2 1.1 3.9 2.4C11.1 7.1 12.5 6 14.3 6c2.9 0 4.2 3 3 5.8-2 3.7-8.4 7.6-8.4 7.6Z" />
+      </svg>
+    ),
+  },
+];
+
+function ArrowIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="kk-hero-arrow">
+      <path d="M4 12h16" />
+      <path d="m13 6 6 6-6 6" />
+    </svg>
+  );
+}
+
+function JarIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="kk-hero-jar-icon-svg">
+      <path d="M4 8.5 6.5 5h11L20 8.5" />
+      <rect x="4" y="8.5" width="16" height="2.2" rx="0.6" />
+      <path d="m8.5 19.5-1-8h9l-1 8a2 2 0 0 1-2 1.8h-3a2 2 0 0 1-2-1.8Z" />
+    </svg>
+  );
+}
 
 const Hero = () => {
+  const photos = useSitePhotoSlots();
+
   return (
-    <section className="relative min-h-[calc(100vh-84px)] overflow-hidden px-5 py-16 sm:py-20 lg:py-24">
-      {/* Background images */}
-      <div className="absolute inset-0">
-        <img
-          src={bgMobile}
-          alt=""
-          className="h-full w-full object-cover object-center md:hidden"
-        />
+    <section className="kk-hero relative overflow-hidden px-5 py-16 sm:py-20 lg:py-24">
+      <div className="relative z-10 mx-auto max-w-6xl">
+        <div className="kk-hero-grid grid items-center gap-8 lg:gap-12">
+          <div className="kk-hero-copy kk-fade-in">
+            <p className="kk-hero-eyebrow">Made the Kuya King&apos;s way</p>
 
-        <img
-          src={bgDesktop}
-          alt=""
-          className="hidden h-full w-full object-cover object-center md:block"
-        />
+            <h1 className="kk-hero-heading">
+              <span>Homemade</span>
+              <span>Beef Tapa.</span>
+              <span className="kk-hero-heading-accent">Made to Crave.</span>
+            </h1>
 
-        {/* Overlay for readability */}
-        <div className="absolute inset-0 bg-[#F8F1E7]/55 md:bg-[#F8F1E7]/25" />
+            <p className="kk-hero-supporting">
+              Tender cuts of 100% pure beef, marinated in our signature
+              homemade recipe and prepared with the rich, comforting flavor
+              you&apos;ll want on your plate again and again.
+            </p>
 
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F8F1E7]/35 via-[#F8F1E7]/35 to-[#F8F1E7]/75 md:bg-gradient-to-r md:from-[#F8F1E7]/75 md:via-[#F8F1E7]/35 md:to-transparent" />
-      </div>
+            <div className="kk-hero-benefits">
+              {benefits.map((item) => (
+                <div key={item.title} className="kk-hero-benefit">
+                  <div className="kk-hero-icon" aria-hidden="true">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="kk-hero-benefit-title">{item.title}</p>
+                    <p className="kk-hero-benefit-copy">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-      <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2">
-        <div>
-          <p className="mb-4 inline-flex rounded-full bg-[#DDE8D2] px-4 py-2 text-sm font-black text-[#25382B]">
-            {product.protein} Protein • {product.calories} Calories •{" "}
-            {product.packSize} Pack
-          </p>
-
-          <h1 className="text-5xl font-black leading-[0.95] tracking-tight text-[#25382B] sm:text-6xl lg:text-7xl">
-            Crunch. <br />
-            Fuel. <br />
-            Grind.
-          </h1>
-
-          <p className="mt-5 text-lg font-bold text-[#D96C2C]">
-            {brand.tagline}
-          </p>
-
-          <p className="mt-5 max-w-xl text-base leading-7 text-[#3F3F3F]">
-            Crunchy, tasty, and packed with {product.protein} protein per pack.
-            A smarter snack choice for gym-goers, busy people, and anyone who
-            wants a better alternative to regular chips.
-          </p>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
-              to="/order"
-              className="rounded-full bg-[#D96C2C] px-7 py-3 text-center font-black text-white shadow-sm transition hover:opacity-90"
-            >
-              Order Now
-            </Link>
-
-            <a
-              href="#flavors"
-              className="rounded-full border border-[#25382B] px-7 py-3 text-center font-black text-[#25382B] transition hover:bg-[#25382B] hover:text-white"
-            >
-              View Flavors
-            </a>
-          </div>
-
-          <div className="mt-8 grid grid-cols-3 gap-3">
-            {["High Protein", "Low Fat", "7 Flavors"].map((item) => (
-              <div
-                key={item}
-                className="rounded-2xl border border-[#D8D0C3] bg-white/90 p-4 text-center shadow-sm backdrop-blur"
-              >
-                <p className="text-sm font-black text-[#25382B]">{item}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative flex items-center justify-center lg:min-h-[620px]">
-          <div className="absolute h-[300px] w-[300px] rounded-full bg-[#DDE8D2]/70 blur-3xl sm:h-[380px] sm:w-[380px] md:h-[480px] md:w-[480px]" />
-
-          <div className="absolute hidden h-[420px] w-[420px] rounded-full border border-white/50 md:block md:h-[560px] md:w-[560px]" />
-
-          <div className="absolute hidden h-[300px] w-[300px] rounded-full border border-[#D96C2C]/20 md:block md:h-[430px] md:w-[430px]" />
-
-          <div className="product-float relative z-10">
-            <div className="relative">
-              <img
-                src={productImage}
-                alt="Pure Grind Protein Chips"
-                className="relative z-10 mx-auto max-h-[430px] w-full object-contain drop-shadow-[0_35px_45px_rgba(37,56,43,0.35)] transition duration-500 hover:scale-105 hover:rotate-2 sm:max-h-[500px] md:max-h-[560px] lg:max-h-[620px]"
-              />
-
-              <div className="absolute -bottom-6 left-1/2 h-10 w-56 -translate-x-1/2 rounded-full bg-[#25382B]/25 blur-2xl sm:w-72 md:w-80" />
+            <div className="kk-hero-actions">
+              <Link to="/order" className="kk-hero-cta-primary">
+                Order Now
+                <ArrowIcon />
+              </Link>
+              <a href="#flavors" className="kk-hero-cta-secondary">
+                Explore Best Sellers
+              </a>
             </div>
           </div>
 
-          <div className="absolute right-8 top-20 hidden h-5 w-5 rounded-full bg-[#D96C2C] shadow-lg md:block" />
-          <div className="absolute bottom-28 left-10 hidden h-4 w-4 rotate-45 rounded-sm bg-[#D96C2C]/70 shadow-lg md:block" />
-          <div className="absolute right-20 bottom-20 hidden h-3 w-3 rounded-full bg-[#25382B]/70 md:block" />
+          <figure
+            className="kk-hero-media kk-fade-in"
+            style={{ animationDelay: "120ms" }}
+            aria-label="Kuya King's Beef Tapa jar"
+          >
+            {photos.hero ? (
+              <img
+                src={photos.hero}
+                alt="Kuya King's Beef Tapa"
+                className="kk-hero-media-photo"
+              />
+            ) : (
+              <>
+                <div className="kk-hero-jar kk-float">
+                  <div className="kk-hero-jar-lid" />
+                  <div className="kk-hero-jar-body">
+                    <span className="kk-hero-jar-badge">Original</span>
+                    <div className="kk-hero-jar-label">
+                      <div className="kk-hero-jar-icon">
+                        <JarIcon />
+                      </div>
+                      <p className="kk-hero-jar-title">Beef Tapa</p>
+                      <p className="kk-hero-jar-caption">Homemade &bull; 100% Pure Beef</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="kk-hero-media-cloth" aria-hidden="true" />
+              </>
+            )}
+          </figure>
         </div>
       </div>
     </section>

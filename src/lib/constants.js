@@ -1,46 +1,42 @@
 export const brand = {
-  name: "Pure Grind Protein Chips",
-  shortName: "Pure Grind PH",
-  tagline: "Fuel Your Grind, One Crunch at a Time.",
-  pricePerPack: 100,
-  commissionRate: 0.15,
+  name: "Kuya King's Beef Tapa",
+  shortName: "Kuya King's",
+  tagline: "Homemade Beef Tapa Like No Other.",
+  description:
+    "Homemade beef tapa made with pure beef, a special marinade, and small-batch flavor. Order Kuya King's Beef Tapa online in Metro Manila.",
+  siteUrl: "",
+  location: "Metro Manila, Philippines",
+  hours: "8:00 AM – 10:00 PM, Daily",
+  hoursSchema: { opens: "08:00", closes: "22:00" },
+  keywords: [
+    "Kuya King's",
+    "Kuya Kings",
+    "beef tapa",
+    "homemade beef tapa",
+    "Filipino beef tapa",
+    "Metro Manila beef tapa",
+    "beef tapa delivery",
+  ],
+  pricePerPack: 300, // starting price; per-flavor pricing is managed in Supabase product_flavors
+  profitRate: 0.4,
   phone: "09364053573",
-  facebook: "Pure Grind PH",
+  facebook: "Kuya King's",
   facebookLink: "https://www.facebook.com/share/17VqJE1Cn9/",
-  instagram: "puregrindph",
-  tiktok: "puregrindph1",
-  messenger: "Pure Grind PH",
+  instagram: "kuyakings",
+  tiktok: "kuyakings",
+  messenger: "Kuya King's",
+};
+
+export const photoUpload = {
+  bucket: "site-photos",
+  folder: "kuya-kings",
 };
 
 export const product = {
-  packSize: "45g",
+  packSize: "250ml jar",
   protein: "25g",
   calories: "183",
   fat: "5.8g",
   carbs: "12g",
-  flavors: [
-    "Plain",
-    "Salt N' Pepper",
-    "Cheese",
-    "Chili BBQ",
-    "Sour Cream",
-    "Truffle",
-    "Salted Egg",
-  ],
-};
-
-export const paymentDetails = {
-  gcash: {
-    name: "TBA",
-    number: "TBA",
-  },
-  maya: {
-    name: "TBA",
-    number: "TBA",
-  },
-  bank: {
-    bankName: "TBA",
-    accountName: "TBA",
-    accountNumber: "TBA",
-  },
+  flavors: ["Original", "Spicy"],
 };

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /thank-you
+Disallow: /track-order
+
+# Replace with your real deployed domain (see public/sitemap.xml).
+Sitemap: https://REPLACE-WITH-YOUR-DOMAIN.com/sitemap.xml
