@@ -17,19 +17,19 @@ function CTA() {
   const photos = useSitePhotoSlots();
 
   return (
-    <section className="kk-cta px-5 py-14 min-[421px]:py-16 lg:py-20">
-      <Reveal
-        as="div"
-        style={{ backgroundImage: `url(${ctaBackground})` }}
-        className="kk-cta-inner kk-cta-bg relative isolate mx-auto grid max-w-7xl items-center gap-8 overflow-hidden rounded-lg lg:grid-cols-[0.85fr_1.15fr_auto]"
-      >
+    <Reveal
+      as="section"
+      style={{ backgroundImage: `url(${ctaBackground})` }}
+      className="kk-cta kk-cta-bg relative isolate"
+    >
+      <div className="kk-cta-inner mx-auto grid max-w-7xl items-center gap-8 px-5 py-14 min-[421px]:py-16 lg:grid-cols-[0.85fr_1.15fr_auto] lg:py-20">
         <IllustratedPanel
           icon={<PlateIcon />}
           label="Kuya King's"
           tone="dark"
           imageUrl={photos.cta}
           imageAlt="Kuya King's Beef Tapa"
-          className="kk-cta-media h-52 w-full min-[421px]:h-64 lg:h-full lg:min-h-[280px]"
+          className="kk-cta-media h-52 w-full rounded-lg min-[421px]:h-64 lg:h-full lg:min-h-[280px]"
         />
 
         <div className="kk-cta-content px-6 py-8 text-center min-[421px]:px-10 lg:px-2 lg:text-left">
@@ -62,8 +62,8 @@ function CTA() {
             View Best Sellers
           </Link>
         </div>
-      </Reveal>
-    </section>
+      </div>
+    </Reveal>
   );
 }
 
