@@ -2,6 +2,9 @@
 -- Run this in the Supabase SQL Editor to make the React app work with the
 -- live project URL and anon key.
 
+reset role;
+
+
 begin;
 
 create extension if not exists pgcrypto;
@@ -309,7 +312,7 @@ to authenticated
 with check (
   bucket_id = 'site-photos'
   and public.is_admin()
-  and name ~ '^kuya-kings/(hero|product|gallery|flavor-[0-9a-f-]{36}|qr-gcash|qr-maya|qr-bank)/[a-z0-9-]+\.(jpg|jpeg|png|webp)$'
+  and name ~ '^kuya-kings/(hero|product|gallery|story|pairing-rice|pairing-atchara|cta|about|process-page|flavor-[0-9a-f-]{36}|qr-gcash|qr-maya|qr-bank)/[a-z0-9-]+\.(jpg|jpeg|png|webp)$'
 );
 
 create policy "site_photos_admin_update"
@@ -320,7 +323,7 @@ using (bucket_id = 'site-photos' and public.is_admin())
 with check (
   bucket_id = 'site-photos'
   and public.is_admin()
-  and name ~ '^kuya-kings/(hero|product|gallery|flavor-[0-9a-f-]{36}|qr-gcash|qr-maya|qr-bank)/[a-z0-9-]+\.(jpg|jpeg|png|webp)$'
+  and name ~ '^kuya-kings/(hero|product|gallery|story|pairing-rice|pairing-atchara|cta|about|process-page|flavor-[0-9a-f-]{36}|qr-gcash|qr-maya|qr-bank)/[a-z0-9-]+\.(jpg|jpeg|png|webp)$'
 );
 
 create policy "site_photos_admin_delete"

@@ -14,7 +14,32 @@ const PHOTO_SLOTS = [
   {
     id: "hero",
     title: "Hero Photo",
-    note: "Main homepage image",
+    note: "Homepage top banner",
+  },
+  {
+    id: "story",
+    title: "Our Story Photo",
+    note: "Homepage \"Our Story\" section",
+  },
+  {
+    id: "pairing-rice",
+    title: "Garlic Rice Photo",
+    note: "Homepage \"Perfect Pair\" section",
+  },
+  {
+    id: "pairing-atchara",
+    title: "Atchara Photo",
+    note: "Homepage \"Perfect Pair\" section",
+  },
+  {
+    id: "gallery",
+    title: "Process Photo (Homepage)",
+    note: "Homepage \"Our Process\" section",
+  },
+  {
+    id: "cta",
+    title: "CTA Banner Photo",
+    note: "Homepage bottom call-to-action band",
   },
   {
     id: "product",
@@ -22,9 +47,14 @@ const PHOTO_SLOTS = [
     note: "Order page image",
   },
   {
-    id: "gallery",
-    title: "Gallery Photo",
-    note: "Product or lifestyle image",
+    id: "about",
+    title: "About Page Photo",
+    note: "About page intro",
+  },
+  {
+    id: "process-page",
+    title: "Process Page Photo",
+    note: "Our Process page intro",
   },
 ];
 

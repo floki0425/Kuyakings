@@ -127,7 +127,7 @@ function About() {
             icon={<BatchIcon />}
             caption="Homemade Goodness"
             label="From our kitchen"
-            imageUrl={photos.gallery}
+            imageUrl={photos.about}
             imageAlt="Kuya King's Beef Tapa being prepared and packed"
             className="kk-fade-in h-[320px] w-full rounded-lg min-[421px]:h-[400px] lg:h-[460px]"
             style={{ animationDelay: "120ms" }}

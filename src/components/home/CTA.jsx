@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import IllustratedPanel from "../common/IllustratedPanel";
 import Reveal from "../common/Reveal";
+import { useSitePhotoSlots } from "../../lib/useSitePhotoSlots";
+import ctaBackground from "../../assets/final cta background.png";
 
 function PlateIcon() {
   return (
@@ -12,16 +14,21 @@ function PlateIcon() {
 }
 
 function CTA() {
+  const photos = useSitePhotoSlots();
+
   return (
     <section className="kk-cta px-5 py-14 min-[421px]:py-16 lg:py-20">
       <Reveal
         as="div"
-        className="kk-cta-inner mx-auto grid max-w-7xl items-center gap-8 overflow-hidden rounded-lg bg-[#97172C] lg:grid-cols-[0.85fr_1.15fr_auto]"
+        style={{ backgroundImage: `url(${ctaBackground})` }}
+        className="kk-cta-inner kk-cta-bg relative isolate mx-auto grid max-w-7xl items-center gap-8 overflow-hidden rounded-lg lg:grid-cols-[0.85fr_1.15fr_auto]"
       >
         <IllustratedPanel
           icon={<PlateIcon />}
           label="Kuya King's"
           tone="dark"
+          imageUrl={photos.cta}
+          imageAlt="Kuya King's Beef Tapa"
           className="kk-cta-media h-52 w-full min-[421px]:h-64 lg:h-full lg:min-h-[280px]"
         />
 

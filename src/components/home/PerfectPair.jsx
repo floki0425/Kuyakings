@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import IllustratedPanel from "../common/IllustratedPanel";
 import Reveal from "../common/Reveal";
+import { useSitePhotoSlots } from "../../lib/useSitePhotoSlots";
 
 function RiceBowlIcon() {
   return (
@@ -28,16 +29,20 @@ const pairings = [
     description:
       "Warm, fragrant, and perfectly buttery—the ultimate partner for all things real. For that home-cooked flavor.",
     icon: <RiceBowlIcon />,
+    slot: "pairing-rice",
   },
   {
     name: "Atchara",
     description:
       "A refreshing pickled side that complements Beef Tapa's savory richness perfectly.",
     icon: <AtcharaIcon />,
+    slot: "pairing-atchara",
   },
 ];
 
 function PerfectPair() {
+  const photos = useSitePhotoSlots();
+
   return (
     <section
       id="perfect-pair"
@@ -64,6 +69,8 @@ function PerfectPair() {
           <Reveal key={item.name} delay={index * 110} className="kk-pairing-item">
             <IllustratedPanel
               icon={item.icon}
+              imageUrl={photos[item.slot]}
+              imageAlt={`Kuya King's Beef Tapa with ${item.name}`}
               className="kk-pairing-media h-56 w-full rounded-lg min-[421px]:h-64"
             />
 

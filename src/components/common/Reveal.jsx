@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-function Reveal({ as: Tag = "div", delay = 0, className = "", children, ...props }) {
+function Reveal({ as: Tag = "div", delay = 0, className = "", style, children, ...props }) {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -26,7 +26,10 @@ function Reveal({ as: Tag = "div", delay = 0, className = "", children, ...props
     <Tag
       ref={ref}
       className={`kk-reveal${isVisible ? " is-visible" : ""}${className ? ` ${className}` : ""}`}
-      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+      style={{
+        ...(delay ? { transitionDelay: `${delay}ms` } : undefined),
+        ...style,
+      }}
       {...props}
     >
       {children}

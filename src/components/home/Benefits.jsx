@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import IllustratedPanel from "../common/IllustratedPanel";
 import Reveal from "../common/Reveal";
+import { useSitePhotoSlots } from "../../lib/useSitePhotoSlots";
 
 function BeefIcon() {
   return (
@@ -67,6 +68,8 @@ const highlights = [
 ];
 
 function Benefits() {
+  const photos = useSitePhotoSlots();
+
   return (
     <section
       id="benefits"
@@ -126,6 +129,8 @@ function Benefits() {
             icon={<BatchIcon />}
             caption="Homemade Goodness"
             label="From our kitchen"
+            imageUrl={photos.story}
+            imageAlt="Kuya King's Beef Tapa, homemade goodness"
             className="kk-story-media h-[320px] w-full rounded-lg min-[421px]:h-[400px] lg:h-[460px]"
           />
         </Reveal>

@@ -35,6 +35,10 @@ a:hover .kk-arrow-nudge, button:hover .kk-arrow-nudge { transform: translateX(4p
 .kk-footer::before { content: ""; position: absolute; inset: 0; background: rgba(7, 10, 13, 0.72); z-index: 0; }
 .kk-footer > * { position: relative; z-index: 1; }
 
+.kk-cta-bg { background-color: #97172C; background-position: center; background-repeat: no-repeat; background-size: cover; }
+.kk-cta-bg::before { content: ""; position: absolute; inset: 0; background: rgba(23, 8, 12, 0.55); z-index: 0; }
+.kk-cta-bg > * { position: relative; z-index: 1; }
+
 .kk-header { position: sticky; top: 0; z-index: 50; background: transparent; border-bottom: 1px solid transparent; transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease; }
 .kk-header--scrolled { background: rgba(255, 247, 242, 0.92); backdrop-filter: blur(14px); border-bottom-color: rgba(23, 25, 28, 0.08); box-shadow: 0 10px 30px rgba(23, 25, 28, 0.06); }
 .kk-header-inner { margin: 0 auto; max-width: 80rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.75rem 1.25rem; }
