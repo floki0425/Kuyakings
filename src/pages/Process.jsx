@@ -62,26 +62,26 @@ function CheckIcon() {
 const steps = [
   {
     number: "01",
-    title: "Prepared",
-    text: "We start with carefully selected quality beef, prepared with attention to tenderness, consistency, and flavor.",
+    title: "It starts with real beef, hand-picked.",
+    text: "Every batch begins the same way our very first one did — 100% pure beef, chosen for the right cut and marbling. No fillers, no shortcuts, no factory line. Just real ingredients, prepared with care.",
     icon: <BeefIcon />,
   },
   {
     number: "02",
-    title: "Marinated",
-    text: "Each batch is marinated using Kuya King's signature homemade recipe to develop its rich and savory flavor.",
+    title: "Then, the marinade goes to work.",
+    text: "This is the part that makes Kuya King's taste like Kuya King's. Our own homemade marinade, worked into every slice and left to soak in — the same recipe we started with, still the only one we use.",
     icon: <MarinadeIcon />,
   },
   {
     number: "03",
-    title: "Packed",
-    text: "Every product is carefully packed to help preserve its quality, flavor, and freshness.",
+    title: "Sealed while the flavor's at its best.",
+    text: "Each pack is sealed right after marinating, while the flavor is freshest — so what reaches your kitchen tastes just like it did coming out of ours.",
     icon: <BoxIcon />,
   },
   {
     number: "04",
-    title: "Ready",
-    text: "Sealed, prepared, and ready to enjoy whenever your next Kuya King's craving hits.",
+    title: "Ready for your table.",
+    text: "Chilled, sealed, and ready to cook whenever the craving hits — one more jar in a small batch made the same homemade way, from our kitchen to yours.",
     icon: <CheckIcon />,
   },
 ];
@@ -146,35 +146,78 @@ function Process() {
         <div className="mx-auto max-w-6xl">
           <Reveal as="div" className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-black uppercase tracking-widest text-[#C91F3A]">
-              Step by Step
+              Our Process, Start to Finish
             </p>
             <h2 className="mt-3 font-serif text-3xl font-bold leading-[1.05] text-[#17191C] min-[421px]:text-4xl">
-              How every jar comes together.
+              The Story Behind Every Jar.
             </h2>
+            <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-[#5F5B58]">
+              It's the same process behind every batch since day one &mdash;
+              no shortcuts, no factory line. Just real ingredients, handled
+              with care, one step at a time.
+            </p>
           </Reveal>
 
-          <div className="mx-auto mt-10 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step, index) => (
-              <Reveal
-                key={step.number}
-                delay={index * 100}
-                className="rounded-lg border border-[#E8E1DE] bg-white p-5"
-              >
-                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
-                  {step.icon}
-                </div>
+          <div className="relative mx-auto mt-14 max-w-2xl">
+            <span
+              aria-hidden="true"
+              className="absolute bottom-2 left-6 top-2 w-px bg-[#c91f3a]/25 min-[421px]:left-7"
+            />
 
-                <p className="mt-4 text-xs font-black uppercase tracking-widest text-[#8a8580]">
-                  Step {step.number}
-                </p>
-                <h3 className="mt-1 font-serif text-lg font-bold text-[#17191C]">
-                  {step.title}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-[#5F5B58]">
-                  {step.text}
-                </p>
+            <ol className="space-y-10 min-[421px]:space-y-12">
+              {steps.map((step, index) => (
+                <Reveal
+                  as="li"
+                  key={step.number}
+                  delay={index * 100}
+                  className="relative flex gap-5 min-[421px]:gap-6"
+                >
+                  <span className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-[#c91f3a]/30 bg-[#FFF7F2] text-[#c91f3a] shadow-[0_0_0_8px_#FFF7F2] min-[421px]:h-14 min-[421px]:w-14 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
+                    {step.icon}
+                  </span>
+
+                  <div className="min-w-0 pt-1 min-[421px]:pt-2">
+                    <p className="text-xs font-black uppercase tracking-widest text-[#8a8580]">
+                      Step {step.number}
+                    </p>
+                    <h3 className="mt-1 font-serif text-xl font-bold leading-tight text-[#17191C] min-[421px]:text-2xl">
+                      {step.title}
+                    </h3>
+                    <p className="mt-2 max-w-lg text-sm leading-6 text-[#5F5B58] min-[421px]:text-base min-[421px]:leading-7">
+                      {step.text}
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
+
+              <Reveal
+                as="li"
+                delay={steps.length * 100}
+                className="relative flex gap-5 min-[421px]:gap-6"
+              >
+                <span className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#c91f3a] text-white shadow-[0_0_0_8px_#FFF7F2] min-[421px]:h-14 min-[421px]:w-14 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
+                  <HandsIcon />
+                </span>
+
+                <div className="min-w-0 pt-1 min-[421px]:pt-2">
+                  <h3 className="font-serif text-xl font-bold leading-tight text-[#17191C] min-[421px]:text-2xl">
+                    And then, it&apos;s yours.
+                  </h3>
+                  <p className="mt-2 max-w-lg text-sm leading-6 text-[#5F5B58] min-[421px]:text-base min-[421px]:leading-7">
+                    That&apos;s the whole story behind every jar &mdash; no
+                    factory, no shortcuts. Just a homemade kitchen doing it
+                    the same way since our very first batch.
+                  </p>
+                  <Link
+                    to="/order"
+                    className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[#c91f3a] transition hover:opacity-75"
+                  >
+                    Order Your Tapa
+                    <span aria-hidden="true" className="kk-arrow-nudge">&rarr;</span>
+                  </Link>
+                </div>
               </Reveal>
-            ))}
+            </ol>
           </div>
         </div>
       </section>
