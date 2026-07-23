@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { brand } from "../../lib/constants";
 
-const DEFAULT_IMAGE = "/favicon.png";
+const DEFAULT_IMAGE = "/og-image.jpg";
 
 function getBaseUrl() {
   if (brand.siteUrl) return brand.siteUrl.replace(/\/$/, "");
@@ -101,6 +101,8 @@ function SEO({
     upsertMeta("property", "og:description", description);
     upsertMeta("property", "og:url", canonicalUrl);
     upsertMeta("property", "og:image", imageUrl);
+    upsertMeta("property", "og:image:width", "1200");
+    upsertMeta("property", "og:image:height", "630");
     upsertMeta("property", "og:image:alt", brand.name);
 
     upsertMeta("name", "twitter:card", "summary_large_image");
