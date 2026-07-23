@@ -173,6 +173,42 @@ $$;
 
 grant execute on function public.is_admin() to authenticated;
 
+-- Anti-spam rate limits, enforced in the database (not just the frontend)
+-- so they can't be bypassed by calling the Supabase API directly. Both are
+-- security definer so the count query works even though anon/authenticated
+-- have no select policy on these tables (RLS would otherwise hide every row
+-- from the subquery and make count() always return 0).
+create or replace function public.contact_rate_limit_ok(p_email text, p_phone text)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select count(*) < 3
+  from public.contact_messages
+  where created_at > now() - interval '10 minutes'
+    and (
+      (p_email is not null and email = p_email)
+      or (p_phone is not null and phone = p_phone)
+    );
+$$;
+
+grant execute on function public.contact_rate_limit_ok(text, text) to anon, authenticated;
+
+create or replace function public.order_rate_limit_ok(p_phone text)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select count(*) < 5
+  from public.orders
+  where created_at > now() - interval '15 minutes'
+    and phone = p_phone;
+$$;
+
+grant execute on function public.order_rate_limit_ok(text) to anon, authenticated;
+
 alter table public.product_flavors enable row level security;
 alter table public.products enable row level security;
 alter table public.orders enable row level security;
@@ -235,6 +271,7 @@ with check (
   and length(trim(city)) between 2 and 120
   and quantity between 1 and 200
   and payment_method in ('GCash', 'Maya', 'Bank Transfer', 'COD')
+  and public.order_rate_limit_ok(phone)
 );
 
 create policy "orders_user_select"
@@ -299,6 +336,7 @@ with check (
   and (email is not null or phone is not null)
   and (email is null or length(trim(email)) between 3 and 200)
   and (phone is null or length(trim(phone)) between 7 and 30)
+  and public.contact_rate_limit_ok(email, phone)
 );
 
 create policy "contact_messages_admin_all"

@@ -7,6 +7,8 @@ import Reveal from "../components/common/Reveal";
 import { brand } from "../lib/constants";
 import { breadcrumbJsonLd, seo } from "../lib/seo";
 import { submitContactMessage } from "../lib/api";
+import { useSpamGuard } from "../lib/antiSpam";
+import HoneypotField from "../components/common/HoneypotField";
 
 function PhoneIcon() {
   return (
@@ -77,6 +79,8 @@ function ContactForm() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
+  const [honeypot, setHoneypot] = useState("");
+  const { isSpam } = useSpamGuard();
 
   function updateField(field, value) {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -85,6 +89,16 @@ function ContactForm() {
   async function handleSubmit(event) {
     event.preventDefault();
     setStatus(null);
+
+    if (isSpam(honeypot)) {
+      // Pretend it worked so bots don't learn they were caught.
+      setStatus({
+        type: "success",
+        text: "Message sent! We'll get back to you soon.",
+      });
+      setFormData({ name: "", email: "", phone: "", message: "" });
+      return;
+    }
 
     const name = formData.name.trim();
     const email = formData.email.trim();
@@ -136,6 +150,8 @@ function ContactForm() {
       onSubmit={handleSubmit}
       className="mx-auto mt-10 grid max-w-2xl gap-4 rounded-lg border border-[#E8E1DE] bg-white p-6 sm:p-8"
     >
+      <HoneypotField value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+
       <div className="text-center">
         <h2 className="font-serif text-2xl font-bold text-[#17191C]">
           Send Us a Message

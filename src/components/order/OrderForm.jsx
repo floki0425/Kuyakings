@@ -4,6 +4,8 @@ import { brand } from "../../lib/constants";
 import { supabase } from "../../lib/supabaseClient";
 import { getFlavors, createOrder } from "../../lib/api.js";
 import { usePaymentSettings } from "../../lib/usePaymentSettings";
+import { useSpamGuard } from "../../lib/antiSpam";
+import HoneypotField from "../common/HoneypotField";
 import {
   createSecureImagePath,
   formatBytes,
@@ -90,6 +92,8 @@ function OrderForm() {
   const [proofError, setProofError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  const { isSpam } = useSpamGuard();
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -178,6 +182,11 @@ function OrderForm() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    if (isSpam(honeypot)) {
+      setSubmitError("Something went wrong. Please try again.");
+      return;
+    }
 
     if (!selectedFlavor || !selectedFlavor.is_available) {
       setSubmitError("Sorry, this product is currently sold out.");
@@ -280,6 +289,8 @@ function OrderForm() {
   return (
     <section className="mx-auto max-w-7xl px-5 pb-14 min-[421px]:pb-20 lg:pb-24">
       <form onSubmit={handleSubmit} className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-start">
+        <HoneypotField value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+
         <div className="space-y-6">
           <div className="rounded-lg border border-[#E8E1DE] bg-white p-6 sm:p-7">
             <StepHeader number="01" title="Choose Your Product" />
