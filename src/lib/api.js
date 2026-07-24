@@ -61,6 +61,15 @@ export async function getContactMessagesForAdmin() {
 	return { data, error };
 }
 
+export async function getUnreadContactMessageCount() {
+	const { count, error } = await supabase
+		.from("contact_messages")
+		.select("*", { count: "exact", head: true })
+		.eq("is_read", false);
+
+	return { count: count || 0, error };
+}
+
 export async function markContactMessageRead(id, isRead) {
 	const { data, error } = await supabase
 		.from("contact_messages")

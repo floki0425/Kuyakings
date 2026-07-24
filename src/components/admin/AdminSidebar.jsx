@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabaseClient";
+import { getUnreadContactMessageCount } from "../../lib/api";
 
 function DashboardIcon() {
   return (
@@ -91,6 +93,19 @@ const adminLinks = [
 function AdminSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    let active = true;
+
+    getUnreadContactMessageCount().then(({ count, error }) => {
+      if (active && !error) setUnreadCount(count);
+    });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   async function handleLogout() {
     const { error } = await supabase.auth.signOut();
@@ -132,6 +147,17 @@ function AdminSidebar() {
           >
             {item.icon}
             {item.label}
+            {item.to === "/admin/contact-messages" && unreadCount > 0 && (
+              <span
+                className={`ml-auto flex h-5 min-w-5 items-center justify-center rounded-xl px-1.5 text-[0.65rem] font-black ${
+                  location.pathname === item.to
+                    ? "bg-white text-[#c91f3a]"
+                    : "bg-[#c91f3a] text-white"
+                }`}
+              >
+                {unreadCount > 9 ? "9+" : unreadCount}
+              </span>
+            )}
           </Link>
         ))}
 
