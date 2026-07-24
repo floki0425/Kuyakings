@@ -21,10 +21,11 @@ export const brand = {
   profitRate: 0.4,
   phone: "09364053573",
   facebook: "Kuya King's",
-  facebookLink: "https://www.facebook.com/share/17VqJE1Cn9/",
-  instagram: "kuyakings",
+  facebookLink: "https://www.facebook.com/KuyaKingsPasta",
+  instagram: "kuyakingspasta",
   tiktok: "kuyakings",
   messenger: "Kuya King's",
+  messengerLink: "https://m.me/KuyaKingsPasta",
 };
 
 export const photoUpload = {

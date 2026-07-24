@@ -19,7 +19,7 @@ function MessengerButton() {
 
   return (
     <a
-      href={brand.facebookLink}
+      href={brand.messengerLink}
       target="_blank"
       rel="noreferrer noopener"
       aria-label="Chat with Kuya King's on Facebook Messenger"
