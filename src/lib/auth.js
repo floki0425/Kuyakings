@@ -5,6 +5,16 @@ export async function signInWithEmail(email, password) {
   return { data, error };
 }
 
+export async function checkLoginRateLimit(email) {
+  const { data, error } = await supabase.rpc("login_rate_limit_ok", { p_email: email });
+  return { allowed: data !== false, error };
+}
+
+export async function recordFailedLoginAttempt(email) {
+  const { error } = await supabase.rpc("record_login_attempt", { p_email: email });
+  return { error };
+}
+
 export async function requestPasswordReset(email) {
   const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${window.location.origin}/admin/setup-password`,

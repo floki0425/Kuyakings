@@ -171,6 +171,16 @@ create table if not exists public.contact_messages (
   created_at timestamptz not null default now()
 );
 
+-- Failed admin login attempts, used to rate-limit brute-force attempts
+-- against signInWithPassword. No client-facing policies are defined for
+-- this table -- it's only ever touched through the security definer
+-- functions below, so direct client access is denied by RLS by default.
+create table if not exists public.login_attempts (
+  id uuid primary key default gen_random_uuid(),
+  email text not null,
+  created_at timestamptz not null default now()
+);
+
 create or replace function public.is_admin()
 returns boolean
 language sql
@@ -218,6 +228,31 @@ $$;
 
 grant execute on function public.order_rate_limit_ok(text) to anon, authenticated;
 
+create or replace function public.login_rate_limit_ok(p_email text)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select count(*) < 5
+  from public.login_attempts
+  where created_at > now() - interval '15 minutes'
+    and lower(email) = lower(p_email);
+$$;
+
+grant execute on function public.login_rate_limit_ok(text) to anon, authenticated;
+
+create or replace function public.record_login_attempt(p_email text)
+returns void
+language sql
+security definer
+set search_path = public
+as $$
+  insert into public.login_attempts (email) values (lower(p_email));
+$$;
+
+grant execute on function public.record_login_attempt(text) to anon, authenticated;
+
 alter table public.product_flavors enable row level security;
 alter table public.products enable row level security;
 alter table public.orders enable row level security;
@@ -226,6 +261,7 @@ alter table public.site_photo_slots enable row level security;
 alter table public.payment_settings enable row level security;
 alter table public.contact_messages enable row level security;
 alter table public.site_text_content enable row level security;
+alter table public.login_attempts enable row level security;
 
 drop policy if exists "product_flavors_public_select" on public.product_flavors;
 drop policy if exists "product_flavors_admin_all" on public.product_flavors;

@@ -1,7 +1,16 @@
 import { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import SEO from "../components/seo/SEO";
-import { getAdminAccess, signInWithEmail, signOut } from "../lib/auth.js";
+import Turnstile from "../components/common/Turnstile";
+import {
+  checkLoginRateLimit,
+  getAdminAccess,
+  recordFailedLoginAttempt,
+  signInWithEmail,
+  signOut,
+} from "../lib/auth.js";
+
+const captchaRequired = Boolean(import.meta.env?.VITE_TURNSTILE_SITE_KEY);
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -14,6 +23,8 @@ function AdminLogin() {
 
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState(location.state?.message || "");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileKey, setTurnstileKey] = useState(0);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -32,16 +43,35 @@ function AdminLogin() {
       return;
     }
 
+    if (captchaRequired && !turnstileToken) {
+      setLoginError("Please complete the verification challenge.");
+      return;
+    }
+
     setLoading(true);
     setLoginError("");
 
     try {
-      const { data, error } = await signInWithEmail(
-        formData.email.trim(),
-        formData.password
-      );
+      const email = formData.email.trim();
+
+      const { allowed, error: rateLimitError } = await checkLoginRateLimit(email);
+
+      if (rateLimitError) {
+        setLoginError(`Login failed: ${rateLimitError.message}`);
+        return;
+      }
+
+      if (!allowed) {
+        setLoginError(
+          "Too many failed login attempts for this account. Please try again in 15 minutes."
+        );
+        return;
+      }
+
+      const { data, error } = await signInWithEmail(email, formData.password);
 
       if (error) {
+        await recordFailedLoginAttempt(email);
         setLoginError(`Login failed: ${error.message}`);
         return;
       }
@@ -63,6 +93,8 @@ function AdminLogin() {
       setLoginError(`Login failed: ${error.message}`);
     } finally {
       setLoading(false);
+      setTurnstileToken("");
+      setTurnstileKey((key) => key + 1);
     }
   }
 
@@ -142,9 +174,15 @@ function AdminLogin() {
             </div>
           </div>
 
+          <Turnstile
+            key={turnstileKey}
+            onVerify={setTurnstileToken}
+            onExpire={() => setTurnstileToken("")}
+          />
+
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || (captchaRequired && !turnstileToken)}
             className="w-full rounded-xl bg-[#c91f3a] px-6 py-4 font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Logging in..." : "Login"}
