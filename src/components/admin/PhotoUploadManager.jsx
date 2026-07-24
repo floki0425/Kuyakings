@@ -39,7 +39,12 @@ const PHOTO_SLOTS = [
   {
     id: "cta",
     title: "CTA Banner Photo",
-    note: "Homepage bottom call-to-action band",
+    note: "Small photo inside the bottom call-to-action band (left side)",
+  },
+  {
+    id: "cta-background",
+    title: "CTA Banner Background",
+    note: "Full-width background image behind the entire bottom call-to-action band. Use a wide, landscape photo.",
   },
   {
     id: "product",

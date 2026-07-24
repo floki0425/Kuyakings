@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import IllustratedPanel from "../common/IllustratedPanel";
 import Reveal from "../common/Reveal";
 import { useSitePhotoSlots } from "../../lib/useSitePhotoSlots";
+import { useSiteTextContent } from "../../lib/useSiteTextContent";
 
 function RiceBowlIcon() {
   return (
@@ -23,7 +24,7 @@ function AtcharaIcon() {
   );
 }
 
-const pairings = [
+const defaultPairings = [
   {
     name: "Garlic Rice",
     description:
@@ -42,6 +43,13 @@ const pairings = [
 
 function PerfectPair() {
   const photos = useSitePhotoSlots();
+  const textContent = useSiteTextContent();
+
+  const pairings = defaultPairings.map((item) => ({
+    ...item,
+    name: textContent[`${item.slot}-name`] || item.name,
+    description: textContent[`${item.slot}-description`] || item.description,
+  }));
 
   return (
     <section

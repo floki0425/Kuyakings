@@ -28,11 +28,6 @@ export function useSitePhotoSlots() {
   const [photos, setPhotos] = useState(cachedPhotos || {});
 
   useEffect(() => {
-    if (cachedPhotos) {
-      setPhotos(cachedPhotos);
-      return;
-    }
-
     listeners.add(setPhotos);
     loadPhotos();
 

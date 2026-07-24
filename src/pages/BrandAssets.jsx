@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import PhotoUploadManager from "../components/admin/PhotoUploadManager";
+import TextContentManager from "../components/admin/TextContentManager";
 import SEO from "../components/seo/SEO";
 import { getAdminSession, signOut } from "../lib/auth";
 
@@ -59,6 +60,7 @@ function BrandAssets() {
           </div>
 
           <PhotoUploadManager />
+          <TextContentManager />
         </section>
       </div>
     </main>

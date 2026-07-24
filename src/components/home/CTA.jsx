@@ -3,6 +3,7 @@ import IllustratedPanel from "../common/IllustratedPanel";
 import Reveal from "../common/Reveal";
 import { useSitePhotoSlots } from "../../lib/useSitePhotoSlots";
 import ctaBackground from "../../assets/final cta background.png";
+import ctaFallbackPhoto from "../../assets/sitebanner.jpeg";
 
 function PlateIcon() {
   return (
@@ -19,7 +20,7 @@ function CTA() {
   return (
     <Reveal
       as="section"
-      style={{ backgroundImage: `url(${ctaBackground})` }}
+      style={{ backgroundImage: `url(${photos["cta-background"] || ctaBackground})` }}
       className="kk-cta kk-cta-bg relative isolate"
     >
       <div className="kk-cta-inner mx-auto grid max-w-7xl items-center gap-8 px-5 py-14 min-[421px]:py-16 lg:grid-cols-[0.85fr_1.15fr_auto] lg:py-20">
@@ -27,7 +28,7 @@ function CTA() {
           icon={<PlateIcon />}
           label="Kuya King's"
           tone="dark"
-          imageUrl={photos.cta}
+          imageUrl={photos.cta || ctaFallbackPhoto}
           imageAlt="Kuya King's Beef Tapa"
           className="kk-cta-media h-52 w-full rounded-lg min-[421px]:h-64 lg:h-full lg:min-h-[280px]"
         />

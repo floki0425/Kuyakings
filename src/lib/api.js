@@ -61,6 +61,23 @@ export async function getContactMessagesForAdmin() {
 	return { data, error };
 }
 
+export async function getSiteTextContent() {
+	const { data, error } = await supabase
+		.from("site_text_content")
+		.select("key, value");
+
+	return { data, error };
+}
+
+export async function upsertSiteTextContent(key, value) {
+	const { data, error } = await supabase
+		.from("site_text_content")
+		.upsert({ key, value, updated_at: new Date().toISOString() })
+		.select();
+
+	return { data, error };
+}
+
 export async function getUnreadContactMessageCount() {
 	const { count, error } = await supabase
 		.from("contact_messages")
