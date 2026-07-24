@@ -1,24 +1,43 @@
 import { useEffect, useState } from "react";
 import { getSitePhotoSlots } from "./api";
 
+let cachedPhotos = null;
+let inFlightPromise = null;
+const listeners = new Set();
+
+function loadPhotos() {
+  if (cachedPhotos) return Promise.resolve(cachedPhotos);
+
+  if (!inFlightPromise) {
+    inFlightPromise = getSitePhotoSlots().then(({ data, error }) => {
+      inFlightPromise = null;
+
+      if (error || !data) return cachedPhotos;
+
+      cachedPhotos = Object.fromEntries(data.map((row) => [row.slot, row.url]));
+      listeners.forEach((listener) => listener(cachedPhotos));
+
+      return cachedPhotos;
+    });
+  }
+
+  return inFlightPromise;
+}
+
 export function useSitePhotoSlots() {
-  const [photos, setPhotos] = useState({});
+  const [photos, setPhotos] = useState(cachedPhotos || {});
 
   useEffect(() => {
-    let active = true;
-
-    async function fetchPhotos() {
-      const { data, error } = await getSitePhotoSlots();
-
-      if (!active || error || !data) return;
-
-      setPhotos(Object.fromEntries(data.map((row) => [row.slot, row.url])));
+    if (cachedPhotos) {
+      setPhotos(cachedPhotos);
+      return;
     }
 
-    fetchPhotos();
+    listeners.add(setPhotos);
+    loadPhotos();
 
     return () => {
-      active = false;
+      listeners.delete(setPhotos);
     };
   }, []);
 

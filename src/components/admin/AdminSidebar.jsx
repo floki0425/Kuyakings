@@ -106,8 +106,8 @@ function AdminSidebar() {
   return (
     <aside className="kk-fade-in rounded-lg border border-[#E8E1DE] bg-white p-6">
       <div>
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#c91f3a] text-base font-black text-white">
-          KK
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#E8E1DE] bg-white p-2">
+          <img src="/favicon.svg" alt="Kuya King's" className="h-full w-full" />
         </div>
 
         <h2 className="mt-4 font-serif text-xl font-bold text-[#17191C]">

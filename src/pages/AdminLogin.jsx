@@ -76,8 +76,8 @@ function AdminLogin() {
       />
       <section className="kk-fade-in w-full max-w-md rounded-lg border border-[#E8E1DE] bg-white p-8">
         <div className="text-center">
-          <div className="kk-pop-in mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#c91f3a] text-lg font-black text-white">
-            KK
+          <div className="kk-pop-in mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[#E8E1DE] bg-white p-2.5">
+            <img src="/favicon.svg" alt="Kuya King's" className="h-full w-full" />
           </div>
 
           <p className="mt-5 text-xs font-black uppercase tracking-widest text-[#C91F3A]">
