@@ -61,7 +61,7 @@ function ThankYou() {
 
       <section className="mx-auto max-w-4xl px-5 py-14 min-[421px]:py-20">
         <div className="kk-fade-in rounded-lg border border-[#E8E1DE] bg-white p-8 text-center min-[421px]:p-12">
-          <div className="kk-pop-in mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#c91f3a] text-white">
+          <div className="kk-pop-in mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-[#c91f3a] text-white">
             <CheckIcon />
           </div>
 
@@ -78,8 +78,8 @@ function ThankYou() {
             payment and delivery details before confirming your order.
           </p>
 
-          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#E8E1DE] bg-[#FFF7F2] px-5 py-2 text-sm font-black text-[#17191C]">
-            <span className="h-2 w-2 rounded-full bg-[#c91f3a]" />
+          <div className="mt-6 inline-flex items-center gap-2 rounded-xl border border-[#E8E1DE] bg-[#FFF7F2] px-5 py-2 text-sm font-black text-[#17191C]">
+            <span className="h-2 w-2 rounded-xl bg-[#c91f3a]" />
             Order Status: Pending Confirmation
           </div>
 
@@ -102,7 +102,7 @@ function ThankYou() {
                 <button
                   type="button"
                   onClick={copyOrderNumber}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#17191C] px-6 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#17191C] px-6 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
                 >
                   <CopyIcon />
                   {copied ? "Copied!" : "Copy Order Number"}
@@ -110,7 +110,7 @@ function ThankYou() {
 
                 <Link
                   to="/track-order"
-                  className="rounded-full bg-[#c91f3a] px-6 py-3 text-center text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#a61930]"
+                  className="rounded-xl bg-[#c91f3a] px-6 py-3 text-center text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#a61930]"
                 >
                   Track My Order
                 </Link>
@@ -181,7 +181,7 @@ function ThankYou() {
               <ol className="mt-5 space-y-4">
                 {nextSteps.map((step, index) => (
                   <li key={step} className="flex items-start gap-3">
-                    <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border border-[#c91f3a]/35 text-xs font-black text-[#c91f3a]">
+                    <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-xl border border-[#c91f3a]/35 text-xs font-black text-[#c91f3a]">
                       {index + 1}
                     </span>
                     <span className="text-sm leading-6 text-[#5F5B58]">{step}</span>
@@ -192,21 +192,21 @@ function ThankYou() {
               <div className="mt-6 grid gap-3 sm:grid-cols-3">
                 <Link
                   to="/order"
-                  className="rounded-full bg-[#c91f3a] px-3 py-3 text-center text-sm font-black text-white transition hover:opacity-90"
+                  className="rounded-xl bg-[#c91f3a] px-3 py-3 text-center text-sm font-black text-white transition hover:opacity-90"
                 >
                   Order Again
                 </Link>
 
                 <Link
                   to="/track-order"
-                  className="rounded-full border border-[#c91f3a] px-3 py-3 text-center text-sm font-black text-[#c91f3a] transition hover:bg-[#F8E6E4]"
+                  className="rounded-xl border border-[#c91f3a] px-3 py-3 text-center text-sm font-black text-[#c91f3a] transition hover:bg-[#F8E6E4]"
                 >
                   Track Order
                 </Link>
 
                 <Link
                   to="/"
-                  className="rounded-full border border-[#17191C] px-3 py-3 text-center text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+                  className="rounded-xl border border-[#17191C] px-3 py-3 text-center text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
                 >
                   Back Home
                 </Link>

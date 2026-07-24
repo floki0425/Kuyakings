@@ -494,7 +494,7 @@ function AdminDashboard() {
               <button
                 type="button"
                 onClick={fetchOrders}
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-[#c91f3a] px-5 py-3 text-sm font-black text-white transition hover:opacity-90 sm:w-auto [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.8]"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#c91f3a] px-5 py-3 text-sm font-black text-white transition hover:opacity-90 sm:w-auto [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.8]"
               >
                 <RefreshIcon />
                 Refresh Orders
@@ -503,7 +503,7 @@ function AdminDashboard() {
               <button
                 type="button"
                 onClick={exportCSV}
-                className="flex w-full items-center justify-center gap-2 rounded-full border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white sm:w-auto [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.8]"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white sm:w-auto [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.8]"
               >
                 <DownloadIcon />
                 Export CSV
@@ -531,7 +531,7 @@ function AdminDashboard() {
               <button
                 type="button"
                 onClick={fetchFlavors}
-                className="flex items-center gap-2 rounded-full border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.8]"
+                className="flex items-center gap-2 rounded-xl border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.8]"
               >
                 <RefreshIcon />
                 Refresh Products
@@ -564,7 +564,7 @@ function AdminDashboard() {
                       </div>
 
                       <span
-                        className={`rounded-full px-3 py-1 text-xs font-black ${
+                        className={`rounded-xl px-3 py-1 text-xs font-black ${
                           item.is_available
                             ? "bg-green-100 text-green-700"
                             : "bg-red-100 text-red-700"
@@ -646,7 +646,7 @@ function AdminDashboard() {
                       type="button"
                       onClick={() => toggleFlavorAvailability(item)}
                       disabled={updatingFlavorId === item.id}
-                      className={`mt-3 w-full rounded-full px-4 py-2 text-sm font-black text-white transition hover:opacity-90 disabled:opacity-60 ${
+                      className={`mt-3 w-full rounded-xl px-4 py-2 text-sm font-black text-white transition hover:opacity-90 disabled:opacity-60 ${
                         item.is_available ? "bg-red-600" : "bg-green-700"
                       }`}
                     >
@@ -675,7 +675,7 @@ function AdminDashboard() {
               >
                 <div className="flex items-center gap-3">
                   <span
-                    className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6] ${
+                    className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6] ${
                       card.emphasis
                         ? "bg-white/15 text-white"
                         : "bg-[#F8E6E4] text-[#c91f3a]"

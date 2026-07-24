@@ -100,7 +100,7 @@ function Benefits() {
                 delay={index * 90}
                 className="kk-story-highlight flex gap-3"
               >
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
                   {item.icon}
                 </div>
                 <div className="min-w-0">

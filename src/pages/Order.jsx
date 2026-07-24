@@ -110,7 +110,7 @@ const Order = () => {
             <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-[#E8E1DE] pt-6 sm:grid-cols-4">
               {trustPoints.map((item) => (
                 <div key={item.title} className="flex flex-col gap-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]">
                     {item.icon}
                   </div>
                   <p className="text-xs font-bold leading-4 text-[#5F5B58]">

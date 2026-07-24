@@ -22,7 +22,7 @@ function OrderSummary({ flavor, quantity, paymentMethod, pricePerPack }) {
   return (
     <aside className="rounded-lg border border-[#E8E1DE] bg-white p-6 lg:sticky lg:top-24">
       <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-4.5 [&_svg]:w-4.5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]">
+        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-4.5 [&_svg]:w-4.5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]">
           <JarIcon />
         </span>
 

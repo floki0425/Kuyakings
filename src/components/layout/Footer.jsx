@@ -51,7 +51,7 @@ function SocialLink({ href, label, children }) {
       target="_blank"
       rel="noreferrer noopener"
       aria-label={label}
-      className="kk-footer-social flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/75 transition hover:border-[#c91f3a] hover:text-[#c91f3a] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]"
+      className="kk-footer-social flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 text-white/75 transition hover:border-[#c91f3a] hover:text-[#c91f3a] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]"
     >
       {children}
     </a>
@@ -128,7 +128,7 @@ function Footer() {
 
           <Link
             to="/order"
-            className="mt-5 inline-flex rounded-full bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
+            className="mt-5 inline-flex rounded-xl bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
           >
             Order Now
           </Link>

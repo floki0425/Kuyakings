@@ -73,7 +73,7 @@ function Legal() {
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className="rounded-full border border-[#E8E1DE] bg-white px-4 py-2 text-xs font-black text-[#17191C] transition hover:border-[#c91f3a] hover:text-[#c91f3a]"
+                className="rounded-xl border border-[#E8E1DE] bg-white px-4 py-2 text-xs font-black text-[#17191C] transition hover:border-[#c91f3a] hover:text-[#c91f3a]"
               >
                 {item.label}
               </a>

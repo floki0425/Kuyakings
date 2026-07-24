@@ -121,7 +121,7 @@ function OrderTable({
                     <div className="flex items-center gap-2">
                       <Link
                         to={`/admin/orders/${order.id}`}
-                        className="rounded-full bg-[#17191C] px-4 py-2 text-xs font-black text-white transition hover:opacity-90"
+                        className="rounded-xl bg-[#17191C] px-4 py-2 text-xs font-black text-white transition hover:opacity-90"
                       >
                         View
                       </Link>
@@ -129,7 +129,7 @@ function OrderTable({
                         type="button"
                         onClick={() => onDeleteOrder(order)}
                         disabled={deletingOrderId === order.id}
-                        className="rounded-full bg-red-600 px-4 py-2 text-xs font-black text-white transition hover:opacity-90 disabled:opacity-60"
+                        className="rounded-xl bg-red-600 px-4 py-2 text-xs font-black text-white transition hover:opacity-90 disabled:opacity-60"
                       >
                         {deletingOrderId === order.id ? "Deleting..." : "Delete"}
                       </button>

@@ -143,7 +143,7 @@ function ContactMessages() {
                           {message.name}
                         </h2>
                         {!message.is_read && (
-                          <span className="rounded-full bg-[#c91f3a] px-2 py-0.5 text-[0.65rem] font-black uppercase tracking-wide text-white">
+                          <span className="rounded-xl bg-[#c91f3a] px-2 py-0.5 text-[0.65rem] font-black uppercase tracking-wide text-white">
                             New
                           </span>
                         )}
@@ -157,7 +157,7 @@ function ContactMessages() {
                       type="button"
                       onClick={() => toggleRead(message)}
                       disabled={updatingId === message.id}
-                      className="rounded-full border border-[#17191C] px-4 py-2 text-xs font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                      className="rounded-xl border border-[#17191C] px-4 py-2 text-xs font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {updatingId === message.id
                         ? "Updating..."

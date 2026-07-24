@@ -8,7 +8,7 @@ function StatusSelect({ value, options, onChange, disabled }) {
       value={value}
       disabled={disabled}
       onChange={(event) => onChange(event.target.value)}
-      className={`w-full cursor-pointer rounded-full border px-3 py-1.5 text-xs font-black outline-none transition disabled:cursor-not-allowed disabled:opacity-60 ${colorStyle}`}
+      className={`w-full cursor-pointer rounded-xl border px-3 py-1.5 text-xs font-black outline-none transition disabled:cursor-not-allowed disabled:opacity-60 ${colorStyle}`}
     >
       {options.map((option) => (
         <option key={option} value={option}>

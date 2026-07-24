@@ -140,7 +140,7 @@ function TrackOrder() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-full bg-[#c91f3a] px-6 py-4 font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-xl bg-[#c91f3a] px-6 py-4 font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? "Checking Order..." : "Track Order"}
             </button>

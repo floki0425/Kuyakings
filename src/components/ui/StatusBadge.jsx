@@ -17,7 +17,7 @@ function StatusBadge({ status }) {
 
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-black ${badgeStyle}`}
+      className={`inline-flex items-center rounded-xl border px-3 py-1 text-xs font-black ${badgeStyle}`}
     >
       {status}
     </span>

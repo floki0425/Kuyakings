@@ -84,7 +84,7 @@ function Flavors() {
                   </p>
 
                   {!item.is_available && (
-                    <span className="rounded-full bg-[#F3E4E4] px-2.5 py-1 text-[0.65rem] font-black uppercase tracking-wide text-[#97172C]">
+                    <span className="rounded-xl bg-[#F3E4E4] px-2.5 py-1 text-[0.65rem] font-black uppercase tracking-wide text-[#97172C]">
                       Sold Out
                     </span>
                   )}
@@ -108,7 +108,7 @@ function Flavors() {
                         : "/order"
                     }
                     aria-disabled={!item.is_available}
-                    className={`kk-best-product-action rounded-full px-4 py-2 text-xs font-black text-white transition ${
+                    className={`kk-best-product-action rounded-xl px-4 py-2 text-xs font-black text-white transition ${
                       item.is_available
                         ? "bg-[#c91f3a] hover:opacity-90"
                         : "pointer-events-none bg-[#c9c4c0]"

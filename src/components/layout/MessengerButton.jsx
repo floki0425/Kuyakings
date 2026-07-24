@@ -23,7 +23,7 @@ function MessengerButton() {
       target="_blank"
       rel="noreferrer noopener"
       aria-label="Chat with Kuya King's on Facebook Messenger"
-      className="kk-pop-in fixed bottom-24 right-5 z-40 flex items-center gap-2 rounded-full bg-[#c91f3a] py-3.5 pl-3.5 pr-4 text-sm font-black text-white shadow-[0_14px_30px_rgba(151,23,44,0.35)] transition hover:-translate-y-0.5 hover:bg-[#a61930] min-[421px]:bottom-6 min-[421px]:right-6 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]"
+      className="kk-pop-in fixed bottom-24 right-5 z-40 flex items-center gap-2 rounded-xl bg-[#c91f3a] py-3.5 pl-3.5 pr-4 text-sm font-black text-white shadow-[0_14px_30px_rgba(151,23,44,0.35)] transition hover:-translate-y-0.5 hover:bg-[#a61930] min-[421px]:bottom-6 min-[421px]:right-6 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]"
     >
       <ChatIcon />
       <span className="hidden min-[421px]:inline">Chat with us</span>

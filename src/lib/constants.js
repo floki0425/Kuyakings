@@ -4,7 +4,7 @@ export const brand = {
   tagline: "Homemade Beef Tapa Like No Other.",
   description:
     "Homemade beef tapa made with pure beef, a special marinade, and small-batch flavor. Order Kuya King's Beef Tapa online in Metro Manila.",
-  siteUrl: "",
+  siteUrl: "https://www.kuyakings.com",
   location: "Metro Manila, Philippines",
   hours: "8:00 AM – 10:00 PM, Daily",
   hoursSchema: { opens: "08:00", closes: "22:00" },

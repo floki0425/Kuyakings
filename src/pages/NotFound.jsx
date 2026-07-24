@@ -33,7 +33,7 @@ function NotFound() {
 
       <section className="flex flex-1 items-center justify-center px-5 py-16">
         <div className="kk-fade-in w-full max-w-lg rounded-lg border border-[#E8E1DE] bg-white p-8 text-center sm:p-12">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#F8E6E4] text-[#c91f3a]">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-[#F8E6E4] text-[#c91f3a]">
             <JarIcon />
           </div>
 
@@ -52,7 +52,7 @@ function NotFound() {
 
           <Link
             to="/"
-            className="mt-7 inline-flex items-center justify-center rounded-full bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
+            className="mt-7 inline-flex items-center justify-center rounded-xl bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
           >
             Back to Home
           </Link>
@@ -62,7 +62,7 @@ function NotFound() {
               <Link
                 key={item.to}
                 to={item.to}
-                className="rounded-full border border-[#E8E1DE] px-4 py-2.5 text-sm font-black text-[#17191C] transition hover:border-[#c91f3a]/40 hover:text-[#c91f3a]"
+                className="rounded-xl border border-[#E8E1DE] px-4 py-2.5 text-sm font-black text-[#17191C] transition hover:border-[#c91f3a]/40 hover:text-[#c91f3a]"
               >
                 {item.label}
               </Link>

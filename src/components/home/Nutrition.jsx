@@ -100,7 +100,7 @@ function Nutrition() {
                   : "",
               ].join(" ")}
             >
-              <span className="kk-process-step-number relative z-10 flex h-9 w-9 items-center justify-center rounded-full border border-[#C91F3A]/35 bg-[#FFFDFC] text-sm font-black text-[#C91F3A] shadow-[0_0_0_8px_#FFFDFC]">
+              <span className="kk-process-step-number relative z-10 flex h-9 w-9 items-center justify-center rounded-xl border border-[#C91F3A]/35 bg-[#FFFDFC] text-sm font-black text-[#C91F3A] shadow-[0_0_0_8px_#FFFDFC]">
                 {number}
               </span>
 

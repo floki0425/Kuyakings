@@ -117,7 +117,7 @@ function About() {
 
             <Link
               to="/order"
-              className="mt-7 inline-flex items-center justify-center rounded-full bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
+              className="mt-7 inline-flex items-center justify-center rounded-xl bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
             >
               Order Now
             </Link>
@@ -153,7 +153,7 @@ function About() {
                 delay={index * 90}
                 className="flex gap-4 rounded-lg border border-[#E8E1DE] bg-white p-5"
               >
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
                   {item.icon}
                 </div>
                 <div className="min-w-0">

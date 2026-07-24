@@ -68,7 +68,7 @@ function FAQ() {
                   {question}
                 </span>
                 <span
-                  className={`kk-faq-toggle flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
+                  className={`kk-faq-toggle flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl border transition-colors duration-300 ${
                     isOpen
                       ? "border-[#c91f3a] text-[#c91f3a]"
                       : "border-[#E8E1DE] text-[#8a8580]"

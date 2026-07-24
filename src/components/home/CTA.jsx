@@ -51,13 +51,13 @@ function CTA() {
         <div className="kk-cta-actions flex flex-col gap-3 px-6 pb-8 min-[421px]:px-10 min-[421px]:flex-row lg:flex-col lg:px-8 lg:pb-0">
           <Link
             to="/order"
-            className="kk-cta-primary inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-black text-[#97172C] transition hover:opacity-90"
+            className="kk-cta-primary inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-black text-[#97172C] transition hover:opacity-90"
           >
             Order Your Tapa
           </Link>
           <Link
             to="/#flavors"
-            className="kk-cta-secondary inline-flex items-center justify-center rounded-full border border-white/50 px-6 py-3 text-sm font-black text-white transition hover:border-white"
+            className="kk-cta-secondary inline-flex items-center justify-center rounded-xl border border-white/50 px-6 py-3 text-sm font-black text-white transition hover:border-white"
           >
             View Best Sellers
           </Link>

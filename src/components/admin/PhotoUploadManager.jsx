@@ -416,7 +416,7 @@ function PhotoUploadManager() {
                 <div className="grid gap-2">
                   <label
                     htmlFor={`photo-upload-${slot.id}`}
-                    className="cursor-pointer rounded-full border border-[#17191C] px-4 py-3 text-center text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+                    className="cursor-pointer rounded-xl border border-[#17191C] px-4 py-3 text-center text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
                   >
                     Choose Photo
                   </label>
@@ -435,7 +435,7 @@ function PhotoUploadManager() {
                     type="button"
                     disabled={!selectedPhoto || isUploading}
                     onClick={() => handleUpload(slot.id)}
-                    className="rounded-full bg-[#c91f3a] px-4 py-3 text-sm font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="rounded-xl bg-[#c91f3a] px-4 py-3 text-sm font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isUploading ? "Uploading..." : "Upload Photo"}
                   </button>
@@ -525,7 +525,7 @@ function PhotoUploadManager() {
                     <div className="grid gap-2">
                       <label
                         htmlFor={`flavor-photo-${item.id}`}
-                        className="cursor-pointer rounded-full border border-[#17191C] px-4 py-3 text-center text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+                        className="cursor-pointer rounded-xl border border-[#17191C] px-4 py-3 text-center text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
                       >
                         Choose Photo
                       </label>
@@ -544,7 +544,7 @@ function PhotoUploadManager() {
                         type="button"
                         disabled={!selectedPhoto || isUploading}
                         onClick={() => handleFlavorUpload(item)}
-                        className="rounded-full bg-[#c91f3a] px-4 py-3 text-sm font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="rounded-xl bg-[#c91f3a] px-4 py-3 text-sm font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {isUploading ? "Uploading..." : "Upload Photo"}
                       </button>

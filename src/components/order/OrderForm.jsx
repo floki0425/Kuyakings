@@ -54,7 +54,7 @@ const paymentIcons = {
 function StepHeader({ number, title }) {
   return (
     <div className="mb-6 flex items-center gap-3">
-      <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#c91f3a] text-sm font-black text-white">
+      <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-[#c91f3a] text-sm font-black text-white">
         {number}
       </span>
       <h2 className="font-serif text-xl font-bold text-[#17191C]">{title}</h2>
@@ -501,7 +501,7 @@ function OrderForm() {
                   }`}
                 >
                   <span
-                    className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6] ${
+                    className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6] ${
                       paymentMethod === method
                         ? "border-[#c91f3a] text-[#c91f3a]"
                         : "border-[#E8E1DE] text-[#8a8580]"
@@ -623,7 +623,7 @@ function OrderForm() {
             <button
               type="submit"
               disabled={isSubmitting || isLoadingFlavors || !flavor}
-              className="mt-7 w-full rounded-full bg-[#c91f3a] px-7 py-4 font-black text-white transition hover:-translate-y-0.5 hover:bg-[#a61930] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+              className="mt-7 w-full rounded-xl bg-[#c91f3a] px-7 py-4 font-black text-white transition hover:-translate-y-0.5 hover:bg-[#a61930] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
             >
               {isSubmitting ? "Submitting Order..." : "Place Order"}
             </button>

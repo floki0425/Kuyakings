@@ -195,7 +195,7 @@ function OrderDetails() {
 
           <Link
             to="/admin/dashboard"
-            className="mt-6 inline-flex w-full justify-center rounded-full bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90 sm:w-auto"
+            className="mt-6 inline-flex w-full justify-center rounded-xl bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90 sm:w-auto"
           >
             Back to Dashboard
           </Link>
@@ -220,7 +220,7 @@ function OrderDetails() {
             <div className="min-w-0">
               <Link
                 to="/admin/dashboard"
-                className="inline-flex items-center gap-2 rounded-full border border-[#17191C] px-4 py-2 text-xs font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+                className="inline-flex items-center gap-2 rounded-xl border border-[#17191C] px-4 py-2 text-xs font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
               >
                 <BackIcon />
                 Back to Dashboard
@@ -238,7 +238,7 @@ function OrderDetails() {
                 <button
                   type="button"
                   onClick={copyOrderNumber}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-[#E8E1DE] bg-[#FFF7F2] px-3 py-1.5 text-xs font-black text-[#17191C] transition hover:border-[#c91f3a] hover:text-[#c91f3a]"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-[#E8E1DE] bg-[#FFF7F2] px-3 py-1.5 text-xs font-black text-[#17191C] transition hover:border-[#c91f3a] hover:text-[#c91f3a]"
                 >
                   <CopyIcon />
                   {copied ? "Copied!" : "Copy"}
@@ -256,7 +256,7 @@ function OrderDetails() {
             </div>
 
             {saving && (
-              <div className="w-fit rounded-full border border-[#E8E1DE] bg-[#FFF7F2] px-4 py-2 text-xs font-black text-[#5F5B58]">
+              <div className="w-fit rounded-xl border border-[#E8E1DE] bg-[#FFF7F2] px-4 py-2 text-xs font-black text-[#5F5B58]">
                 Saving changes...
               </div>
             )}
@@ -357,7 +357,7 @@ function OrderDetails() {
           <aside className="min-w-0 space-y-5 lg:sticky lg:top-5 lg:self-start">
             <div className="kk-fade-in rounded-lg border border-[#E8E1DE] bg-white p-5 sm:p-6" style={{ animationDelay: "100ms" }}>
               <div className="flex items-center gap-2">
-                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]">
+                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]">
                   <CoinsIcon />
                 </span>
                 <p className="text-xs font-black uppercase tracking-widest text-[#C91F3A] sm:text-sm">
@@ -404,21 +404,21 @@ function OrderDetails() {
               <div className="mt-5 grid gap-2.5">
                 <button
                   onClick={() => updateOrderStatus({ payment_status: "Paid" })}
-                  className="w-full rounded-full border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+                  className="w-full rounded-xl border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
                 >
                   Mark as Paid
                 </button>
 
                 <button
                   onClick={() => updateOrderStatus({ order_status: "Confirmed" })}
-                  className="w-full rounded-full border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+                  className="w-full rounded-xl border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
                 >
                   Mark as Confirmed
                 </button>
 
                 <button
                   onClick={() => updateOrderStatus({ order_status: "Preparing" })}
-                  className="w-full rounded-full border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+                  className="w-full rounded-xl border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
                 >
                   Mark as Preparing
                 </button>
@@ -427,14 +427,14 @@ function OrderDetails() {
                   onClick={() =>
                     updateOrderStatus({ order_status: "Shipped / Out for Delivery" })
                   }
-                  className="w-full rounded-full border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+                  className="w-full rounded-xl border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
                 >
                   Mark as Shipped / Out for Delivery
                 </button>
 
                 <button
                   onClick={() => updateOrderStatus({ order_status: "Delivered" })}
-                  className="w-full rounded-full border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+                  className="w-full rounded-xl border border-[#17191C] px-5 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
                 >
                   Mark as Delivered
                 </button>
@@ -446,7 +446,7 @@ function OrderDetails() {
                       order_status: "Cancelled",
                     })
                   }
-                  className="w-full rounded-full bg-red-600 px-5 py-3 text-sm font-black text-white transition hover:opacity-90"
+                  className="w-full rounded-xl bg-red-600 px-5 py-3 text-sm font-black text-white transition hover:opacity-90"
                 >
                   Cancel Order
                 </button>
@@ -466,7 +466,7 @@ function InfoCard({ title, icon, children, delay = 0 }) {
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="flex items-center gap-2">
-        <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]">
+        <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6]">
           {icon}
         </span>
         <p className="text-xs font-black uppercase tracking-widest text-[#C91F3A] sm:text-sm">

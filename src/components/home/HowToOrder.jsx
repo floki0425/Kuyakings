@@ -55,7 +55,7 @@ function HowToOrder() {
                 : ""
             }`}
           >
-            <span className="kk-how-step-number relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-[#c91f3a]/35 bg-[#FFF7F2] text-base font-black text-[#c91f3a] shadow-[0_0_0_8px_#FFF7F2]">
+            <span className="kk-how-step-number relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl border border-[#c91f3a]/35 bg-[#FFF7F2] text-base font-black text-[#c91f3a] shadow-[0_0_0_8px_#FFF7F2]">
               {step.number}
             </span>
 
@@ -74,7 +74,7 @@ function HowToOrder() {
       <div className="mt-12 flex justify-center">
         <Link
           to="/order"
-          className="kk-how-cta inline-flex items-center justify-center rounded-full bg-[#c91f3a] px-7 py-3 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#a61930]"
+          className="kk-how-cta inline-flex items-center justify-center rounded-xl bg-[#c91f3a] px-7 py-3 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#a61930]"
         >
           Order Now
         </Link>

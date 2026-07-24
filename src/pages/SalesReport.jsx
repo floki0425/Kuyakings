@@ -232,7 +232,7 @@ function SalesReport() {
               <button
                 type="button"
                 onClick={fetchOrders}
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-[#c91f3a] px-5 py-3 text-sm font-black text-white transition hover:opacity-90 sm:w-auto"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#c91f3a] px-5 py-3 text-sm font-black text-white transition hover:opacity-90 sm:w-auto"
               >
                 Refresh
               </button>
@@ -244,7 +244,7 @@ function SalesReport() {
                   key={item.id}
                   type="button"
                   onClick={() => setRange(item.id)}
-                  className={`rounded-full border px-4 py-2 text-sm font-black transition ${
+                  className={`rounded-xl border px-4 py-2 text-sm font-black transition ${
                     range === item.id
                       ? "border-[#c91f3a] bg-[#c91f3a] text-white"
                       : "border-[#E8E1DE] text-[#17191C] hover:border-[#c91f3a]/40 hover:bg-[#FFF7F2]"
@@ -275,7 +275,7 @@ function SalesReport() {
                   >
                     <div className="flex items-center gap-3">
                       <span
-                        className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6] ${
+                        className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.6] ${
                           card.emphasis
                             ? "bg-white/15 text-white"
                             : "bg-[#F8E6E4] text-[#c91f3a]"
@@ -328,9 +328,9 @@ function SalesReport() {
                           </p>
                         </div>
 
-                        <div className="mt-2 h-2 overflow-hidden rounded-full bg-[#FFF7F2]">
+                        <div className="mt-2 h-2 overflow-hidden rounded-xl bg-[#FFF7F2]">
                           <div
-                            className="h-full rounded-full bg-[#c91f3a]"
+                            className="h-full rounded-xl bg-[#c91f3a]"
                             style={{
                               width: `${
                                 topRevenue > 0 ? (item.revenue / topRevenue) * 100 : 0

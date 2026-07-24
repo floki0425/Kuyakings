@@ -66,7 +66,7 @@ function Reviews() {
           Beef Tapa.
         </p>
 
-        <p className="mx-auto mt-4 inline-flex rounded-full border border-dashed border-[#D9D0CB] px-4 py-1.5 text-[0.7rem] font-bold uppercase tracking-wide text-[#8a8580]">
+        <p className="mx-auto mt-4 inline-flex rounded-xl border border-dashed border-[#D9D0CB] px-4 py-1.5 text-[0.7rem] font-bold uppercase tracking-wide text-[#8a8580]">
           Sample content — replace with real reviews before launch
         </p>
       </Reveal>
@@ -89,7 +89,7 @@ function Reviews() {
             </p>
 
             <div className="mt-5 flex items-center gap-3 border-t border-[#E8E1DE] pt-4">
-              <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[#F8E6E4] text-[#c91f3a]">
+              <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#F8E6E4] text-[#c91f3a]">
                 <AvatarIcon />
               </span>
               <div>

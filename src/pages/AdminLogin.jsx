@@ -76,7 +76,7 @@ function AdminLogin() {
       />
       <section className="kk-fade-in w-full max-w-md rounded-lg border border-[#E8E1DE] bg-white p-8">
         <div className="text-center">
-          <div className="kk-pop-in mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[#E8E1DE] bg-white p-2.5">
+          <div className="kk-pop-in mx-auto flex h-14 w-14 items-center justify-center rounded-xl border border-[#E8E1DE] bg-white p-2.5">
             <img src="/favicon.svg" alt="Kuya King's" className="h-full w-full" />
           </div>
 
@@ -137,7 +137,7 @@ function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-full bg-[#c91f3a] px-6 py-4 font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-xl bg-[#c91f3a] px-6 py-4 font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Logging in..." : "Login"}
           </button>

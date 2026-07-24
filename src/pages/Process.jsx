@@ -124,7 +124,7 @@ function Process() {
 
             <Link
               to="/order"
-              className="mt-7 inline-flex items-center justify-center rounded-full bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
+              className="mt-7 inline-flex items-center justify-center rounded-xl bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
             >
               Order Now
             </Link>
@@ -172,7 +172,7 @@ function Process() {
                   delay={index * 100}
                   className="relative flex gap-5 min-[421px]:gap-6"
                 >
-                  <span className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-[#c91f3a]/30 bg-[#FFF7F2] text-[#c91f3a] shadow-[0_0_0_8px_#FFF7F2] min-[421px]:h-14 min-[421px]:w-14 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
+                  <span className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl border border-[#c91f3a]/30 bg-[#FFF7F2] text-[#c91f3a] shadow-[0_0_0_8px_#FFF7F2] min-[421px]:h-14 min-[421px]:w-14 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
                     {step.icon}
                   </span>
 
@@ -195,7 +195,7 @@ function Process() {
                 delay={steps.length * 100}
                 className="relative flex gap-5 min-[421px]:gap-6"
               >
-                <span className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#c91f3a] text-white shadow-[0_0_0_8px_#FFF7F2] min-[421px]:h-14 min-[421px]:w-14 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
+                <span className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#c91f3a] text-white shadow-[0_0_0_8px_#FFF7F2] min-[421px]:h-14 min-[421px]:w-14 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
                   <HandsIcon />
                 </span>
 

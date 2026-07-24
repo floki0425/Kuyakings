@@ -52,7 +52,7 @@ function IllustratedPanel({
 
       <div className="relative z-10 flex flex-col items-center gap-3 px-6 text-center">
         <div
-          className={`flex h-16 w-16 items-center justify-center rounded-full border [&_svg]:h-7 [&_svg]:w-7 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.4] ${iconWrapStyles}`}
+          className={`flex h-16 w-16 items-center justify-center rounded-xl border [&_svg]:h-7 [&_svg]:w-7 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.4] ${iconWrapStyles}`}
         >
           {icon}
         </div>

@@ -54,7 +54,11 @@ export function businessJsonLd({ canonicalUrl, imageUrl }) {
         opens: brand.hoursSchema.opens,
         closes: brand.hoursSchema.closes,
       },
-      sameAs: [brand.facebookLink],
+      sameAs: [
+        brand.facebookLink,
+        `https://instagram.com/${brand.instagram}`,
+        `https://www.tiktok.com/@${brand.tiktok}`,
+      ],
     },
     productJsonLd({ canonicalUrl, imageUrl }),
   ];

@@ -95,7 +95,7 @@ function Menu() {
           {menuHighlights.map((point) => (
             <span
               key={point}
-              className="inline-flex items-center gap-1.5 rounded-full border border-[#E8E1DE] bg-white px-4 py-2 text-xs font-bold text-[#5F5B58] [&_svg]:h-3.5 [&_svg]:w-3.5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-2 [&_svg]:text-[#c91f3a]"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#E8E1DE] bg-white px-4 py-2 text-xs font-bold text-[#5F5B58] [&_svg]:h-3.5 [&_svg]:w-3.5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-2 [&_svg]:text-[#c91f3a]"
             >
               <CheckDot />
               {point}
@@ -133,7 +133,7 @@ function Menu() {
                     </p>
 
                     {!item.is_available && (
-                      <span className="rounded-full bg-[#F3E4E4] px-2.5 py-1 text-[0.65rem] font-black uppercase tracking-wide text-[#97172C]">
+                      <span className="rounded-xl bg-[#F3E4E4] px-2.5 py-1 text-[0.65rem] font-black uppercase tracking-wide text-[#97172C]">
                         Sold Out
                       </span>
                     )}
@@ -163,7 +163,7 @@ function Menu() {
                           : "/order"
                       }
                       aria-disabled={!item.is_available}
-                      className={`rounded-full px-4 py-2 text-xs font-black text-white transition ${
+                      className={`rounded-xl px-4 py-2 text-xs font-black text-white transition ${
                         item.is_available
                           ? "bg-[#c91f3a] hover:opacity-90"
                           : "pointer-events-none bg-[#c9c4c0]"
@@ -203,7 +203,7 @@ function Menu() {
                 <p className="text-lg font-black text-[#c91f3a]">
                   {fact.value}
                 </p>
-                <p className="mt-1 text-xs font-bold uppercase tracking-wide text-[#8a8580]">
+                <p className="mt-1 break-words text-xs font-bold uppercase tracking-wide text-[#8a8580]">
                   {fact.label}
                 </p>
               </Reveal>

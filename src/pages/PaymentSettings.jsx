@@ -338,7 +338,7 @@ function PaymentSettings() {
                       type="button"
                       onClick={() => handleSave(method.id, method.fields)}
                       disabled={isSaving}
-                      className="mt-4 w-full rounded-full bg-[#c91f3a] px-4 py-2.5 text-sm font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                      className="mt-4 w-full rounded-xl bg-[#c91f3a] px-4 py-2.5 text-sm font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {isSaving ? "Saving..." : "Save"}
                     </button>
@@ -378,7 +378,7 @@ function PaymentSettings() {
                         <div className="space-y-2 p-3">
                           <label
                             htmlFor={`qr-upload-${method.id}`}
-                            className="block cursor-pointer rounded-full border border-[#17191C] px-3 py-2 text-center text-xs font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+                            className="block cursor-pointer rounded-xl border border-[#17191C] px-3 py-2 text-center text-xs font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
                           >
                             Choose QR Image
                           </label>
@@ -397,7 +397,7 @@ function PaymentSettings() {
                             type="button"
                             disabled={!selectedQr || isUploadingQr}
                             onClick={() => handleQrUpload(method.id)}
-                            className="w-full rounded-full bg-[#17191C] px-3 py-2 text-xs font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+                            className="w-full rounded-xl bg-[#17191C] px-3 py-2 text-xs font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
                           >
                             {isUploadingQr ? "Uploading..." : "Upload QR Code"}
                           </button>

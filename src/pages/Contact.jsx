@@ -236,7 +236,7 @@ function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="mt-1 inline-flex items-center justify-center rounded-full bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-1 inline-flex items-center justify-center rounded-xl bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isSubmitting ? "Sending..." : "Send Message"}
       </button>
@@ -310,7 +310,7 @@ function Contact() {
                   item.href ? "hover:border-[#c91f3a]/40 hover:shadow-[0_18px_36px_rgba(151,23,44,0.1)]" : ""
                 }`}
               >
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
                   {item.icon}
                 </div>
                 <p className="mt-4 text-xs font-black uppercase tracking-widest text-[#8a8580]">
@@ -337,7 +337,7 @@ function Contact() {
 
           <Link
             to="/track-order"
-            className="inline-flex flex-shrink-0 items-center justify-center rounded-full border border-[#17191C] px-6 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+            className="inline-flex flex-shrink-0 items-center justify-center rounded-xl border border-[#17191C] px-6 py-3 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
           >
             Track Order
           </Link>
