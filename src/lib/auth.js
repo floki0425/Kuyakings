@@ -5,6 +5,13 @@ export async function signInWithEmail(email, password) {
   return { data, error };
 }
 
+export async function requestPasswordReset(email) {
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/admin/setup-password`,
+  });
+  return { data, error };
+}
+
 export async function signOut() {
   const { error } = await supabase.auth.signOut();
   return { error };

@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Order from "./pages/Order";
 import ThankYou from "./pages/ThankYou";
 import AdminLogin from "./pages/AdminLogin";
+import ForgotPassword from "./pages/ForgotPassword";
 import OrderDetails from "./pages/OrderDetails";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import TrackOrder from "./pages/TrackOrder";
@@ -43,6 +44,7 @@ function App() {
         <Route path="/process" element={<Process />} />
 
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/forgot-password" element={<ForgotPassword />} />
         <Route path="/admin/setup-password" element={<SetupPassword />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/sales" element={<SalesReport />} />

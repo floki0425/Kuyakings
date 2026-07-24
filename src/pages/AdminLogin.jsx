@@ -132,6 +132,14 @@ function AdminLogin() {
               placeholder="Enter password"
               className="kk-input mt-2"
             />
+            <div className="mt-2 text-right">
+              <Link
+                to="/admin/forgot-password"
+                className="text-xs font-black text-[#5F5B58] transition hover:text-[#c91f3a]"
+              >
+                Forgot your password?
+              </Link>
+            </div>
           </div>
 
           <button
