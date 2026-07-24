@@ -6,6 +6,7 @@ import Nutrition from "../components/home/Nutrition"
 import Flavors from "../components/home/Flavors"
 import HowToOrder from "../components/home/HowToOrder"
 import Reviews from "../components/home/Reviews"
+import Reseller from "../components/home/Reseller"
 import CTA from "../components/home/CTA"
 import FAQ, { faqs } from "../components/home/FAQ"
 import Footer from "../components/layout/Footer"
@@ -32,6 +33,7 @@ const Home = () => {
       <Nutrition />
       <Reviews />
       <FAQ />
+      <Reseller />
       <CTA />
       <Footer />
     </main>
