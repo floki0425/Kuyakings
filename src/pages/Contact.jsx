@@ -9,6 +9,9 @@ import { breadcrumbJsonLd, seo } from "../lib/seo";
 import { submitContactMessage } from "../lib/api";
 import { useSpamGuard } from "../lib/antiSpam";
 import HoneypotField from "../components/common/HoneypotField";
+import Turnstile from "../components/common/Turnstile";
+
+const captchaRequired = Boolean(import.meta.env?.VITE_TURNSTILE_SITE_KEY);
 
 function PhoneIcon() {
   return (
@@ -80,6 +83,8 @@ function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
   const [honeypot, setHoneypot] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileKey, setTurnstileKey] = useState(0);
   const { isSpam } = useSpamGuard();
 
   function updateField(field, value) {
@@ -118,6 +123,11 @@ function ContactForm() {
       return;
     }
 
+    if (captchaRequired && !turnstileToken) {
+      setStatus({ type: "error", text: "Please complete the verification challenge." });
+      return;
+    }
+
     try {
       setIsSubmitting(true);
 
@@ -138,6 +148,8 @@ function ContactForm() {
         text: "Message sent! We'll get back to you soon.",
       });
       setFormData({ name: "", email: "", phone: "", message: "" });
+      setTurnstileToken("");
+      setTurnstileKey((key) => key + 1);
     } catch (err) {
       setStatus({ type: "error", text: `Something went wrong: ${err.message}` });
     } finally {
@@ -233,9 +245,15 @@ function ContactForm() {
         Leave at least an email or phone number so we know how to reply.
       </p>
 
+      <Turnstile
+        key={turnstileKey}
+        onVerify={setTurnstileToken}
+        onExpire={() => setTurnstileToken("")}
+      />
+
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={isSubmitting || (captchaRequired && !turnstileToken)}
         className="mt-1 inline-flex items-center justify-center rounded-xl bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isSubmitting ? "Sending..." : "Send Message"}

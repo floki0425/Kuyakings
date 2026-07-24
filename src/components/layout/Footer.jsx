@@ -85,7 +85,7 @@ function Footer() {
     >
       <div className="kk-footer-main relative mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-8">
         <div className="kk-footer-brand">
-          <img src={logo} alt={`${brand.shortName} logo`} className="h-10 w-auto" />
+          <img src={logo} alt={`${brand.shortName} logo`} className="h-20 w-auto" />
 
           <p className="kk-footer-description mt-4 max-w-xs text-sm leading-6 text-white/65">
             Homemade Beef Tapa made with 100% pure beef, our signature

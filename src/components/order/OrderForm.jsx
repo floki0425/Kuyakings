@@ -6,6 +6,9 @@ import { getFlavors, createOrder } from "../../lib/api.js";
 import { usePaymentSettings } from "../../lib/usePaymentSettings";
 import { useSpamGuard } from "../../lib/antiSpam";
 import HoneypotField from "../common/HoneypotField";
+import Turnstile from "../common/Turnstile";
+
+const captchaRequired = Boolean(import.meta.env?.VITE_TURNSTILE_SITE_KEY);
 import {
   createSecureImagePath,
   formatBytes,
@@ -93,6 +96,7 @@ function OrderForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [honeypot, setHoneypot] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
   const { isSpam } = useSpamGuard();
 
   const [formData, setFormData] = useState({
@@ -205,6 +209,11 @@ function OrderForm() {
 
     if (paymentMethod !== "COD" && proofError) {
       setSubmitError(proofError);
+      return;
+    }
+
+    if (captchaRequired && !turnstileToken) {
+      setSubmitError("Please complete the verification challenge.");
       return;
     }
 
@@ -620,9 +629,19 @@ function OrderForm() {
                 </div>
               )}
 
+            <Turnstile
+              onVerify={setTurnstileToken}
+              onExpire={() => setTurnstileToken("")}
+            />
+
             <button
               type="submit"
-              disabled={isSubmitting || isLoadingFlavors || !flavor}
+              disabled={
+                isSubmitting ||
+                isLoadingFlavors ||
+                !flavor ||
+                (captchaRequired && !turnstileToken)
+              }
               className="mt-7 w-full rounded-xl bg-[#c91f3a] px-7 py-4 font-black text-white transition hover:-translate-y-0.5 hover:bg-[#a61930] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
             >
               {isSubmitting ? "Submitting Order..." : "Place Order"}

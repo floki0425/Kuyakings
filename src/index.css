@@ -12,6 +12,7 @@ body { margin: 0; font-family: var(--font-sans); background: #fffdfc; color: #17
 .kk-input { width: 100%; border-radius: 0.85rem; border: 1px solid #E8E1DE; background: #FFF7F2; padding: 0.75rem 1rem; outline: none; font-size: 0.95rem; transition: border-color 160ms ease, box-shadow 160ms ease; }
 .kk-input:focus { border-color: #c91f3a; box-shadow: 0 0 0 3px rgba(201, 31, 58, 0.12); }
 .kk-input:disabled { opacity: 0.6; cursor: not-allowed; }
+.kk-turnstile:not(:empty) { margin-top: 0.25rem; }
 
 /* Motion: subtle, premium entrance + hover language used across the site. */
 @media (prefers-reduced-motion: no-preference) {
@@ -45,7 +46,7 @@ a:hover .kk-arrow-nudge, button:hover .kk-arrow-nudge { transform: translateX(4p
 .kk-header--scrolled { background: rgba(255, 247, 242, 0.92); backdrop-filter: blur(14px); border-bottom-color: rgba(23, 25, 28, 0.08); box-shadow: 0 10px 30px rgba(23, 25, 28, 0.06); }
 .kk-header-inner { margin: 0 auto; max-width: 80rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.75rem 1.25rem; }
 .kk-header-logo { display: inline-flex; align-items: center; border-radius: 0.5rem; }
-.kk-header-logo img { height: 2.6rem; width: auto; object-fit: contain; }
+.kk-header-logo img { height: 3.4rem; width: auto; object-fit: contain; }
 .kk-header-nav { display: none; }
 .kk-header-cta { display: none; align-items: center; justify-content: center; border-radius: 0.75rem; background: #c91f3a; color: #fffdfc; font-weight: 700; padding: 0.7rem 1.4rem; text-decoration: none; transition: background-color 160ms ease, transform 160ms ease; }
 .kk-header-cta:hover, .kk-header-cta:focus-visible { background: #a61930; transform: translateY(-1px); }
@@ -74,7 +75,7 @@ a:hover .kk-arrow-nudge, button:hover .kk-arrow-nudge { transform: translateX(4p
   .kk-header-inner { padding: 0.8rem 1.5rem; }
 }
 @media (max-width: 420px) {
-  .kk-header-logo img { height: 2.25rem; }
+  .kk-header-logo img { height: 2.75rem; }
   .kk-header-inner { padding: 0.65rem 1rem; }
 }
 
