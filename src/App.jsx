@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import Home from "./pages/Home";
 import Order from "./pages/Order";
 import ThankYou from "./pages/ThankYou";
@@ -32,6 +33,7 @@ function App() {
       <ScrollToTop />
       <Analytics />
       <MessengerButton />
+      <VercelAnalytics />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/order" element={<Order />} />
