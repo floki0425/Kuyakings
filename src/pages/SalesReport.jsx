@@ -6,6 +6,7 @@ import SEO from "../components/seo/SEO";
 import { getAdminSession, signOut } from "../lib/auth";
 import { brand } from "../lib/constants";
 import { formatPeso, getOrderProfit, isConfirmedSale } from "../lib/sales";
+import { getOrderLineItems, summarizeFlavors } from "../lib/orderItems";
 
 const RANGES = [
   { id: "today", label: "Today" },
@@ -182,16 +183,22 @@ function SalesReport() {
     },
   ];
 
+  // Iterate each order's individual line items (not the order as a whole) --
+  // a single order can now span multiple flavors, so attributing an entire
+  // order's revenue/quantity to one flavor bucket would misattribute
+  // multi-flavor orders.
   const flavorBreakdown = Object.values(
     confirmedSales.reduce((acc, order) => {
-      const key = order.flavor || order.product_name || "Unknown";
+      for (const item of getOrderLineItems(order)) {
+        const key = item.flavor || order.product_name || "Unknown";
 
-      if (!acc[key]) {
-        acc[key] = { name: key, units: 0, revenue: 0 };
+        if (!acc[key]) {
+          acc[key] = { name: key, units: 0, revenue: 0 };
+        }
+
+        acc[key].units += Number(item.quantity || 0);
+        acc[key].revenue += Number(item.subtotal || 0);
       }
-
-      acc[key].units += Number(order.quantity || 0);
-      acc[key].revenue += Number(order.subtotal || 0);
 
       return acc;
     }, {})
@@ -383,7 +390,7 @@ function SalesReport() {
                             <td className="px-5 py-4">
                               {new Date(order.created_at).toLocaleDateString()}
                             </td>
-                            <td className="px-5 py-4">{order.flavor}</td>
+                            <td className="px-5 py-4">{summarizeFlavors(order)}</td>
                             <td className="px-5 py-4">{order.quantity}</td>
                             <td className="px-5 py-4 font-bold">
                               {formatPeso(order.subtotal)}

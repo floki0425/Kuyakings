@@ -7,6 +7,7 @@ import OrderTable from "../order/OrderTable";
 import SEO from "../seo/SEO";
 import { getAdminSession, signOut } from "../../lib/auth";
 import { formatPeso, getOrderProfit, isConfirmedSale } from "../../lib/sales";
+import { getOrderLineItems } from "../../lib/orderItems";
 
 function RefreshIcon() {
   return (
@@ -415,6 +416,7 @@ function AdminDashboard() {
       "Product",
       "Quantity",
       "Subtotal",
+      "Items",
       "Payment Method",
       "Payment Status",
       "Order Status",
@@ -428,6 +430,9 @@ function AdminDashboard() {
       order.flavor,
       order.quantity,
       `PHP ${order.subtotal}`,
+      getOrderLineItems(order)
+        .map((item) => `${item.flavor} x${item.quantity} (P${item.subtotal})`)
+        .join("; "),
       order.payment_method,
       order.payment_status,
       order.order_status,

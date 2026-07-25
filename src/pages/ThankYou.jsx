@@ -4,6 +4,7 @@ import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import SEO from "../components/seo/SEO";
 import Reveal from "../components/common/Reveal";
+import { getOrderLineItems } from "../lib/orderItems";
 
 function CheckIcon() {
   return (
@@ -137,20 +138,20 @@ function ThankYou() {
                   </span>
                 </div>
 
-                <div className="flex justify-between gap-4 py-3">
-                  <span className="text-[#8a8580]">Product Option</span>
-                  <span className="font-bold text-[#17191C]">
-                    {order.flavor || "N/A"}
-                  </span>
-                </div>
+                {getOrderLineItems(order).map((item) => {
+                  const isBundle = item.flavor?.toLowerCase().startsWith("bundle");
 
-                <div className="flex justify-between gap-4 py-3">
-                  <span className="text-[#8a8580]">Quantity</span>
-                  <span className="font-bold text-[#17191C]">
-                    {order.quantity || 0}{" "}
-                    {order.flavor?.toLowerCase().startsWith("bundle") ? "bundle(s)" : "jar(s)"}
-                  </span>
-                </div>
+                  return (
+                    <div key={item.flavor} className="flex justify-between gap-4 py-3">
+                      <span className="text-[#8a8580]">
+                        {item.flavor} × {item.quantity} {isBundle ? "bundle(s)" : "jar(s)"}
+                      </span>
+                      <span className="font-bold text-[#17191C]">
+                        ₱{Number(item.subtotal || 0).toFixed(2)}
+                      </span>
+                    </div>
+                  );
+                })}
 
                 <div className="flex justify-between gap-4 py-3">
                   <span className="text-[#8a8580]">Payment Method</span>

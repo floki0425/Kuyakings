@@ -6,6 +6,7 @@ import { getFlavors, createOrder } from "../../lib/api.js";
 import { usePaymentSettings } from "../../lib/usePaymentSettings";
 import { useSpamGuard } from "../../lib/antiSpam";
 import { classifyOrderError, buildOrderErrorMessage } from "../../lib/orderErrors";
+import { summarizeFlavors } from "../../lib/orderItems";
 import HoneypotField from "../common/HoneypotField";
 import Turnstile from "../common/Turnstile";
 
@@ -91,9 +92,9 @@ function OrderForm() {
   const paymentSettings = usePaymentSettings();
 
   const [flavors, setFlavors] = useState([]);
-  const [flavor, setFlavor] = useState("");
+  const [items, setItems] = useState([]);
+  const [flavorToAdd, setFlavorToAdd] = useState("");
   const [isLoadingFlavors, setIsLoadingFlavors] = useState(true);
-  const [quantity, setQuantity] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState("GCash");
   const [deliveryOption, setDeliveryOption] = useState("Lalamove / Grab / Toktok");
   const [proofOfPayment, setProofOfPayment] = useState(null);
@@ -121,10 +122,25 @@ function OrderForm() {
     notes: "",
   });
 
-  const selectedFlavor = flavors.find((item) => item.name === flavor);
-  const pricePerPack = selectedFlavor?.price ?? brand.pricePerPack;
-  const isBundle = flavor.toLowerCase().startsWith("bundle");
-  const subtotal = quantity * pricePerPack;
+  // Each added flavor is enriched with its live price/availability from the
+  // fetched product_flavors list every render, so price changes or a flavor
+  // selling out mid-session are reflected immediately.
+  const enrichedItems = items.map((entry) => {
+    const flavorData = flavors.find((item) => item.name === entry.flavor);
+    const pricePerPack = flavorData?.price ?? brand.pricePerPack;
+
+    return {
+      flavor: entry.flavor,
+      quantity: entry.quantity,
+      price_per_pack: pricePerPack,
+      subtotal: entry.quantity * pricePerPack,
+      is_available: flavorData?.is_available ?? true,
+    };
+  });
+
+  const totalQuantity = enrichedItems.reduce((sum, item) => sum + item.quantity, 0);
+  const totalSubtotal = enrichedItems.reduce((sum, item) => sum + item.subtotal, 0);
+  const hasBundle = enrichedItems.some((item) => item.flavor.toLowerCase().startsWith("bundle"));
 
   useEffect(() => {
     async function fetchFlavors() {
@@ -147,7 +163,7 @@ function OrderForm() {
       const preselected = requested || firstAvailable;
 
       if (preselected) {
-        setFlavor(preselected.name);
+        setItems([{ flavor: preselected.name, quantity: 1 }]);
       }
 
       setIsLoadingFlavors(false);
@@ -165,12 +181,42 @@ function OrderForm() {
     }));
   }
 
-  function increaseQuantity() {
-    setQuantity((prev) => prev + 1);
+  function addFlavorToOrder(flavorName) {
+    if (!flavorName) return;
+
+    setItems((prev) => {
+      const existingIndex = prev.findIndex((item) => item.flavor === flavorName);
+
+      if (existingIndex !== -1) {
+        return prev.map((item, index) =>
+          index === existingIndex ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
+
+      return [...prev, { flavor: flavorName, quantity: 1 }];
+    });
   }
 
-  function decreaseQuantity() {
-    setQuantity((prev) => Math.max(1, prev - 1));
+  function removeItem(flavorName) {
+    setItems((prev) => prev.filter((item) => item.flavor !== flavorName));
+  }
+
+  function increaseItemQuantity(flavorName) {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.flavor === flavorName ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  }
+
+  function decreaseItemQuantity(flavorName) {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.flavor === flavorName
+          ? { ...item, quantity: Math.max(1, item.quantity - 1) }
+          : item
+      )
+    );
   }
 
   function handleProofChange(file) {
@@ -215,8 +261,15 @@ function OrderForm() {
       return;
     }
 
-    if (!selectedFlavor || !selectedFlavor.is_available) {
-      setSubmitError("Sorry, this product is currently sold out.");
+    if (enrichedItems.length === 0) {
+      setSubmitError("Please add at least one Tapa flavor to your order.");
+      return;
+    }
+
+    const unavailableItem = enrichedItems.find((item) => !item.is_available);
+
+    if (unavailableItem) {
+      setSubmitError(`Sorry, ${unavailableItem.flavor} is currently sold out. Please remove it to continue.`);
       return;
     }
 
@@ -268,10 +321,19 @@ function OrderForm() {
       const newOrder = {
           order_number: orderNumber,
           product_name: brand.name,
-          flavor,
-          quantity,
-          price_per_pack: pricePerPack,
-          subtotal,
+          // flavor/quantity/price_per_pack/subtotal are order-level totals
+          // (and a vestigial human-readable summary) kept for anything not
+          // yet updated to read the items array -- see src/lib/orderItems.js.
+          flavor: summarizeFlavors({ items: enrichedItems }),
+          quantity: totalQuantity,
+          price_per_pack: enrichedItems[0]?.price_per_pack ?? brand.pricePerPack,
+          subtotal: totalSubtotal,
+          items: enrichedItems.map(({ flavor, quantity, price_per_pack, subtotal }) => ({
+            flavor,
+            quantity,
+            price_per_pack,
+            subtotal,
+          })),
           payment_method: paymentMethod,
           delivery_option: deliveryOption,
           proof_of_payment_url: proofOfPaymentUrl,
@@ -300,9 +362,6 @@ function OrderForm() {
         "latestOrder",
         JSON.stringify({
           ...newOrder,
-          product_name: brand.name,
-          price_per_pack: pricePerPack,
-          subtotal,
           payment_status: paymentMethod === "COD" ? "COD" : "Pending",
           order_status: "New Order",
           created_at: new Date().toISOString(),
@@ -327,65 +386,104 @@ function OrderForm() {
           <div className="rounded-lg border border-[#E8E1DE] bg-white p-6 sm:p-7">
             <StepHeader number="01" title="Choose Your Product" />
 
-            <div className="grid gap-5 md:grid-cols-2">
-              <div>
+            <div>
+              <label className="text-sm font-black text-[#17191C]">
+                Your Tapa Order
+              </label>
+
+              {enrichedItems.length === 0 ? (
+                <p className="mt-2 rounded-[0.85rem] border border-dashed border-[#E8E1DE] p-4 text-sm text-[#8a8580]">
+                  {isLoadingFlavors ? "Loading products..." : "No flavors added yet."}
+                </p>
+              ) : (
+                <div className="mt-2 space-y-3">
+                  {enrichedItems.map((item) => (
+                    <div
+                      key={item.flavor}
+                      className="flex flex-wrap items-center justify-between gap-3 rounded-[0.85rem] border border-[#E8E1DE] bg-[#FFF7F2] p-3"
+                    >
+                      <div>
+                        <p className="font-black text-[#17191C]">{item.flavor}</p>
+                        <p className="text-xs text-[#8a8580]">₱{item.price_per_pack} each</p>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center overflow-hidden rounded-[0.85rem] border border-[#E8E1DE] bg-white">
+                          <button
+                            type="button"
+                            onClick={() => decreaseItemQuantity(item.flavor)}
+                            className="h-9 w-9 text-lg font-black text-[#17191C] transition hover:text-[#c91f3a]"
+                          >
+                            −
+                          </button>
+
+                          <div className="w-8 text-center font-black text-[#17191C]">
+                            {item.quantity}
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => increaseItemQuantity(item.flavor)}
+                            className="h-9 w-9 text-lg font-black text-[#17191C] transition hover:text-[#c91f3a]"
+                          >
+                            +
+                          </button>
+                        </div>
+
+                        <span className="w-16 text-right font-black text-[#17191C]">
+                          ₱{item.subtotal}
+                        </span>
+
+                        <button
+                          type="button"
+                          onClick={() => removeItem(item.flavor)}
+                          className="text-xs font-black uppercase tracking-wide text-[#c91f3a] hover:opacity-75"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-end gap-3">
+              <div className="flex-1">
                 <label className="text-sm font-black text-[#17191C]">
-                  Select Product
+                  Add Another Flavor
                 </label>
 
                 <select
-                  value={flavor}
-                  onChange={(e) => setFlavor(e.target.value)}
+                  value={flavorToAdd}
+                  onChange={(e) => setFlavorToAdd(e.target.value)}
                   disabled={isLoadingFlavors || flavors.length === 0}
                   className="kk-input mt-2"
                 >
-                  {isLoadingFlavors ? (
-                      <option value="">Loading products...</option>
-                    ) : (
-                      flavors.map((item) => (
-                        <option
-                          key={item.name}
-                          value={item.name}
-                          disabled={!item.is_available}
-                        >
-                          {item.name} — ₱{item.price}
-                          {!item.is_available ? " — Sold Out" : ""}
-                        </option>
-                      ))
-                    )}
+                  <option value="">Choose a flavor...</option>
+                  {flavors.map((item) => (
+                    <option key={item.name} value={item.name} disabled={!item.is_available}>
+                      {item.name} — ₱{item.price}
+                      {!item.is_available ? " — Sold Out" : ""}
+                    </option>
+                  ))}
                 </select>
               </div>
 
-              <div>
-                <label className="text-sm font-black text-[#17191C]">
-                  Quantity
-                </label>
-
-                <div className="mt-2 flex items-center overflow-hidden rounded-[0.85rem] border border-[#E8E1DE] bg-[#FFF7F2]">
-                  <button
-                    type="button"
-                    onClick={decreaseQuantity}
-                    className="h-11 w-14 text-xl font-black text-[#17191C] transition hover:text-[#c91f3a]"
-                  >
-                    −
-                  </button>
-
-                  <div className="flex-1 text-center font-black text-[#17191C]">
-                    {quantity}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={increaseQuantity}
-                    className="h-11 w-14 text-xl font-black text-[#17191C] transition hover:text-[#c91f3a]"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
+              <button
+                type="button"
+                disabled={!flavorToAdd}
+                onClick={() => {
+                  addFlavorToOrder(flavorToAdd);
+                  setFlavorToAdd("");
+                }}
+                className="h-11 rounded-xl border border-[#17191C] px-4 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                + Add Another Flavor
+              </button>
             </div>
 
-            {isBundle && (
+            {hasBundle && (
               <p className="mt-4 rounded-[0.85rem] bg-[#F8E6E4] p-4 text-xs leading-5 text-[#17191C]">
                 Each bundle includes 3 jars in any flavor mix. Tell us your
                 flavor combination (e.g., 2 Original, 1 Spicy) in the Order
@@ -695,7 +793,7 @@ function OrderForm() {
               disabled={
                 isSubmitting ||
                 isLoadingFlavors ||
-                !flavor ||
+                enrichedItems.length === 0 ||
                 (captchaRequired && !turnstileToken)
               }
               className="mt-7 w-full rounded-xl bg-[#c91f3a] px-7 py-4 font-black text-white transition hover:-translate-y-0.5 hover:bg-[#a61930] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
@@ -705,12 +803,7 @@ function OrderForm() {
           </div>
         </div>
 
-        <OrderSummary
-          flavor={flavor}
-          quantity={quantity}
-          paymentMethod={paymentMethod}
-          pricePerPack={pricePerPack}
-        />
+        <OrderSummary items={enrichedItems} paymentMethod={paymentMethod} />
       </form>
     </section>
   );

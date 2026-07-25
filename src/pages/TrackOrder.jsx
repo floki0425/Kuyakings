@@ -6,6 +6,7 @@ import StatusBadge from "../components/ui/StatusBadge";
 import { seo } from "../lib/seo";
 import { supabase } from "../lib/supabaseClient";
 import { formatPeso } from "../lib/sales";
+import { getOrderLineItems } from "../lib/orderItems";
 
 function TrackOrder() {
   const [formData, setFormData] = useState({
@@ -182,8 +183,13 @@ function TrackOrder() {
 
               <InfoBox title="Order Summary">
                 <Detail label="Product" value={order.product_name} />
-                <Detail label="Product Option" value={order.flavor} />
-                <Detail label="Quantity" value={`${order.quantity} jar(s)`} />
+                {getOrderLineItems(order).map((item) => (
+                  <Detail
+                    key={item.flavor}
+                    label={item.flavor}
+                    value={`× ${item.quantity} — ${formatPeso(item.subtotal)}`}
+                  />
+                ))}
                 <Detail label="Subtotal" value={formatPeso(order.subtotal)} />
               </InfoBox>
             </div>

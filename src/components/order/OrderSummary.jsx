@@ -8,16 +8,8 @@ function JarIcon() {
   );
 }
 
-function OrderSummary({ flavor, quantity, paymentMethod, pricePerPack }) {
-  const subtotal = quantity * pricePerPack;
-  const isBundle = flavor?.toLowerCase().startsWith("bundle");
-
-  const lineItems = [
-    ["Product", "Kuya King's Beef Tapa"],
-    ["Product Option", flavor || "—"],
-    ["Quantity", `${quantity} ${isBundle ? "bundle(s)" : "jar(s)"}`],
-    ["Payment", paymentMethod],
-  ];
+function OrderSummary({ items, paymentMethod }) {
+  const subtotal = items.reduce((sum, item) => sum + item.subtotal, 0);
 
   return (
     <aside className="rounded-lg border border-[#E8E1DE] bg-white p-6 lg:sticky lg:top-24">
@@ -37,12 +29,35 @@ function OrderSummary({ flavor, quantity, paymentMethod, pricePerPack }) {
       </div>
 
       <div className="mt-6 divide-y divide-[#E8E1DE] border-y border-[#E8E1DE] text-sm">
-        {lineItems.map(([label, value]) => (
-          <div key={label} className="flex justify-between gap-4 py-3">
-            <span className="text-[#8a8580]">{label}</span>
-            <span className="font-bold text-[#17191C]">{value}</span>
+        <div className="flex justify-between gap-4 py-3">
+          <span className="text-[#8a8580]">Product</span>
+          <span className="font-bold text-[#17191C]">Kuya King&apos;s Beef Tapa</span>
+        </div>
+
+        {items.length === 0 ? (
+          <div className="flex justify-between gap-4 py-3">
+            <span className="text-[#8a8580]">Flavors</span>
+            <span className="font-bold text-[#17191C]">—</span>
           </div>
-        ))}
+        ) : (
+          items.map((item) => {
+            const isBundle = item.flavor.toLowerCase().startsWith("bundle");
+
+            return (
+              <div key={item.flavor} className="flex justify-between gap-4 py-3">
+                <span className="text-[#8a8580]">
+                  {item.flavor} × {item.quantity} {isBundle ? "bundle(s)" : "jar(s)"}
+                </span>
+                <span className="font-bold text-[#17191C]">₱{item.subtotal}</span>
+              </div>
+            );
+          })
+        )}
+
+        <div className="flex justify-between gap-4 py-3">
+          <span className="text-[#8a8580]">Payment</span>
+          <span className="font-bold text-[#17191C]">{paymentMethod}</span>
+        </div>
       </div>
 
       <div className="mt-4 space-y-2 text-sm">

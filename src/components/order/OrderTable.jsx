@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { brand } from "../../lib/constants";
 import { formatPeso, getOrderProfit } from "../../lib/sales";
+import { summarizeFlavors } from "../../lib/orderItems";
 import StatusSelect from "../ui/StatusSelect";
 
 const PAYMENT_STATUS_OPTIONS = ["Pending", "Paid", "COD", "Cancelled"];
@@ -82,7 +83,7 @@ function OrderTable({
                   </td>
 
                   <td className="px-5 py-4">
-                    <p className="text-[#17191C]">{order.flavor}</p>
+                    <p className="text-[#17191C]">{summarizeFlavors(order)}</p>
                     <p className="mt-0.5 text-xs text-[#8a8580]">
                       Qty {order.quantity}
                     </p>
