@@ -33,8 +33,12 @@ export async function getProducts() {
 }
 
 export async function createOrder(order) {
-	const { data, error } = await supabase.from("orders").insert([order]).select();
-	return { data, error };
+	// No .select() here: anon has an INSERT policy on orders but no SELECT
+	// policy, and Postgres refuses to return a row a role can't also read
+	// back under RLS. Requesting the row back turned every anonymous
+	// customer's order into a false "row-level security" failure.
+	const { error } = await supabase.from("orders").insert([order]);
+	return { error };
 }
 
 export async function getOrdersByEmail(email) {
@@ -48,8 +52,10 @@ export async function getOrdersForAdmin() {
 }
 
 export async function submitContactMessage(payload) {
-	const { data, error } = await supabase.from("contact_messages").insert([payload]).select();
-	return { data, error };
+	// Same reasoning as createOrder: anon can insert but has no SELECT
+	// policy on contact_messages, so requesting the row back would fail.
+	const { error } = await supabase.from("contact_messages").insert([payload]);
+	return { error };
 }
 
 export async function getContactMessagesForAdmin() {

@@ -5,8 +5,13 @@ import { supabase } from "../../lib/supabaseClient";
 import { getFlavors, createOrder } from "../../lib/api.js";
 import { usePaymentSettings } from "../../lib/usePaymentSettings";
 import { useSpamGuard } from "../../lib/antiSpam";
+import { classifyOrderError, buildOrderErrorMessage } from "../../lib/orderErrors";
 import HoneypotField from "../common/HoneypotField";
 import Turnstile from "../common/Turnstile";
+
+function generateOrderNumber() {
+  return `KK-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
+}
 
 const captchaRequired = Boolean(import.meta.env?.VITE_TURNSTILE_SITE_KEY);
 import {
@@ -95,9 +100,16 @@ function OrderForm() {
   const [proofError, setProofError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [submissionFailure, setSubmissionFailure] = useState(null);
   const [honeypot, setHoneypot] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
   const { isSpam } = useSpamGuard();
+
+  // Generated once per visit to this page and reused across retries, so a
+  // customer who hits "Try Again" keeps the same reference ID, and a retry
+  // that actually duplicates an already-successful attempt fails cleanly on
+  // the order_number unique constraint instead of creating a second order.
+  const [orderNumber] = useState(generateOrderNumber);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -186,6 +198,17 @@ function OrderForm() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    await attemptSubmit();
+  }
+
+  async function attemptSubmit() {
+    // Belt-and-suspenders guard against double submission -- the button is
+    // already disabled while isSubmitting, but this also protects the retry
+    // button and any Enter-key resubmission.
+    if (isSubmitting) return;
+
+    setSubmitError("");
+    setSubmissionFailure(null);
 
     if (isSpam(honeypot)) {
       setSubmitError("Something went wrong. Please try again.");
@@ -220,8 +243,6 @@ function OrderForm() {
     try {
       setIsSubmitting(true);
 
-      const orderNumber = `KK-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
-
       let proofOfPaymentUrl = null;
 
       if (paymentMethod !== "COD" && proofOfPayment) {
@@ -237,7 +258,7 @@ function OrderForm() {
 
         if (uploadError) {
           console.error("Proof upload error:", uploadError);
-          alert(`Proof of payment upload failed: ${uploadError.message}`);
+          setSubmissionFailure(buildOrderErrorMessage("payment", orderNumber));
           return;
         }
 
@@ -263,15 +284,17 @@ function OrderForm() {
           notes: formData.notes || null,
         };
 
-      const { data: orderData, error } = await createOrder(newOrder);
-
-      console.log("New order payload:", newOrder);
-      console.log("Create order response:", orderData, error);
+      const { error } = await createOrder(newOrder);
 
       if (error) {
-        setSubmitError(`Order failed: ${error.message}`);
+        // Full technical detail stays in the dev console only -- customers
+        // only ever see the classified, friendly message below.
+        console.error("Order submission error:", error, "payload:", newOrder);
+        setSubmissionFailure(buildOrderErrorMessage(classifyOrderError(error), orderNumber));
         return;
       }
+
+      console.log("Order submitted:", orderNumber);
 
       localStorage.setItem(
         "latestOrder",
@@ -289,7 +312,7 @@ function OrderForm() {
       navigate("/thank-you");
     } catch (err) {
       console.error("Unexpected order error:", err);
-        setSubmitError(`Something went wrong: ${err.message}`);
+      setSubmissionFailure(buildOrderErrorMessage(classifyOrderError(err), orderNumber));
     } finally {
       setIsSubmitting(false);
     }
@@ -623,10 +646,43 @@ function OrderForm() {
               )}
             </div>
 
-              {submitError && (
-                <div className="mt-6 rounded-[0.85rem] border border-red-200 bg-red-50 p-4 text-sm font-bold leading-6 text-red-700">
-                  {submitError}
+              {submissionFailure ? (
+                <div className="mt-6 rounded-[0.85rem] border border-red-200 bg-red-50 p-5">
+                  <p className="font-black text-red-800">{submissionFailure.title}</p>
+                  <p className="mt-1.5 text-sm leading-6 text-red-700">
+                    {submissionFailure.message}
+                  </p>
+                  <p className="mt-3 text-xs leading-5 text-red-700">
+                    If the problem continues, contact Kuya King&apos;s and provide this
+                    reference ID: <span className="font-black">{submissionFailure.referenceId}</span>
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    <button
+                      type="button"
+                      onClick={attemptSubmit}
+                      disabled={isSubmitting}
+                      className="rounded-xl bg-[#c91f3a] px-5 py-2.5 text-sm font-black text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {isSubmitting ? "Retrying..." : "Try Again"}
+                    </button>
+
+                    <a
+                      href="/contact"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded-xl border border-red-300 px-5 py-2.5 text-sm font-black text-red-700 transition hover:bg-red-100"
+                    >
+                      Contact Kuya King&apos;s
+                    </a>
+                  </div>
                 </div>
+              ) : (
+                submitError && (
+                  <div className="mt-6 rounded-[0.85rem] border border-red-200 bg-red-50 p-4 text-sm font-bold leading-6 text-red-700">
+                    {submitError}
+                  </div>
+                )
               )}
 
             <Turnstile
