@@ -72,16 +72,86 @@ function StepHeader({ number, title }) {
 }
 
 function PaymentQr({ url, label }) {
+  const [expanded, setExpanded] = useState(false);
+
   if (!url) return null;
 
   return (
-    <div className="mt-3">
-      <img
-        src={url}
-        alt={`${label} QR code`}
-        className="h-40 w-40 rounded-[0.85rem] border border-[#E8E1DE] bg-white object-contain p-2"
-      />
-      <p className="mt-1.5 text-xs text-[#8a8580]">Scan to pay via {label}.</p>
+    <>
+      <button type="button" onClick={() => setExpanded(true)} className="mt-3 block text-left">
+        <img
+          src={url}
+          alt={`${label} QR code`}
+          className="h-40 w-40 rounded-[0.85rem] border border-[#E8E1DE] bg-white object-contain p-2 transition hover:opacity-80"
+        />
+        <p className="mt-1.5 text-xs text-[#8a8580]">
+          Tap to view larger &bull; Scan to pay via {label}.
+        </p>
+      </button>
+
+      {expanded && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6"
+          onClick={() => setExpanded(false)}
+        >
+          <div
+            className="rounded-lg bg-white p-6 text-center"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <img
+              src={url}
+              alt={`${label} QR code`}
+              className="h-72 w-72 object-contain sm:h-80 sm:w-80"
+            />
+            <p className="mt-3 text-sm font-bold text-[#17191C]">
+              Scan to pay via {label}
+            </p>
+            <button
+              type="button"
+              onClick={() => setExpanded(false)}
+              className="mt-4 w-full rounded-xl border border-[#17191C] py-2 text-sm font-black text-[#17191C] transition hover:bg-[#17191C] hover:text-white"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+function CopyIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-3.5 w-3.5 fill-none stroke-current stroke-[1.8]">
+      <rect x="8.5" y="8.5" width="11" height="11" rx="1.6" />
+      <path d="M5.5 15.5v-9a1.6 1.6 0 0 1 1.6-1.6h9" />
+    </svg>
+  );
+}
+
+function CopyableDetail({ label, value }) {
+  const [copied, setCopied] = useState(false);
+
+  function handleCopy() {
+    navigator.clipboard.writeText(value);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  }
+
+  return (
+    <div className="flex items-center justify-between gap-3 py-0.5">
+      <span>
+        {label}: <span className="font-bold text-[#17191C]">{value}</span>
+      </span>
+
+      <button
+        type="button"
+        onClick={handleCopy}
+        className="inline-flex flex-shrink-0 items-center gap-1 rounded-lg border border-[#E8E1DE] bg-white px-2 py-1 text-xs font-black text-[#c91f3a] transition hover:bg-[#F8E6E4]"
+      >
+        <CopyIcon />
+        {copied ? "Copied!" : "Copy"}
+      </button>
     </div>
   );
 }
@@ -98,6 +168,7 @@ function OrderForm() {
   const [paymentMethod, setPaymentMethod] = useState("GCash");
   const [deliveryOption, setDeliveryOption] = useState("Lalamove / Grab / Toktok");
   const [proofOfPayment, setProofOfPayment] = useState(null);
+  const [proofPreviewUrl, setProofPreviewUrl] = useState(null);
   const [proofError, setProofError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -223,6 +294,11 @@ function OrderForm() {
     setSubmitError("");
     setProofError("");
 
+    setProofPreviewUrl((prevUrl) => {
+      if (prevUrl) URL.revokeObjectURL(prevUrl);
+      return null;
+    });
+
     if (!file) {
       setProofOfPayment(null);
       return;
@@ -240,6 +316,7 @@ function OrderForm() {
     }
 
     setProofOfPayment(file);
+    setProofPreviewUrl(URL.createObjectURL(file));
   }
 
   async function handleSubmit(event) {
@@ -654,6 +731,70 @@ function OrderForm() {
               ))}
             </div>
 
+            <div className="mt-6 rounded-[0.85rem] bg-[#FFF7F2] p-4 text-sm leading-6 text-[#5F5B58]">
+              {paymentMethod === "GCash" && (
+                <div>
+                  <p className="font-black text-[#17191C]">GCash Payment Details</p>
+                  {paymentSettings.gcash.account_name && paymentSettings.gcash.account_number ? (
+                    <>
+                      <CopyableDetail label="Name" value={paymentSettings.gcash.account_name} />
+                      <CopyableDetail label="Number" value={paymentSettings.gcash.account_number} />
+                    </>
+                  ) : (
+                    <p>
+                      Payment details aren&apos;t set up yet. Please contact
+                      us before sending payment.
+                    </p>
+                  )}
+                  <PaymentQr url={paymentSettings.gcash.qr_code_url} label="GCash" />
+                </div>
+              )}
+
+              {paymentMethod === "Maya" && (
+                <div>
+                  <p className="font-black text-[#17191C]">Maya Payment Details</p>
+                  {paymentSettings.maya.account_name && paymentSettings.maya.account_number ? (
+                    <>
+                      <CopyableDetail label="Name" value={paymentSettings.maya.account_name} />
+                      <CopyableDetail label="Number" value={paymentSettings.maya.account_number} />
+                    </>
+                  ) : (
+                    <p>
+                      Payment details aren&apos;t set up yet. Please contact
+                      us before sending payment.
+                    </p>
+                  )}
+                  <PaymentQr url={paymentSettings.maya.qr_code_url} label="Maya" />
+                </div>
+              )}
+
+              {paymentMethod === "Bank Transfer" && (
+                <div>
+                  <p className="font-black text-[#17191C]">Bank Transfer Details</p>
+                  {paymentSettings.bank.bank_name && paymentSettings.bank.account_number ? (
+                    <>
+                      <CopyableDetail label="Bank" value={paymentSettings.bank.bank_name} />
+                      <CopyableDetail label="Account Name" value={paymentSettings.bank.account_name} />
+                      <CopyableDetail label="Account Number" value={paymentSettings.bank.account_number} />
+                    </>
+                  ) : (
+                    <p>
+                      Payment details aren&apos;t set up yet. Please contact
+                      us before sending payment.
+                    </p>
+                  )}
+                  <PaymentQr url={paymentSettings.bank.qr_code_url} label="Bank Transfer" />
+                </div>
+              )}
+
+              {paymentMethod === "COD" && (
+                <div>
+                  <p className="font-black text-[#17191C]">Cash on Delivery</p>
+                  <p>The owner will confirm if COD is available for your area.</p>
+                </div>
+              )}
+            </div>
+
             {paymentMethod !== "COD" && (
               <div className="mt-6">
                 <label className="text-sm font-black text-[#17191C]">
@@ -677,72 +818,26 @@ function OrderForm() {
                     {proofError}
                   </p>
                 )}
+
+                {proofPreviewUrl && (
+                  <div className="mt-3 flex items-center gap-3 rounded-[0.85rem] border border-[#E8E1DE] bg-white p-3">
+                    <img
+                      src={proofPreviewUrl}
+                      alt="Proof of payment preview"
+                      className="h-16 w-16 flex-shrink-0 rounded-lg object-cover"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-xs font-bold text-[#17191C]">
+                        {proofOfPayment?.name}
+                      </p>
+                      <p className="text-xs text-[#8a8580]">
+                        {formatBytes(proofOfPayment?.size || 0)}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
-
-            <div className="mt-6 rounded-[0.85rem] bg-[#FFF7F2] p-4 text-sm leading-6 text-[#5F5B58]">
-              {paymentMethod === "GCash" && (
-                <div>
-                  <p className="font-black text-[#17191C]">GCash Payment Details</p>
-                  {paymentSettings.gcash.account_name && paymentSettings.gcash.account_number ? (
-                    <>
-                      <p>Name: {paymentSettings.gcash.account_name}</p>
-                      <p>Number: {paymentSettings.gcash.account_number}</p>
-                    </>
-                  ) : (
-                    <p>
-                      Payment details aren&apos;t set up yet. Please contact
-                      us before sending payment.
-                    </p>
-                  )}
-                  <PaymentQr url={paymentSettings.gcash.qr_code_url} label="GCash" />
-                </div>
-              )}
-
-              {paymentMethod === "Maya" && (
-                <div>
-                  <p className="font-black text-[#17191C]">Maya Payment Details</p>
-                  {paymentSettings.maya.account_name && paymentSettings.maya.account_number ? (
-                    <>
-                      <p>Name: {paymentSettings.maya.account_name}</p>
-                      <p>Number: {paymentSettings.maya.account_number}</p>
-                    </>
-                  ) : (
-                    <p>
-                      Payment details aren&apos;t set up yet. Please contact
-                      us before sending payment.
-                    </p>
-                  )}
-                  <PaymentQr url={paymentSettings.maya.qr_code_url} label="Maya" />
-                </div>
-              )}
-
-              {paymentMethod === "Bank Transfer" && (
-                <div>
-                  <p className="font-black text-[#17191C]">Bank Transfer Details</p>
-                  {paymentSettings.bank.bank_name && paymentSettings.bank.account_number ? (
-                    <>
-                      <p>Bank: {paymentSettings.bank.bank_name}</p>
-                      <p>Account Name: {paymentSettings.bank.account_name}</p>
-                      <p>Account Number: {paymentSettings.bank.account_number}</p>
-                    </>
-                  ) : (
-                    <p>
-                      Payment details aren&apos;t set up yet. Please contact
-                      us before sending payment.
-                    </p>
-                  )}
-                  <PaymentQr url={paymentSettings.bank.qr_code_url} label="Bank Transfer" />
-                </div>
-              )}
-
-              {paymentMethod === "COD" && (
-                <div>
-                  <p className="font-black text-[#17191C]">Cash on Delivery</p>
-                  <p>The owner will confirm if COD is available for your area.</p>
-                </div>
-              )}
-            </div>
 
               {submissionFailure ? (
                 <div className="mt-6 rounded-[0.85rem] border border-red-200 bg-red-50 p-5">
