@@ -21,6 +21,7 @@ import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import Analytics from "./components/layout/Analytics";
 import MessengerButton from "./components/layout/MessengerButton";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 
 
@@ -32,6 +33,7 @@ function App() {
       <ScrollToTop />
       <Analytics />
       <MessengerButton />
+      <SpeedInsights />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/order" element={<Order />} />

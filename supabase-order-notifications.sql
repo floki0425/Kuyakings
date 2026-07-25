@@ -1,17 +1,16 @@
--- Kuya King's automated order-status notifications (email + SMS)
+-- Kuya King's automated order-status notifications (email)
 --
 -- What this does: attaches a trigger to public.orders so that every time a
 -- new order is placed, or an admin changes payment_status/order_status in
--- the dashboard, the customer automatically gets an email (via EmailJS) and
--- an SMS (via Semaphore, a Philippines SMS gateway). No backend server or
--- Supabase Edge Function needed -- the trigger calls both APIs directly
--- from Postgres using the pg_net extension.
+-- the dashboard, the customer automatically gets an email (via EmailJS). No
+-- backend server or Supabase Edge Function needed -- the trigger calls the
+-- EmailJS API directly from Postgres using the pg_net extension.
 --
--- BEFORE YOU RUN THIS, you need two free third-party accounts (you don't
--- have a custom domain yet, so these were picked specifically because
--- neither one requires domain verification):
+-- BEFORE YOU RUN THIS, you need a free EmailJS account (you don't have a
+-- custom domain yet, so this was picked specifically because it doesn't
+-- require domain verification):
 --
--- 1) EmailJS (https://www.emailjs.com) -- lets you send email from your own
+-- EmailJS (https://www.emailjs.com) -- lets you send email from your own
 --    Gmail account to any customer, no domain needed.
 --    - Sign up, then Email Services > Add New Service > connect your Gmail.
 --    - Email Templates > Create Template. Set "To Email" to {{to_email}}.
@@ -22,17 +21,13 @@
 --      calls come from Postgres, not a browser).
 --    - Copy the Service ID and Template ID from the service/template pages.
 --
--- 2) Semaphore (https://semaphore.co) -- Philippines SMS API, pay-per-SMS
---    (roughly P0.50-1/message). Sign up, load credits, and copy your API Key
---    from the dashboard.
---
--- Once you have all 5 values, replace the 'REPLACE_WITH_...' placeholders
+-- Once you have all 4 values, replace the 'REPLACE_WITH_...' placeholders
 -- below before running this file. If you'd rather run this first and fill
 -- in keys later, see the "update a secret later" note near the bottom.
 --
--- Notifications never block or fail an order: if EmailJS/Semaphore is
--- unreachable or a key is wrong, the order still saves normally and the
--- notification is just silently skipped.
+-- Notifications never block or fail an order: if EmailJS is unreachable or
+-- a key is wrong, the order still saves normally and the notification is
+-- just silently skipped.
 
 begin;
 
@@ -54,9 +49,6 @@ begin
   if not exists (select 1 from vault.secrets where name = 'emailjs_private_key') then
     perform vault.create_secret('REPLACE_WITH_EMAILJS_PRIVATE_KEY', 'emailjs_private_key');
   end if;
-  if not exists (select 1 from vault.secrets where name = 'semaphore_api_key') then
-    perform vault.create_secret('REPLACE_WITH_SEMAPHORE_API_KEY', 'semaphore_api_key');
-  end if;
 end $$;
 
 create or replace function public.notify_order_event()
@@ -70,9 +62,7 @@ declare
   v_emailjs_template_id text;
   v_emailjs_public_key text;
   v_emailjs_private_key text;
-  v_semaphore_api_key text;
   v_message text;
-  v_phone text;
 begin
   if tg_op = 'INSERT' then
     v_message := format(
@@ -111,7 +101,6 @@ begin
   select decrypted_secret into v_emailjs_template_id from vault.decrypted_secrets where name = 'emailjs_template_id';
   select decrypted_secret into v_emailjs_public_key from vault.decrypted_secrets where name = 'emailjs_public_key';
   select decrypted_secret into v_emailjs_private_key from vault.decrypted_secrets where name = 'emailjs_private_key';
-  select decrypted_secret into v_semaphore_api_key from vault.decrypted_secrets where name = 'semaphore_api_key';
 
   -- Email via EmailJS (skipped if the customer left no email, or keys aren't set yet)
   if new.email is not null and coalesce(v_emailjs_service_id, '') not like 'REPLACE_%' then
@@ -137,25 +126,6 @@ begin
     end;
   end if;
 
-  -- SMS via Semaphore (phone is required on every order)
-  v_phone := regexp_replace(new.phone, '[^0-9]', '', 'g');
-
-  if v_phone <> '' and coalesce(v_semaphore_api_key, '') not like 'REPLACE_%' then
-    begin
-      perform net.http_post(
-        url := 'https://api.semaphore.co/api/v4/messages',
-        headers := jsonb_build_object('Content-Type', 'application/json'),
-        body := jsonb_build_object(
-          'apikey', v_semaphore_api_key,
-          'number', v_phone,
-          'message', v_message
-        )
-      );
-    exception when others then
-      null;
-    end;
-  end if;
-
   return new;
 end;
 $$;
@@ -176,5 +146,5 @@ commit;
 -- To confirm notifications are actually firing after a test order, check
 -- the queued HTTP requests and their responses:
 --   select * from net._http_response order by created desc limit 5;
--- A non-2xx status there means the provider rejected the request (wrong
--- key, unverified template, etc.) -- the error body will say why.
+-- A non-2xx status there means EmailJS rejected the request (wrong key,
+-- unverified template, etc.) -- the error body will say why.

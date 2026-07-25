@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 const SITE_KEY = import.meta.env?.VITE_TURNSTILE_SITE_KEY ?? "";
-const SCRIPT_SRC = "https://challenge.cloudflare.com/turnstile/v0/api.js";
+const SCRIPT_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js";
 
 let scriptPromise = null;
 

@@ -21,3 +21,6 @@ pnpm-debug.log*
 # Editor
 .vscode
 .DS_Store
+.vercel
+.env*
+supabase/.temp
