@@ -37,7 +37,7 @@ export function businessJsonLd({ canonicalUrl, imageUrl }) {
       areaServed: brand.location,
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Metro Manila",
+        addressLocality: "Paranaque",
         addressCountry: "PH",
       },
       openingHoursSpecification: {

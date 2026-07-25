@@ -5,7 +5,7 @@ export const brand = {
   description:
     "Homemade beef tapa made with pure beef, a special marinade, and small-batch flavor. Order Kuya King's Beef Tapa online in Metro Manila.",
   siteUrl: "https://www.kuyakings.com",
-  location: "Metro Manila, Philippines",
+  location: "Paranaque, Metro Manila",
   hours: "8:00 AM – 10:00 PM, Daily",
   hoursSchema: { opens: "08:00", closes: "22:00" },
   keywords: [
@@ -19,7 +19,7 @@ export const brand = {
   ],
   pricePerPack: 300, // starting price; per-flavor pricing is managed in Supabase product_flavors
   profitRate: 0.4,
-  phone: "09364053573",
+  phone: "09154807821",
   facebook: "Kuya King's",
   facebookLink: "https://www.facebook.com/KuyaKingsPasta",
   instagram: "kuyakingspasta",
