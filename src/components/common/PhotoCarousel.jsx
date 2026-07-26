@@ -104,14 +104,14 @@ function PhotoCarousel({
         {photos.map((photo, index) => (
           <div
             key={photo.id}
-            className="aspect-[4/3] w-full flex-shrink-0 snap-start snap-always"
+            className="h-[320px] w-full flex-shrink-0 snap-start snap-always bg-[#FFF7F2] min-[421px]:h-[400px] lg:h-[460px]"
           >
             <img
               src={photo.url}
               alt={photo.alt || "Kuya King's customer photo"}
               loading={index === 0 ? "eager" : "lazy"}
               decoding="async"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain"
             />
           </div>
         ))}
