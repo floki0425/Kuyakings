@@ -29,7 +29,7 @@ function Reviews() {
         <Reveal
           as="div"
           delay={80}
-          className="kk-reviews-carousel mx-auto mt-10 max-w-3xl"
+          className="kk-reviews-carousel mx-auto mt-10 max-w-md"
         >
           <PhotoCarousel photos={reviewPhotos} />
         </Reveal>

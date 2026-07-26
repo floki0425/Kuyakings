@@ -105,7 +105,7 @@ function PhotoCarousel({
           {photos.map((photo, index) => (
             <div
               key={photo.id}
-              className="h-[320px] w-full flex-shrink-0 snap-start snap-always bg-[#FFF7F2] min-[421px]:h-[400px] lg:h-[460px]"
+              className="aspect-[4/5] w-full flex-shrink-0 snap-start snap-always bg-[#FFF7F2]"
             >
               <img
                 src={photo.url}
