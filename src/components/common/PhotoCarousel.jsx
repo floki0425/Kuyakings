@@ -16,7 +16,7 @@ function ArrowIcon({ direction = "next" }) {
 
 function PhotoCarousel({
   photos,
-  autoplay = true,
+  autoplay = false,
   interval = 5000,
   className = "",
 }) {
@@ -88,70 +88,74 @@ function PhotoCarousel({
   if (photos.length === 0) return null;
 
   return (
-    <div
-      className={`kk-carousel relative ${className}`}
-      onMouseEnter={pause}
-      onMouseLeave={resume}
-      onTouchStart={pause}
-      onTouchEnd={resume}
-      onFocus={pause}
-      onBlur={resume}
-    >
+    <div className={`kk-carousel rounded-lg border border-[#E8E1DE] bg-white p-3 ${className}`}>
       <div
-        ref={trackRef}
-        className="kk-no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-lg"
+        className="relative"
+        onMouseEnter={pause}
+        onMouseLeave={resume}
+        onTouchStart={pause}
+        onTouchEnd={resume}
+        onFocus={pause}
+        onBlur={resume}
       >
-        {photos.map((photo, index) => (
-          <div
-            key={photo.id}
-            className="h-[320px] w-full flex-shrink-0 snap-start snap-always bg-[#FFF7F2] min-[421px]:h-[400px] lg:h-[460px]"
-          >
-            <img
-              src={photo.url}
-              alt={photo.alt || "Kuya King's customer photo"}
-              loading={index === 0 ? "eager" : "lazy"}
-              decoding="async"
-              className="h-full w-full object-contain"
-            />
-          </div>
-        ))}
+        <div
+          ref={trackRef}
+          className="kk-no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-lg"
+        >
+          {photos.map((photo, index) => (
+            <div
+              key={photo.id}
+              className="h-[320px] w-full flex-shrink-0 snap-start snap-always bg-[#FFF7F2] min-[421px]:h-[400px] lg:h-[460px]"
+            >
+              <img
+                src={photo.url}
+                alt={photo.alt || "Kuya King's customer photo"}
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
+                className="h-full w-full object-contain"
+              />
+            </div>
+          ))}
+        </div>
+
+        {photos.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={() => goTo(activeIndexRef.current - 1)}
+              aria-label="Previous photo"
+              className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#E8E1DE] bg-white/90 text-[#17191C] shadow-sm transition hover:bg-[#17191C] hover:text-white"
+            >
+              <ArrowIcon direction="prev" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => goTo(activeIndexRef.current + 1)}
+              aria-label="Next photo"
+              className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#E8E1DE] bg-white/90 text-[#17191C] shadow-sm transition hover:bg-[#17191C] hover:text-white"
+            >
+              <ArrowIcon direction="next" />
+            </button>
+          </>
+        )}
       </div>
 
       {photos.length > 1 && (
-        <>
-          <button
-            type="button"
-            onClick={() => goTo(activeIndexRef.current - 1)}
-            aria-label="Previous photo"
-            className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#E8E1DE] bg-white/90 text-[#17191C] shadow-sm transition hover:bg-[#17191C] hover:text-white"
-          >
-            <ArrowIcon direction="prev" />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => goTo(activeIndexRef.current + 1)}
-            aria-label="Next photo"
-            className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#E8E1DE] bg-white/90 text-[#17191C] shadow-sm transition hover:bg-[#17191C] hover:text-white"
-          >
-            <ArrowIcon direction="next" />
-          </button>
-
-          <div className="mt-4 flex justify-center gap-2">
-            {photos.map((photo, index) => (
-              <button
-                key={photo.id}
-                type="button"
-                aria-label={`Go to photo ${index + 1}`}
-                aria-current={index === activeIndex}
-                onClick={() => goTo(index)}
-                className={`h-2 rounded-full transition-all ${
-                  index === activeIndex ? "w-6 bg-[#c91f3a]" : "w-2 bg-[#E8E1DE]"
-                }`}
-              />
-            ))}
-          </div>
-        </>
+        <div className="mt-3 flex justify-center gap-2">
+          {photos.map((photo, index) => (
+            <button
+              key={photo.id}
+              type="button"
+              aria-label={`Go to photo ${index + 1}`}
+              aria-current={index === activeIndex}
+              onClick={() => goTo(index)}
+              className={`h-2 rounded-full transition-all ${
+                index === activeIndex ? "w-6 bg-[#c91f3a]" : "w-2 bg-[#E8E1DE]"
+              }`}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
