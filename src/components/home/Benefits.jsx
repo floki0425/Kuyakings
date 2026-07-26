@@ -78,42 +78,22 @@ function Benefits() {
       <div className="kk-story-layout mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-14">
         <Reveal className="kk-story-content">
           <p className="kk-story-eyebrow text-xs font-black uppercase tracking-widest text-[#C91F3A]">
-            Everyday, from the heart
+            Everyday from the heart - since day one 
           </p>
 
           <h2 className="kk-story-heading mt-3 max-w-xl font-serif text-4xl font-bold leading-[1.02] text-[#17191C] min-[421px]:text-5xl">
-            Homemade Goodness
-            <span className="block">In Every Bite.</span>
+           Born During the Pandemic,
+            <span className="block"> Built with Passion.</span>
           </h2>
 
           <p className="kk-story-copy mt-5 max-w-lg text-base leading-7 text-[#5F5B58]">
-            Our very first batch was made the same way Beef Tapa should
-            be&mdash;simple, real, and honest. That&apos;s why our tapa
-            still tastes like home to so many today. Made from 100%
-            homemade passion.
+           Kuya King's was born during the height of the pandemic, when uncertainty inspired creativity and resilience. What started as a humble home-based venture became a way to share delicious, homemade meals with the community. Driven by passion, quality, and the desire to bring comfort through food, Kuya King's continues to serve flavorful favorites that remind customers of home, wherever they go.
+
+
+
           </p>
 
-          <div className="kk-story-highlights mt-8 grid gap-x-6 gap-y-6 sm:grid-cols-2">
-            {highlights.map((item, index) => (
-              <Reveal
-                key={item.title}
-                delay={index * 90}
-                className="kk-story-highlight flex gap-3"
-              >
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-[#c91f3a]/30 bg-[#F8E6E4] text-[#c91f3a] [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-[1.5]">
-                  {item.icon}
-                </div>
-                <div className="min-w-0">
-                  <h3 className="text-sm font-black leading-5 text-[#17191C]">
-                    {item.title}
-                  </h3>
-                  <p className="mt-1 text-xs leading-5 text-[#6F6F70]">
-                    {item.text}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+         
 
           <Link
             to="/about"
@@ -124,15 +104,52 @@ function Benefits() {
           </Link>
         </Reveal>
 
-        <Reveal delay={120}>
-          <IllustratedPanel
-            icon={<BatchIcon />}
-            caption="Homemade Goodness"
-            label="From our kitchen"
-            imageUrl={photos.story}
-            imageAlt="Kuya King's Beef Tapa, homemade goodness"
-            className="kk-story-media h-[320px] w-full rounded-lg min-[421px]:h-[400px] lg:h-[460px]"
-          />
+        <Reveal delay={120} className="kk-story-media">
+          <div className="grid aspect-[4/3] w-full grid-cols-[0.85fr_1fr] grid-rows-2 gap-3 min-[421px]:gap-4">
+            <Link
+              to="/about"
+              aria-label="Read our full story"
+              className="col-start-2 row-start-1 block h-full w-full overflow-hidden rounded-lg transition hover:opacity-90"
+            >
+              <IllustratedPanel
+                icon={<BatchIcon />}
+                caption="Homemade Goodness"
+                label="From our kitchen"
+                imageUrl={photos["about-2"]}
+                imageAlt="Kuya King's Beef Tapa, homemade goodness"
+                className="h-full w-full rounded-lg"
+              />
+            </Link>
+            <Link
+              to="/about"
+              aria-label="Read our full story"
+              className="col-start-1 row-span-2 row-start-1 block h-full w-full overflow-hidden rounded-lg transition hover:opacity-90"
+            >
+              <IllustratedPanel
+                icon={<MarinadeIcon />}
+                caption="Family Recipe"
+                label="Passed down with love"
+                
+                imageUrl={photos.about}
+                imageAlt="Kuya King's Beef Tapa family recipe"
+                className="h-full w-full rounded-lg"
+              />
+            </Link>
+            <Link
+              to="/about"
+              aria-label="Read our full story"
+              className="col-start-2 row-start-2 block h-full w-full overflow-hidden rounded-lg transition hover:opacity-90"
+            >
+              <IllustratedPanel
+                icon={<MealIcon />}
+                caption="Humble Beginnings"
+                label="Where it all started"
+                imageUrl={photos["about-3"]}
+                imageAlt="Kuya King's Beef Tapa homemade beginnings"
+                className="h-full w-full rounded-lg"
+              />
+            </Link>
+          </div>
         </Reveal>
       </div>
     </section>

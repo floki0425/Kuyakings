@@ -17,11 +17,6 @@ const PHOTO_SLOTS = [
     note: "Homepage top banner",
   },
   {
-    id: "story",
-    title: "Our Story Photo",
-    note: "Homepage \"Our Story\" section",
-  },
-  {
     id: "pairing-rice",
     title: "Garlic Rice Photo",
     note: "Homepage \"Perfect Pair\" section",
@@ -54,7 +49,17 @@ const PHOTO_SLOTS = [
   {
     id: "about",
     title: "About Page Photo",
-    note: "About page intro",
+    note: "About page intro (top photo). Also shown on the homepage \"Our Story\" section.",
+  },
+  {
+    id: "about-2",
+    title: "About Page Photo 2",
+    note: "About page \"family recipe\" section. Also shown on the homepage \"Our Story\" section.",
+  },
+  {
+    id: "about-3",
+    title: "About Page Photo 3",
+    note: "About page \"how it started\" section. Also shown on the homepage \"Our Story\" section.",
   },
   {
     id: "process-page",

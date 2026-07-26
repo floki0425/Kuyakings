@@ -56,7 +56,7 @@ const Hero = () => {
       <h1 className="kk-hero-heading">
         <span>Homemade</span>
         <span>Beef Tapa.</span>
-        <span className="kk-hero-heading-accent">Made to Crave.</span>
+        <span className="kk-hero-heading-accent">Your Perfect On-the-Go Filipino Favorite.</span>
       </h1>
 
       <p className="kk-hero-supporting">

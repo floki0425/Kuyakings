@@ -90,48 +90,97 @@ function About() {
       <Header />
 
       <section className="px-5 py-14 min-[421px]:py-20 lg:py-24">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          <div className="kk-fade-in">
-            <p className="text-xs font-black uppercase tracking-widest text-[#C91F3A]">
-              About Us
-            </p>
+        <div className="mx-auto max-w-7xl space-y-14 min-[421px]:space-y-16 lg:space-y-20">
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+            <div className="kk-fade-in">
+              <p className="text-xs font-black uppercase tracking-widest text-[#C91F3A]">
+                Our Story
+              </p>
 
-            <h1 className="mt-3 max-w-xl font-serif text-4xl font-bold leading-[1.02] text-[#17191C] min-[421px]:text-5xl">
-              Homemade Goodness.
-              <span className="block">Made With Honesty.</span>
-            </h1>
+              <h1 className="mt-3 max-w-xl font-serif text-4xl font-bold leading-[1.02] text-[#17191C] min-[421px]:text-5xl">
+                Born from a Passion, Built Through Resilience.
+              </h1>
 
-            <p className="mt-5 max-w-lg text-base leading-7 text-[#5F5B58]">
-              Our very first batch was made the same way Beef Tapa should
-              be&mdash;simple, real, and honest. That&apos;s why our tapa
-              still tastes like home to so many today.
-            </p>
+              <p className="mt-5 max-w-lg text-base leading-7 text-[#5F5B58]">
+                Our very first batch was made the same way Beef Tapa should
+                be&mdash;simple, real, and honest. That&apos;s why our tapa
+                still tastes like home to so many today.
+              </p>
 
-            <p className="mt-4 max-w-lg text-base leading-7 text-[#5F5B58]">
-              Every jar of Kuya King&apos;s starts with 100% pure beef, our
-              own signature marinade, and a small-batch process we haven&apos;t
-              cut corners on since day one. We&apos;re not a factory line
-              &mdash; we&apos;re a homemade kitchen that happens to deliver
-              across Metro Manila.
-            </p>
+              <p className="mt-4 max-w-lg text-base leading-7 text-[#5F5B58]">
+                Every jar of Kuya King&apos;s starts with 100% pure beef, our
+                own signature marinade, and a small-batch process we haven&apos;t
+                cut corners on since day one. We&apos;re not a factory line
+                &mdash; we&apos;re a homemade kitchen that happens to deliver
+                across Metro Manila.
+              </p>
 
-            <Link
-              to="/order"
-              className="mt-7 inline-flex items-center justify-center rounded-xl bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
-            >
-              Order Now
-            </Link>
+              <Link
+                to="/order"
+                className="mt-7 inline-flex items-center justify-center rounded-xl bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
+              >
+                Order Now
+              </Link>
+            </div>
+
+            <IllustratedPanel
+              icon={<MarinadeIcon />}
+              caption="Family Recipe"
+              label="Passed down with love"
+              imageUrl={photos["about-2"]}
+              imageAlt="Kuya King's Beef Tapa family recipe"
+              className="kk-fade-in aspect-[4/3] w-full rounded-lg"
+              style={{ animationDelay: "120ms" }}
+            />
           </div>
 
-          <IllustratedPanel
-            icon={<BatchIcon />}
-            caption="Homemade Goodness"
-            label="From our kitchen"
-            imageUrl={photos.about}
-            imageAlt="Kuya King's Beef Tapa being prepared and packed"
-            className="kk-fade-in h-[320px] w-full rounded-lg min-[421px]:h-[400px] lg:h-[460px]"
-            style={{ animationDelay: "120ms" }}
-          />
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+            <IllustratedPanel
+              icon={<BatchIcon />}
+              caption="Homemade Goodness"
+              label="From our kitchen"
+              imageUrl={photos.about}
+              imageAlt="Kuya King's Beef Tapa being prepared and packed"
+              className="kk-fade-in order-2 aspect-[4/3] w-full rounded-lg lg:order-1"
+            />
+
+            <div className="kk-fade-in order-1 lg:order-2">
+              <p className="max-w-lg text-base leading-7 text-[#5F5B58]">
+                At the heart of Kuya King&apos;s is a family recipe passed
+                down by our parents, a recipe rooted in love, tradition, and
+                home-cooked goodness. Long before the business started, this
+                special beef tapa was already a favorite among my high school
+                classmates. Whenever I brought it as packed lunch, it would
+                quickly become the most requested meal at the table. Years
+                later, many of those same friends still ask for it and crave
+                the familiar taste they grew up enjoying.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+            <div className="kk-fade-in">
+              <p className="max-w-lg text-base leading-7 text-[#5F5B58]">
+                Inspired by these memories and the positive response from our
+                growing community, we decided to turn our passion into a
+                business. Today, Kuya King&apos;s continues to serve the same
+                homemade flavors that brought people together during
+                challenging times, proving that the best recipes are not just
+                about food, but about the stories, connections, and memories
+                they create.
+              </p>
+            </div>
+
+            <IllustratedPanel
+              icon={<MealIcon />}
+              caption="Humble Beginnings"
+              label="Where it all started"
+              imageUrl={photos["about-3"]}
+              imageAlt="Kuya King's Beef Tapa homemade beginnings"
+              className="kk-fade-in aspect-[4/3] w-full rounded-lg"
+            />
+          </div>
+
         </div>
       </section>
 
