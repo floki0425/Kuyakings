@@ -160,6 +160,17 @@ create table if not exists public.site_text_content (
   updated_at timestamptz not null default now()
 );
 
+-- Customer photos shown in the homepage Reviews carousel. One row per photo
+-- (not a single-URL slot like site_photo_slots) so the admin can upload,
+-- reorder, and delete any number of them independently.
+create table if not exists public.review_photos (
+  id uuid primary key default gen_random_uuid(),
+  url text not null,
+  storage_path text not null,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
 -- Messages submitted through the public Contact Us form.
 create table if not exists public.contact_messages (
   id uuid primary key default gen_random_uuid(),
@@ -262,6 +273,7 @@ alter table public.payment_settings enable row level security;
 alter table public.contact_messages enable row level security;
 alter table public.site_text_content enable row level security;
 alter table public.login_attempts enable row level security;
+alter table public.review_photos enable row level security;
 
 drop policy if exists "product_flavors_public_select" on public.product_flavors;
 drop policy if exists "product_flavors_admin_all" on public.product_flavors;
@@ -279,6 +291,8 @@ drop policy if exists "payment_settings_admin_all" on public.payment_settings;
 drop policy if exists "contact_messages_public_insert" on public.contact_messages;
 drop policy if exists "contact_messages_admin_all" on public.contact_messages;
 drop policy if exists "site_text_content_public_select" on public.site_text_content;
+drop policy if exists "review_photos_public_select" on public.review_photos;
+drop policy if exists "review_photos_admin_all" on public.review_photos;
 drop policy if exists "site_text_content_admin_all" on public.site_text_content;
 
 create policy "product_flavors_public_select"
@@ -407,6 +421,19 @@ to authenticated
 using (public.is_admin())
 with check (public.is_admin());
 
+create policy "review_photos_public_select"
+on public.review_photos
+for select
+to anon, authenticated
+using (true);
+
+create policy "review_photos_admin_all"
+on public.review_photos
+for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values
   ('payment-proofs', 'payment-proofs', false, 5242880, array['image/jpeg','image/png','image/webp']),
@@ -458,7 +485,7 @@ to authenticated
 with check (
   bucket_id = 'site-photos'
   and public.is_admin()
-  and name ~ '^kuya-kings/(hero|product|gallery|story|pairing-rice|pairing-atchara|cta|cta-background|about|process-page|flavor-[0-9a-f-]{36}|qr-gcash|qr-maya|qr-bank)/[a-z0-9-]+\.(jpg|jpeg|png|webp)$'
+  and name ~ '^kuya-kings/(hero|product|gallery|story|pairing-rice|pairing-atchara|cta|cta-background|about|about-2|about-3|process-page|flavor-[0-9a-f-]{36}|review-[0-9a-f-]{36}|qr-gcash|qr-maya|qr-bank)/[a-z0-9-]+\.(jpg|jpeg|png|webp)$'
 );
 
 create policy "site_photos_admin_update"
@@ -469,7 +496,7 @@ using (bucket_id = 'site-photos' and public.is_admin())
 with check (
   bucket_id = 'site-photos'
   and public.is_admin()
-  and name ~ '^kuya-kings/(hero|product|gallery|story|pairing-rice|pairing-atchara|cta|cta-background|about|process-page|flavor-[0-9a-f-]{36}|qr-gcash|qr-maya|qr-bank)/[a-z0-9-]+\.(jpg|jpeg|png|webp)$'
+  and name ~ '^kuya-kings/(hero|product|gallery|story|pairing-rice|pairing-atchara|cta|cta-background|about|about-2|about-3|process-page|flavor-[0-9a-f-]{36}|review-[0-9a-f-]{36}|qr-gcash|qr-maya|qr-bank)/[a-z0-9-]+\.(jpg|jpeg|png|webp)$'
 );
 
 create policy "site_photos_admin_delete"

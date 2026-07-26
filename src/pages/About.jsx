@@ -98,7 +98,7 @@ function About() {
               </p>
 
               <h1 className="mt-3 max-w-xl font-serif text-4xl font-bold leading-[1.02] text-[#17191C] min-[421px]:text-5xl">
-                Born from a Passion, Built Through Resilience.
+                Born During the Pandemic, Built with Passion
               </h1>
 
               <p className="mt-5 max-w-lg text-base leading-7 text-[#5F5B58]">

@@ -1,4 +1,6 @@
 import Reveal from "../common/Reveal";
+import PhotoCarousel from "../common/PhotoCarousel";
+import { useReviewPhotos } from "../../lib/useReviewPhotos";
 
 function StarIcon({ filled }) {
   return (
@@ -47,6 +49,8 @@ const reviews = [
 ];
 
 function Reviews() {
+  const reviewPhotos = useReviewPhotos();
+
   return (
     <section
       id="reviews"
@@ -70,6 +74,16 @@ function Reviews() {
           Sample content — replace with real reviews before launch
         </p>
       </Reveal>
+
+      {reviewPhotos.length > 0 && (
+        <Reveal
+          as="div"
+          delay={80}
+          className="kk-reviews-carousel mx-auto mt-10 max-w-3xl"
+        >
+          <PhotoCarousel photos={reviewPhotos} />
+        </Reveal>
+      )}
 
       <div className="kk-reviews-grid mx-auto mt-10 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {reviews.map((review, index) => (

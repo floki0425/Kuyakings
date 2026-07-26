@@ -19,6 +19,15 @@ export async function getSitePhotoSlots() {
 	return { data, error };
 }
 
+export async function getReviewPhotos() {
+	const { data, error } = await supabase
+		.from("review_photos")
+		.select("id, url, storage_path, sort_order")
+		.order("sort_order", { ascending: true });
+
+	return { data, error };
+}
+
 export async function getPaymentSettings() {
 	const { data, error } = await supabase
 		.from("payment_settings")
