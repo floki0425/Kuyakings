@@ -7,11 +7,11 @@ function IllustratedPanel({
   imageUrl,
   imageAlt = "",
   style,
+  bordered = true,
 }) {
-  const toneStyles =
-    tone === "dark"
-      ? "bg-[#1d1f22] border-white/10"
-      : "bg-[#F8E6E4] border-[#E8E1DE]";
+  const bgStyles = tone === "dark" ? "bg-[#1d1f22]" : "bg-[#F8E6E4]";
+  const borderStyles = tone === "dark" ? "border-white/10" : "border-[#E8E1DE]";
+  const borderClass = bordered ? `border ${borderStyles}` : "";
 
   const iconWrapStyles =
     tone === "dark"
@@ -23,7 +23,7 @@ function IllustratedPanel({
   if (imageUrl) {
     return (
       <div
-        className={`kk-illustration relative overflow-hidden border ${toneStyles} ${className}`}
+        className={`kk-illustration relative overflow-hidden ${bgStyles} ${borderClass} ${className}`}
         style={style}
       >
         <img
@@ -38,7 +38,7 @@ function IllustratedPanel({
 
   return (
     <div
-      className={`kk-illustration relative flex items-center justify-center overflow-hidden border ${toneStyles} ${className}`}
+      className={`kk-illustration relative flex items-center justify-center overflow-hidden ${bgStyles} ${borderClass} ${className}`}
       style={style}
     >
       <div

@@ -27,7 +27,8 @@ function CTA() {
         <IllustratedPanel
           icon={<PlateIcon />}
           label="Kuya King's"
-          tone="dark"
+        
+          bordered={false}
           imageUrl={photos.cta || ctaFallbackPhoto}
           imageAlt="Kuya King's Beef Tapa"
           className="kk-cta-media h-52 w-full rounded-lg min-[421px]:h-64 lg:h-full lg:min-h-[280px]"
