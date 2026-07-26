@@ -100,7 +100,8 @@ function PhotoCarousel({
       >
         <div
           ref={trackRef}
-          className="kk-no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-lg"
+          tabIndex={-1}
+          className="kk-no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-lg outline-none"
         >
           {photos.map((photo, index) => (
             <div
