@@ -102,25 +102,13 @@ function About() {
               </h1>
 
               <p className="mt-5 max-w-lg text-base leading-7 text-[#5F5B58]">
-                Our very first batch was made the same way Beef Tapa should
-                be&mdash;simple, real, and honest. That&apos;s why our tapa
-                still tastes like home to so many today.
+               Kuya King's began during the height of the pandemic, when many people turned to their passions for comfort and purpose. What started as a simple hobby in our home kitchen soon became something much bigger. Sharing our homemade dishes with friends and family through Facebook and Instagram, we were overwhelmed by the support and encouragement we received.
+
               </p>
 
-              <p className="mt-4 max-w-lg text-base leading-7 text-[#5F5B58]">
-                Every jar of Kuya King&apos;s starts with 100% pure beef, our
-                own signature marinade, and a small-batch process we haven&apos;t
-                cut corners on since day one. We&apos;re not a factory line
-                &mdash; we&apos;re a homemade kitchen that happens to deliver
-                across Metro Manila.
-              </p>
+             
 
-              <Link
-                to="/order"
-                className="mt-7 inline-flex items-center justify-center rounded-xl bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
-              >
-                Order Now
-              </Link>
+              
             </div>
 
             <IllustratedPanel
@@ -169,6 +157,15 @@ function About() {
                 about food, but about the stories, connections, and memories
                 they create.
               </p>
+
+               
+
+              <Link
+                to="/order"
+                className="mt-7 inline-flex items-center justify-center rounded-xl bg-[#c91f3a] px-6 py-3 text-sm font-black text-white transition hover:opacity-90"
+              >
+                Order Now
+              </Link>
             </div>
 
             <IllustratedPanel
@@ -180,7 +177,9 @@ function About() {
               className="kk-fade-in aspect-[4/3] w-full rounded-lg"
             />
           </div>
-
+             <p className="text-xs font-black uppercase tracking-widest text-[#C91F3A] mt-50 text-center">
+                From our family's kitchen to your table, Kuya King's is a taste of home in every bite. 🍴❤️
+              </p>
         </div>
       </section>
 
