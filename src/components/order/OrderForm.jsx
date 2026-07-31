@@ -7,6 +7,7 @@ import { usePaymentSettings } from "../../lib/usePaymentSettings";
 import { useSpamGuard } from "../../lib/antiSpam";
 import { classifyOrderError, buildOrderErrorMessage } from "../../lib/orderErrors";
 import { summarizeFlavors } from "../../lib/orderItems";
+import { trackOrderSubmitted } from "../../lib/analytics";
 import HoneypotField from "../common/HoneypotField";
 import Turnstile from "../common/Turnstile";
 
@@ -434,6 +435,10 @@ function OrderForm() {
       }
 
       console.log("Order submitted:", orderNumber);
+      trackOrderSubmitted({
+        value: totalSubtotal,
+        productCount: totalQuantity,
+      });
 
       localStorage.setItem(
         "latestOrder",
